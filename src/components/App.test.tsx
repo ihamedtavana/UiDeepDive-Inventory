@@ -4,10 +4,37 @@ import { App } from './App'
 
 afterEach(() => { cleanup(); vi.unstubAllGlobals() })
 
+it('independently collapses and expands each section with a chevron', () => {
+  render(<App />)
+  for (const name of ['Warehouse Overview', 'Inventory movement', 'Shipments On Road']) {
+    const button = screen.getByRole('button', { name: `Collapse ${name}` })
+    const content = document.getElementById(button.getAttribute('aria-controls')!)!
+    expect(content.hidden).toBe(false)
+    fireEvent.click(button)
+    expect(content.hidden).toBe(true)
+    expect(button.getAttribute('aria-expanded')).toBe('false')
+    fireEvent.click(screen.getByRole('button', { name: `Expand ${name}` }))
+    expect(content.hidden).toBe(false)
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+  }
+})
+
 it('renders the application landmark and heading', () => {
   render(<App />)
   expect(screen.getByRole('main')).toBeTruthy()
   expect(screen.getByRole('heading', { name: 'CoreTech' })).toBeTruthy()
+})
+
+it('collapses and restores the chart and recent movements together', () => {
+  render(<App />)
+  const button = screen.getByRole('button', { name: 'Collapse Inventory movement' })
+  const content = document.getElementById(button.getAttribute('aria-controls')!)!
+  expect(within(content).getByRole('heading', { name: 'Recent stock movements' })).toBeTruthy()
+  fireEvent.click(button)
+  expect(content.hidden).toBe(true)
+  expect(screen.queryByRole('heading', { name: 'Recent stock movements' })).toBeNull()
+  fireEvent.click(screen.getByRole('button', { name: 'Expand Inventory movement' }))
+  expect(screen.getByRole('heading', { name: 'Recent stock movements' })).toBeTruthy()
 })
 
 it('collapses and expands the sidebar and preserves shelf labels', () => {
@@ -46,9 +73,45 @@ it('filters the example product table by SKU', () => {
   expect(within(table).queryByText('Radeon RX 7900 XTX')).toBeNull()
 })
 
+it('filters products by stock, combines search, and resets pagination', () => {
+  render(<App />)
+  const section = screen.getByRole('heading', { name: 'Products' }).closest('section')!
+  const products = within(section)
+  expect(products.getByText('Showing 1–5 of 15 products')).toBeTruthy()
+  fireEvent.click(products.getByRole('button', { name: 'Next page' }))
+  expect(products.getByText('Showing 6–10 of 15 products')).toBeTruthy()
+  fireEvent.click(products.getByRole('button', { name: 'Low · 5' }))
+  expect(products.getByText('Showing 1–5 of 5 products')).toBeTruthy()
+  expect(products.getAllByText('Low Stock')).toHaveLength(5)
+  fireEvent.click(products.getByRole('button', { name: 'Out · 5' }))
+  expect(products.getAllByText('Out Of Stock')).toHaveLength(5)
+  expect(products.getAllByText('Inactive')).toHaveLength(5)
+  expect(products.queryByText('Active')).toBeNull()
+  fireEvent.change(products.getByRole('textbox', { name: 'Search products' }), { target: { value: 'RAM-0112' } })
+  expect(products.getByText('Corsair Vengeance RGB DDR5 64GB')).toBeTruthy()
+  expect(products.getByText('Showing 1–1 of 1 products')).toBeTruthy()
+  fireEvent.click(products.getByRole('button', { name: 'In Stock · 5' }))
+  expect(products.getByText('No matching products')).toBeTruthy()
+})
+
 it('filters recent movements by direction', () => {
   render(<App />)
   fireEvent.click(screen.getByRole('button', { name: 'Outbound' }))
   expect(screen.getByText('990 Pro 1TB')).toBeTruthy()
   expect(screen.queryByText('Intel Core i7 14700K')).toBeNull()
+})
+
+it('shows each month’s chart details on focus and dismisses them with Escape', () => {
+  render(<App />)
+  const june = screen.getByRole('group', { name: 'Jun: 2,160 incoming, 2,010 outbound' })
+  expect(document.querySelector('.chart-bar.active')).toBeNull()
+  fireEvent.focus(june)
+  const tooltip = document.getElementById(june.getAttribute('aria-describedby')!)!
+  expect(tooltip.textContent).toContain('Jun 2026')
+  expect(tooltip.textContent).toContain('2,160')
+  expect(tooltip.textContent).toContain('2,010')
+  fireEvent.keyDown(june, { key: 'Escape' })
+  expect(june.classList.contains('is-tooltip-dismissed')).toBe(true)
+  fireEvent.mouseEnter(june)
+  expect(june.classList.contains('is-tooltip-dismissed')).toBe(false)
 })

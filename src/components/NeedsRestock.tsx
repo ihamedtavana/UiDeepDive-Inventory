@@ -17,7 +17,7 @@ const rows = [
 ]
 export function NeedsRestock() {
   return <section className="needs-restock">
-    <SectionCardTitle icon={packageSearch} action={<><Badge tone="error">80 Out</Badge><Badge tone="warning">160 Low</Badge><span className="accent-text">Show All</span></>}>Needs Restock</SectionCardTitle>
-    <div className="table-wrap"><table className="data-table restock-table"><thead><tr><th>Product</th><th>SKU &amp; Bin</th><th>Stock</th><th>Stock</th><th>Action</th></tr></thead><tbody>{rows.map(([name,category,sku,bin,image])=><tr key={sku}><td><ProductIdentity name={name} category={category} image={image} /></td><td><strong>{sku}</strong><span className="table-secondary">{bin}</span></td><td><strong>0</strong><span className="table-muted"> / Min 3</span></td><td><Badge tone="error">Out Of Stock</Badge></td><td><Button className="table-action">＋ &nbsp; Add stock</Button></td></tr>)}</tbody></table></div>
+    <SectionCardTitle icon={packageSearch} action={<><Badge tone="error">80 Out</Badge><Badge tone="warning">160 Low</Badge><Button hierarchy="primary" appearance="ghost" className="accent-action">Show All</Button></>}>Needs Restock</SectionCardTitle>
+    <div className="table-wrap"><table className="data-table restock-table"><colgroup><col /><col /><col /><col /><col /></colgroup><thead><tr><th scope="col">Product</th><th scope="col">SKU &amp; Bin</th><th scope="col">Stock</th><th scope="col">Status</th><th scope="col">Action</th></tr></thead><tbody>{rows.map(([name,category,sku,bin,image])=><tr key={sku}><td><ProductIdentity name={name} category={category} image={image} /></td><td><strong>{sku}</strong><span className="table-secondary">{bin}</span></td><td><strong>0</strong><span className="table-muted"> / Min 3</span></td><td><Badge tone="error">Out Of Stock</Badge></td><td><Button className="table-action"><span className="icon button-add-icon" aria-hidden="true" />Add stock</Button></td></tr>)}</tbody></table></div>
   </section>
 }
