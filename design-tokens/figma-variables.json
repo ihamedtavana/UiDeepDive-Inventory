@@ -1670,6 +1670,22 @@
       "description": ""
     },
     {
+      "id": "VariableID:6465:105317",
+      "name": "XL",
+      "collectionId": "VariableCollectionId:2065:23671",
+      "type": "FLOAT",
+      "valuesByMode": {
+        "2065:1": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:2065:23898"
+        }
+      },
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "description": ""
+    },
+    {
       "id": "VariableID:2065:23680",
       "name": "full",
       "collectionId": "VariableCollectionId:2065:23671",

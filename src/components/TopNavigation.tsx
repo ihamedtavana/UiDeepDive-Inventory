@@ -3,9 +3,9 @@ import { Badge } from './Badge'
 import { Button } from './Button'
 import avatar from '../assets/top0_imgAvatar.png'
 import plus from '../assets/top0_imgLeadingIcon.svg'
-import messages from '../assets/top0_imgButton.svg'
-import notifications from '../assets/top0_imgButton1.svg'
-import settings from '../assets/top0_imgButton2.svg'
+import messages from '../assets/iconMessage.svg'
+import notifications from '../assets/iconBell.svg'
+import settings from '../assets/iconTopSettings.svg'
 
 export function TopNavigation() {
   return <header className="top-navigation">
@@ -14,7 +14,9 @@ export function TopNavigation() {
       <Button hierarchy="primary" className="movement-button"><img className="icon" src={plus} alt="" />New Movement</Button>
       <span className="vertical-divider" />
       <div className="top-icons">
-        <img src={messages} alt="Messages" /><img src={notifications} alt="Notifications" /><img src={settings} alt="Settings" />
+        <Button isIconOnly hasBadge aria-label="Messages"><img className="icon" src={messages} alt="" /></Button>
+        <Button isIconOnly hasBadge aria-label="Notifications"><img className="icon" src={notifications} alt="" /></Button>
+        <Button isIconOnly aria-label="Settings"><img className="icon" src={settings} alt="" /></Button>
         <Avatar src={avatar} alt="Account avatar" />
       </div>
     </div>

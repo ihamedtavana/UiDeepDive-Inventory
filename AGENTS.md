@@ -28,7 +28,9 @@
 - Inform the user when mobile needs manual design decisions, a mobile-specific interaction is missing, or something does not work correctly.
 
 ## Accessibility
-- Use appropriate semantic HTML, support keyboard interaction, and provide alternative text for images where applicable.
+- Support keyboard interaction.
+- Provide alternative text (`alt`) for meaningful images.
+- Follow basic accessibility principles in interactive components.
 
 ## Verification
 - After each change, run the page, compare it with Figma, and fix any issues found. If verification is blocked, inform the user.

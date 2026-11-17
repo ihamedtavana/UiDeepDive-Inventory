@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { Badge } from './Badge'
 import { Button } from './Button'
 import { Search } from './Search'
@@ -32,27 +33,42 @@ const shelves = [
   ['Cases', 'C1', 'success'], ['Cooling Systems', 'C2', 'error'],
 ] as const
 export function Sidebar() {
-  return <aside className="sidebar" aria-label="Sidebar">
-    <div className="sidebar-logo"><div className="brand"><img src={logo} alt="" /><h1>CoreTech</h1></div><img className="icon" src={layout} alt="" /></div>
-    <section className="warehouse-card" aria-label="Current warehouse">
+  const [isCollapsed, setIsCollapsed] = useState(() =>
+    typeof window.matchMedia === 'function' && window.matchMedia('(min-width: 1024px) and (width < 1200px)').matches,
+  )
+  useEffect(() => {
+    if (typeof window.matchMedia !== 'function') return
+    const breakpoint = window.matchMedia('(min-width: 1024px) and (width < 1200px)')
+    const handleChange = (event: MediaQueryListEvent) => setIsCollapsed(event.matches)
+    breakpoint.addEventListener('change', handleChange)
+    return () => breakpoint.removeEventListener('change', handleChange)
+  }, [])
+  const searchRef = useRef<HTMLInputElement>(null)
+  const expandSearch = () => {
+    setIsCollapsed(false)
+    requestAnimationFrame(() => searchRef.current?.focus())
+  }
+  return <aside className={`sidebar${isCollapsed ? ' is-collapsed' : ''}`} aria-label="Sidebar">
+    <div className="sidebar-logo"><div className="brand"><img src={logo} alt="" />{!isCollapsed && <h1>CoreTech</h1>}</div><Button appearance="ghost" className="sidebar-toggle" aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'} aria-expanded={!isCollapsed} onClick={() => setIsCollapsed(!isCollapsed)}><img className="icon" src={layout} alt="" /></Button></div>
+    {!isCollapsed && <section className="warehouse-card" aria-label="Current warehouse">
       <div className="warehouse-card-content"><img className="warehouse-image" src={warehouse} alt="New York Central warehouse" />
         <div><div className="muted">Warehouse</div><strong>New York Central</strong></div>
         <div className="badges"><Badge>16 Shelves</Badge><Badge tone="warning">2 Low</Badge><Badge tone="error">1 Out</Badge></div>
       </div>
       <div className="warehouse-switch"><img className="icon" src={switchIcon} alt="" /><span>Switch Warehouse</span><Badge>4</Badge></div>
-    </section>
-    <div className="search-section"><div className="divider" /><Search /><div className="divider" /></div>
-    <nav aria-label="Main menu" className="menu-section"><div className="section-label">Main Menu</div><div className="menu-list">{menu.map((item, index) => <SidebarMenuButton key={item.label} icon={item.icon} detail={item.detail} isSelected={index === 0}>{item.label}</SidebarMenuButton>)}</div></nav>
+    </section>}
+    <div className="search-section"><div className="divider" /><Search isCollapsed={isCollapsed} onExpand={expandSearch} inputRef={searchRef} /><div className="divider" /></div>
+    <nav aria-label="Main menu" className="menu-section">{!isCollapsed && <div className="section-label">Main Menu</div>}<div className="menu-list">{menu.map((item, index) => <SidebarMenuButton key={item.label} icon={item.icon} detail={item.detail} isCollapsed={isCollapsed} isSelected={index === 0}>{item.label}</SidebarMenuButton>)}</div></nav>
     <div className="divider" />
-    <section className="menu-section" aria-label="Shelves"><div className="section-label">Shelves</div><div className="menu-list">{shelves.map(([label, detail, status]) => <SidebarMenuButton key={label} detail={detail} status={status}>{label}</SidebarMenuButton>)}</div></section>
+    <section className="menu-section" aria-label="Shelves">{!isCollapsed && <div className="section-label">Shelves</div>}<div className="menu-list">{shelves.map(([label, detail, status]) => <SidebarMenuButton key={label} detail={detail} status={status} isCollapsed={isCollapsed}>{label}</SidebarMenuButton>)}</div></section>
     <div className="divider" />
-    <SectionCard className="storage-card" aria-label="Warehouse storage">
+    {!isCollapsed && <><SectionCard className="storage-card" aria-label="Warehouse storage">
       <div className="storage-title"><img className="icon" src={packageSearch} alt="" />Warehouse Storage</div>
       <div className="storage-reading"><strong>75%</strong><span className="muted">Capacity Used</span></div>
       <PercentageContainer percentage={75} />
       <Button className="restock-button">11 SKUs need restock<img className="icon" src={chevron} alt="" /></Button>
     </SectionCard>
-    <div className="divider" />
-    <div className="menu-list"><SidebarMenuButton icon={settings}>Setting</SidebarMenuButton><SidebarMenuButton icon={headphones}>Help &amp; Support</SidebarMenuButton></div>
+    <div className="divider" /></>}
+    <div className="menu-list"><SidebarMenuButton icon={settings} isCollapsed={isCollapsed}>Setting</SidebarMenuButton><SidebarMenuButton icon={headphones} isCollapsed={isCollapsed}>Help &amp; Support</SidebarMenuButton></div>
   </aside>
 }

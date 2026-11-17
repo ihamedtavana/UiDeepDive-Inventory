@@ -274,12 +274,15 @@
   --semantic-spacing-layout-grid-gap: var(--global-spacing-4);
   --semantic-spacing-layout-page-gutter: var(--global-spacing-2);
   --semantic-spacing-gap-2xl: var(--global-spacing-6);
+  --semantic-spacing-gap-3xl: var(--global-spacing-8);
   /* ⚙️ Semantic Radius */
   --semantic-radius-none: var(--global-radius-0);
+  --semantic-radius-2xs: var(--global-radius-0_5);
   --semantic-radius-xs: var(--global-radius-1);
   --semantic-radius-sm: var(--global-radius-1_5);
   --semantic-radius-md: var(--global-radius-2);
   --semantic-radius-l: var(--global-radius-3);
+  --semantic-radius-xl: var(--global-radius-4);
   --semantic-radius-full: var(--global-radius-full);
   /* ⚙️ Semantic Typography */
   --semantic-typography-label-sm-default-fontsize: var(--global-type-size-xs);
@@ -339,7 +342,6 @@
   --component-button-filled-secondary-background-pressed: var(--semantic-colors-background-surface-primary-pressed);
   --component-button-filled-secondary-background-hover: var(--semantic-colors-background-surface-primary-hover);
   --component-button-borderless-primary-background-pressed: var(--semantic-colors-background-brand-tertiary-hover);
-  --component-button-filled-primary-border-focused: var(--semantic-colors-border-accent-subtle-default);
   --component-button-filled-primary-border-disabled: var(--semantic-colors-border-primary-default);
   --component-button-filled-secondary-border-default: var(--semantic-colors-border-primary-default);
   --component-button-filled-secondary-border-disabled: var(--semantic-colors-border-primary-default);
@@ -374,11 +376,13 @@
   --component-badge-filled-info-background-default: var(--semantic-colors-feedback-info-primary-background);
   --component-badge-filled-info-text-icon-default: var(--semantic-colors-feedback-info-primary-text);
   --component-badge-filled-info-border-default: var(--semantic-colors-feedback-info-primary-border);
+  --component-focus-ring-color: var(--semantic-colors-border-accent-default);
   /* ⚙️ Semantic Colors */
   --semantic-colors-background-surface-primary-default: var(--global-colors-white);
   --semantic-colors-background-surface-primary-hover: var(--neutral-neutral-100);
   --semantic-colors-background-surface-primary-pressed: var(--neutral-neutral-200);
   --semantic-colors-background-surface-secondary-default: var(--neutral-neutral-50);
+  --semantic-colors-background-surface-secondary-hover: var(--neutral-neutral-100);
   --semantic-colors-background-surface-tertiary-default: var(--neutral-neutral-100);
   --semantic-colors-background-surface-inverse-default: var(--neutral-neutral-800);
   --semantic-colors-background-brand-primary-default: var(--brand-brand-500);

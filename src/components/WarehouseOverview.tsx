@@ -24,7 +24,7 @@ const shelves: Shelf[] = [
 ]
 export function WarehouseOverview() {
   return <SectionCard className="warehouse-overview">
-    <SectionCardTitle icon={home} action={<span aria-hidden="true">⌄</span>}>Warehouse Overview</SectionCardTitle>
+    <SectionCardTitle icon={home} hasChevron chevronLabel="Warehouse overview options">Warehouse Overview</SectionCardTitle>
     <div className="warehouse-overview-content">
       <div className="shelf-summary">{[['8','Total shelves'],['2','In Stock'],['3','Restock Needed'],['2','Low Stock']].map(([value,label],i)=><div className="summary-stat" key={label}><strong>{value}</strong><span>{i>0 && <i className={`status status--${i===1?'success':i===2?'warning':'error'}`} />}{label}</span></div>)}<div className="summary-capacity"><div><strong>75%</strong><span>Capacity Used</span></div><PercentageContainer percentage={75} /></div></div>
       <div className="shelf-grid">{shelves.map(shelf=><ShelfCard key={shelf.code} shelf={shelf} />)}</div>

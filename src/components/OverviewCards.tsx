@@ -9,7 +9,7 @@ import down from '../assets/top2_imgArrowDown.svg'
 
 type CardProps = { title: string; icon: string; badge: string; isPositive?: boolean; children: ReactNode }
 function OverviewCard({ title, icon, badge, isPositive = false, children }: CardProps) {
-  return <SectionCard className="overview-card"><div className="card-title"><div><img className="icon" src={icon} alt="" />{title}</div><Badge tone={isPositive ? 'success' : 'neutral'}>{badge}</Badge></div>{children}</SectionCard>
+  return <SectionCard className="overview-card"><div className="card-title"><div><img className="icon" src={icon} alt="" /><span className="card-title-label" title={title}>{title}</span></div><Badge tone={isPositive ? 'success' : 'neutral'}>{badge}</Badge></div>{children}</SectionCard>
 }
 type Stat = { value: string; label: string; status?: 'success' | 'warning' | 'error' }
 function Stats({ items }: { items: Stat[] }) {
