@@ -345,7 +345,7 @@
   --component-button-filled-primary-border-disabled: var(--semantic-colors-border-primary-default);
   --component-button-filled-secondary-border-default: var(--semantic-colors-border-primary-default);
   --component-button-filled-secondary-border-disabled: var(--semantic-colors-border-primary-default);
-  --component-button-filled-secondary-border-focused: var(--semantic-colors-border-tertiary-default);
+  --component-button-filled-secondary-border-focused: var(--semantic-colors-border-primary-default);
   --component-button-filled-primary-text-icon-default: var(--semantic-colors-text-inverse-default);
   --component-button-filled-secondary-text-icon-default: var(--semantic-colors-text-primary-default);
   --component-button-borderless-primary-text-icon-default: var(--semantic-colors-text-accent-default);
