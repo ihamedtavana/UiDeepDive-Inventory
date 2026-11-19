@@ -60,7 +60,7 @@ body {
 .sidebar-menu-button:not(.is-selected):hover { background: var(--semantic-colors-background-surface-secondary-hover); border: 1px solid var(--semantic-colors-border-primary-default); padding-inline: calc(var(--semantic-spacing-padding-md) * 1px - 1px); }
 .sidebar-menu-button.is-selected { background: var(--semantic-colors-background-surface-primary-default); border: 1px solid var(--semantic-colors-border-primary-default); padding-inline: calc(var(--semantic-spacing-padding-md) * 1px - 1px); color: var(--semantic-colors-text-primary-default); }
 .menu-label { flex: 1; }
-.status { width: 16px; height: 8px; border-radius: calc(var(--global-radius-0_5) * 1px); flex: none; }
+.status { width: 16px; height: 8px; border-radius: calc(var(--semantic-radius-2xs) * 1px); flex: none; }
 .status--error { background: var(--semantic-colors-feedback-error-secondary-background); }
 .status--warning { background: var(--semantic-colors-feedback-warning-secondary-background); }
 .status--success { background: var(--semantic-colors-feedback-success-secondary-background); }

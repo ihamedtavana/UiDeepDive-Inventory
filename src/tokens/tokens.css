@@ -399,6 +399,8 @@
   --semantic-colors-border-primary-default: var(--neutral-neutral-200);
   --semantic-colors-border-secondary-default: var(--neutral-neutral-100);
   --semantic-colors-border-tertiary-default: var(--neutral-neutral-50);
+  --semantic-colors-border-strong-default: var(--neutral-neutral-700);
+  --semantic-colors-border-strong-subtle-default: var(--neutral-neutral-400);
   --semantic-colors-border-accent-default: var(--brand-brand-500);
   --semantic-colors-border-accent-subtle-default: var(--brand-brand-200);
   --semantic-colors-border-inverse-default: var(--global-colors-white);
