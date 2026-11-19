@@ -43,7 +43,7 @@ export function InventoryActivity() {
   const movementId = useId()
   const shipmentsId = useId()
   const [dismissedTooltip,setDismissedTooltip] = useState<string | null>(null)
-  const filtered = movements.filter(m => filter === 'All' || m.type === filter)
+  const filtered = movements.filter(m => filter === 'All' || m.type === filter).slice(0, 5)
   return <div className={`activity-layout${!isMovementExpanded && !isShipmentsExpanded ? ' is-collapsed' : ''}${isMovementExpanded && isShipmentsExpanded ? ' is-expanded' : ''}`}>
     <SectionCard className="activity-column">
       <SectionCardTitle icon={chartIcon} hasChevron isExpanded={isMovementExpanded} controlsId={movementId} onToggle={() => setIsMovementExpanded(!isMovementExpanded)}>Inventory movement</SectionCardTitle>
