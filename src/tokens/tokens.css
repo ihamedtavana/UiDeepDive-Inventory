@@ -414,6 +414,7 @@
   --semantic-colors-feedback-error-primary-text: var(--global-colors-red-700);
   --semantic-colors-feedback-error-primary-icon: var(--global-colors-red-700);
   --semantic-colors-feedback-error-secondary-background: var(--global-colors-red-500);
+  --semantic-colors-feedback-error-secondary-border: var(--global-colors-red-500);
   --semantic-colors-feedback-error-secondary-text: var(--global-colors-red-700);
   --semantic-colors-feedback-error-secondary-icon: var(--global-colors-red-700);
   --semantic-colors-feedback-error-tertiary-background: var(--global-colors-red-100);
