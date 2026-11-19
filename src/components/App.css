@@ -167,7 +167,7 @@ body {
 .shelf-action { width: 100%; font-size: 14px; font-weight: 500; }
 .needs-restock { border-top: 1px solid var(--semantic-colors-border-primary-default); }
 .table-wrap { padding: calc(var(--semantic-spacing-padding-lg) * 1px); overflow-x: auto; }
-.data-table { width: 100%; border-collapse: separate; border-spacing: 0; text-align: left; font-size: 12px; line-height: 16px; }
+.data-table { width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; text-align: left; font-size: 12px; line-height: 16px; }
 .data-table th { height: 40px; padding: calc(var(--semantic-spacing-padding-sm) * 1px); background: var(--semantic-colors-background-surface-tertiary-default); font-weight: 400; border-top: 1px solid var(--semantic-colors-border-primary-default); border-bottom: 1px solid var(--semantic-colors-border-primary-default); white-space: nowrap; }
 .data-table th:first-child { border-left: 1px solid var(--semantic-colors-border-primary-default); border-radius: calc(var(--semantic-radius-md) * 1px) 0 0 calc(var(--semantic-radius-md) * 1px); }
 .data-table th:last-child { border-right: 1px solid var(--semantic-colors-border-primary-default); border-radius: 0 calc(var(--semantic-radius-md) * 1px) calc(var(--semantic-radius-md) * 1px) 0; }
@@ -231,7 +231,10 @@ body {
 .movement-filter button { padding: calc(var(--semantic-spacing-padding-xs) * 1px) calc(var(--semantic-spacing-padding-sm) * 1px); background: transparent; border: 0; border-radius: calc(var(--semantic-radius-sm) * 1px); color: var(--semantic-colors-text-secondary-default); font: inherit; cursor: pointer; }
 .movement-filter button.is-selected { background: var(--semantic-colors-background-surface-primary-default); color: var(--semantic-colors-text-primary-default); }
 .movement-product { display: flex; align-items: center; justify-content: space-between; gap: calc(var(--semantic-spacing-gap-sm) * 1px); }
-.movements-table th:first-child { width: 64%; }
+.movements-table { min-width: 700px; }
+.movements-table th:nth-child(2) { width: 104px; }
+.movements-table th:nth-child(3) { width: 56px; }
+.movements-table th:nth-child(4) { width: 104px; }
 .shipments-content { padding: calc(var(--semantic-spacing-padding-md) * 1px); }
 .shipments-summary { display: flex; align-items: center; justify-content: space-between; min-height: 32px; margin-bottom: calc(var(--semantic-spacing-gap-lg) * 1px); color: var(--semantic-colors-text-tertiary-default); font-size: 12px; line-height: 16px; }
 .shipment { position: relative; display: flex; flex-direction: column; gap: calc(var(--semantic-spacing-gap-2xl) * 1px); padding: calc(var(--semantic-spacing-padding-md) * 1px) 0; overflow: hidden; border-radius: calc(var(--semantic-radius-l) * 1px); }
@@ -267,7 +270,13 @@ body {
 .product-search input { min-width: 0; width: 164px; border: 0; outline: 0; background: transparent; font: inherit; }
 .product-search input::placeholder { color: var(--semantic-colors-text-tertiary-default); }
 .product-filters .tab-button { font-weight: 400; }
-.products-table th:first-child { width: 42%; }
+.products-table { min-width: 1000px; }
+.products-table th:nth-child(2) { width: 122px; }
+.products-table th:nth-child(3) { width: 100px; }
+.products-table th:nth-child(4), .products-table th:nth-child(5) { width: 84px; }
+.products-table th:nth-child(6) { width: 120px; }
+.products-table th:nth-child(7) { width: 125px; }
+.products-table th:nth-child(8) { width: 48px; }
 .more-button { font-weight: 600; }
 .more-button > span:not(.focus-ring) { line-height: 1; }
 .table-footer { display: flex; align-items: center; justify-content: space-between; color: var(--semantic-colors-text-tertiary-default); font-size: 12px; padding-top: calc(var(--semantic-spacing-padding-lg) * 1px); }
