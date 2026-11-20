@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Period } from './Tab'
 import { Sidebar } from './Sidebar'
 import { TopNavigation } from './TopNavigation'
@@ -10,6 +10,13 @@ import { ProductsSection } from './ProductsSection'
 import type { DateRange } from './CustomDateRange'
 
 export function App() {
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => { if (event.key === 'Tab' && !event.altKey && !event.ctrlKey && !event.metaKey) document.documentElement.dataset.focusMode = 'keyboard' }
+    const onPointerDown = () => { delete document.documentElement.dataset.focusMode }
+    document.addEventListener('keydown', onKeyDown, true)
+    document.addEventListener('pointerdown', onPointerDown, true)
+    return () => { document.removeEventListener('keydown', onKeyDown, true); document.removeEventListener('pointerdown', onPointerDown, true); delete document.documentElement.dataset.focusMode }
+  }, [])
   const [period, setPeriod] = useState<Period>('30 days')
   const [customRange, setCustomRange] = useState<DateRange | null>(null)
   const [warehouse, setWarehouse] = useState('New York Central')

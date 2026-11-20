@@ -27,3 +27,14 @@ it('retains keyboard focus and the collapsed expand action', () => {
   fireEvent.click(screen.getByRole('button', { name: 'Search SKU or bin' }))
   expect(onExpand).toHaveBeenCalledOnce()
 })
+
+it('distinguishes pointer selection from keyboard focus', () => {
+  render(<Search />)
+  const input = screen.getByRole('textbox')
+  const container = input.closest('.search')!
+  fireEvent.pointerDown(input)
+  input.focus()
+  expect(container.classList.contains('is-pointer-focus')).toBe(true)
+  fireEvent.blur(input)
+  expect(container.classList.contains('is-pointer-focus')).toBe(false)
+})

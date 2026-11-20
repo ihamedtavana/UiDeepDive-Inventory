@@ -17,7 +17,6 @@ body {
 .sidebar { width: 248px; flex: none; display: flex; flex-direction: column; gap: calc(var(--semantic-spacing-gap-lg) * 1px); padding: calc(var(--semantic-spacing-padding-sm) * 1px); }
 .sidebar-logo { height: 42px; display: flex; align-items: center; justify-content: space-between; padding: calc(var(--semantic-spacing-padding-sm) * 1px); background: var(--semantic-colors-background-surface-secondary-default); border-radius: calc(var(--semantic-radius-l) * 1px); }
 .button.sidebar-toggle { display: flex; align-items: center; justify-content: center; width: 32px; padding: 0; }
-.search--collapsed:focus-visible { outline: 2px solid var(--component-focus-ring-color); outline-offset: 2px; }
 .sidebar.is-collapsed { width: 64px; }
 .sidebar.is-collapsed .sidebar-logo { height: auto; flex-direction: column; justify-content: center; gap: calc(var(--semantic-spacing-gap-md) * 1px); }
 .search.search--collapsed { width: 100%; justify-content: center; padding: 0; cursor: pointer; }
@@ -28,6 +27,7 @@ body {
 .brand h1 { margin: 0; font-size: calc(var(--semantic-typography-title-md-fontsize) * 1px); line-height: calc(var(--semantic-typography-title-md-lineheight) * 1px); font-weight: var(--semantic-typography-title-md-weight); }
 .icon { width: 16px; height: 16px; flex: none; }
 .warehouse-card, .storage-card { background: var(--semantic-colors-background-surface-primary-default); border: 1px solid var(--semantic-colors-border-primary-default); border-radius: calc(var(--semantic-radius-l) * 1px); overflow: hidden; }
+.warehouse-card { overflow: visible; }
 .warehouse-card-content { display: flex; flex-direction: column; gap: calc(var(--semantic-spacing-gap-xl) * 1px); padding: calc(var(--semantic-spacing-padding-md) * 1px); }
 .warehouse-image { width: 100%; height: 64px; object-fit: cover; border-radius: calc(var(--semantic-radius-md) * 1px); }
 .warehouse-card strong { display: block; margin-top: calc(var(--semantic-spacing-gap-sm) * 1px); font-size: 14px; line-height: 20px; font-weight: 600; }
@@ -40,9 +40,10 @@ body {
 .badge--success { color: var(--component-badge-filled-success-text-icon-default); background: var(--component-badge-filled-success-background-default); border-color: var(--component-badge-filled-success-border-default); }
 .badge--brand { color: var(--component-badge-filled-brand-text-icon-default); background: var(--component-badge-filled-brand-background-default); border-color: var(--component-badge-filled-brand-border-default); }
 .warehouse-switch { display: flex; align-items: center; gap: calc(var(--semantic-spacing-gap-md) * 1px); padding: calc(var(--semantic-spacing-padding-md) * 1px); border-top: 1px solid var(--semantic-colors-border-primary-default); color: var(--semantic-colors-text-secondary-default); font-size: 12px; line-height: 16px; }
-.warehouse-switch { width: 100%; border-left: 0; border-right: 0; border-bottom: 0; background: transparent; text-align: left; font-family: inherit; cursor: pointer; }
+.warehouse-switch { width: 100%; border-left: 0; border-right: 0; border-bottom: 0; border-radius: 0 0 calc(var(--semantic-radius-l) * 1px) calc(var(--semantic-radius-l) * 1px); background: transparent; text-align: left; font-family: inherit; cursor: pointer; }
 .warehouse-switch:hover { background: var(--semantic-colors-background-surface-secondary-hover); }
-.warehouse-switch:focus-visible, .warehouse-option:focus-visible, .input-field input:focus-visible { outline: 2px solid var(--component-focus-ring-color); outline-offset: 2px; }
+.warehouse-switch:focus, .warehouse-option:focus, .input-field input:focus { outline: none; }
+:root[data-focus-mode="keyboard"] .warehouse-switch:focus-visible, :root[data-focus-mode="keyboard"] .warehouse-option:focus-visible, :root[data-focus-mode="keyboard"] .input-field input:focus-visible { outline: 2px solid var(--component-focus-ring-color); outline-offset: 2px; }
 .warehouse-switch-anchor, .date-picker-anchor { position: relative; }
 .sidebar { position: relative; z-index: 4; }
 .selection-panel { position: absolute; z-index: 5; display: flex; flex-direction: column; gap: calc(var(--semantic-spacing-gap-xl) * 1px); padding: calc(var(--semantic-spacing-padding-lg) * 1px); background: var(--semantic-colors-background-surface-primary-default); border: 1px solid var(--semantic-colors-border-primary-default); border-radius: calc(var(--semantic-radius-md) * 1px); box-shadow: calc(var(--global-shadow-sm-offsetx1) * 1px) calc(var(--global-shadow-sm-offsety1) * 1px) calc(var(--global-shadow-sm-radius1) * 1px) var(--global-shadow-sm-color1); }
@@ -58,8 +59,8 @@ body {
 .input-field-date-value { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; line-height: 20px; font-weight: 400; }
 .input-field-date input { position: absolute; inset: 0; height: 100%; opacity: 0; cursor: text; }
 .input-field-date input::-webkit-calendar-picker-indicator { cursor: pointer; }
-.input-field-date:has(input:focus-visible) { outline: 2px solid var(--component-focus-ring-color); outline-offset: 2px; }
-.input-field-date.is-pressed, .input-field-date.is-pressed:has(input:focus-visible) { border-color: var(--semantic-colors-border-accent-default); outline: none; }
+:root[data-focus-mode="keyboard"] .input-field-date:has(input:focus-visible) { outline: 2px solid var(--component-focus-ring-color); outline-offset: 2px; }
+.input-field-date.is-pressed, :root[data-focus-mode="keyboard"] .input-field-date.is-pressed:has(input:focus-visible) { border-color: var(--semantic-colors-border-accent-default); outline: none; }
 .input-field input[aria-invalid="true"] { border-color: var(--global-colors-red-700); }
 .input-error { color: var(--global-colors-red-700); font-size: 12px; }
 .selection-actions { display: flex; justify-content: flex-end; gap: calc(var(--semantic-spacing-gap-md) * 1px); font-size: 12px; }
@@ -76,15 +77,16 @@ body {
 .divider { width: 100%; height: 2px; border-top: 1px solid var(--semantic-colors-border-primary-default); border-bottom: 1px solid var(--semantic-colors-border-inverse-default); }
 .search-section { display: flex; flex-direction: column; gap: calc(var(--semantic-spacing-gap-xl) * 1px); }
 .search { display: flex; align-items: center; gap: calc(var(--semantic-spacing-gap-md) * 1px); height: 36px; padding: 0 calc(var(--semantic-spacing-padding-sm) * 1px) 0 calc(var(--semantic-spacing-padding-md) * 1px); background: var(--semantic-colors-background-surface-primary-default); border: 1px solid var(--semantic-colors-border-primary-default); border-radius: calc(var(--semantic-radius-md) * 1px); }
-.search.is-selected, .search:has(input:focus) { border-color: var(--semantic-colors-border-accent-default); }
+.search.is-selected, .search.is-pointer-focus:has(input:focus) { border-color: var(--semantic-colors-border-accent-default); }
 .search, .product-search, .button, .tab-button, .movement-filter button { position: relative; }
-.focus-ring { display: none; position: absolute; inset: calc(-1 * var(--semantic-spacing-gap-xs) * 1px); border-radius: inherit; outline: 1px solid var(--component-focus-ring-color); pointer-events: none; }
-.button > .focus-ring { border: 1px solid var(--component-focus-ring-color); border-radius: calc(var(--semantic-radius-md) * 1px); outline: none; }
-.button:focus-visible, .tab-button:focus-visible, .movement-filter button:focus-visible { outline: none; }
-.button:focus-visible > .focus-ring, .tab-button:focus-visible > .focus-ring, .movement-filter button:focus-visible > .focus-ring, .product-search:has(input:focus-visible) > .focus-ring { display: block; }
+.focus-ring { display: none; position: absolute; inset: calc(-1 * var(--semantic-spacing-gap-xs) * 1px - 1px); border-radius: inherit; outline: 1px solid var(--component-focus-ring-color); pointer-events: none; }
+.button > .focus-ring { border-radius: calc(var(--semantic-radius-md) * 1px); }
+.movement-filter button > .focus-ring { inset: calc(-1 * var(--semantic-spacing-gap-xs) * 1px); }
+.button:focus, .tab-button:focus, .movement-filter button:focus, .search--collapsed:focus { outline: none; }
+:root[data-focus-mode="keyboard"] .search--collapsed:focus-visible { outline: 2px solid var(--component-focus-ring-color); outline-offset: 2px; }
+:root[data-focus-mode="keyboard"] .button:focus-visible > .focus-ring, :root[data-focus-mode="keyboard"] .tab-button:focus-visible > .focus-ring, :root[data-focus-mode="keyboard"] .movement-filter button:focus-visible > .focus-ring, :root[data-focus-mode="keyboard"] .search:has(input:focus-visible) > .focus-ring, :root[data-focus-mode="keyboard"] .product-search:has(input:focus-visible) > .focus-ring { display: block; }
 @media (forced-colors: active) {
   .focus-ring { outline-color: Highlight; }
-  .button > .focus-ring { border-color: Highlight; }
 }
 .search input { border: 0; outline: 0; min-width: 0; width: 100%; font: inherit; font-size: 12px; background: transparent; color: var(--semantic-colors-text-primary-default); }
 .search input::placeholder { color: var(--semantic-colors-text-tertiary-default); }
@@ -111,15 +113,15 @@ body {
 .button { font: inherit; cursor: pointer; color: var(--component-button-filled-secondary-text-icon-default); background: var(--component-button-filled-secondary-background-default); border: 1px solid var(--component-button-filled-secondary-border-default); border-radius: calc(var(--component-radius) * 1px); }
 .button:hover { background: var(--component-button-filled-secondary-background-hover); }
 .button:active { background: var(--component-button-filled-secondary-background-pressed); }
-.button:focus-visible { border-color: var(--component-button-filled-secondary-border-focused); }
+:root[data-focus-mode="keyboard"] .button:focus-visible { border-color: var(--component-button-filled-secondary-border-focused); }
 .button:disabled { color: var(--component-button-filled-secondary-text-icon-disabled); background: var(--component-button-filled-secondary-background-disable); border-color: var(--component-button-filled-secondary-border-disabled); cursor: not-allowed; }
 .button--primary { color: var(--component-button-filled-primary-text-icon-default); background: var(--component-button-filled-primary-background-default); border-color: transparent; }
-.button--primary:focus-visible { border-color: transparent; }
+:root[data-focus-mode="keyboard"] .button--primary:focus-visible { border-color: transparent; }
 .button--primary:hover { background: var(--component-button-filled-primary-background-hover); }
 .button--primary:active { background: var(--component-button-filled-primary-background-pressed); }
 .button--primary:disabled { color: var(--component-button-filled-primary-text-icon-disabled); background: var(--component-button-filled-primary-background-disable); border-color: var(--component-button-filled-primary-border-disabled); }
 .button--ghost { color: var(--component-button-borderless-secondary-text-icon-default); background: transparent; border-color: transparent; }
-.button--ghost:focus-visible { border-color: transparent; }
+:root[data-focus-mode="keyboard"] .button--ghost:focus-visible { border-color: transparent; }
 .button--ghost:hover { background: var(--component-button-borderless-secondary-background-hover); }
 .button--ghost:active { background: var(--component-button-borderless-secondary-background-pressed); }
 .button--ghost:disabled { color: var(--component-button-borderless-secondary-text-icon-disabled); background: transparent; border-color: transparent; }
@@ -245,17 +247,18 @@ body {
 .chart-plot { position: relative; display: flex; min-width: 0; padding: calc(var(--semantic-spacing-padding-sm) * 1px) 0; }
 .chart-plot::before { content: ''; position: absolute; inset: calc(var(--semantic-spacing-padding-sm) * 1px) 0; border-bottom: 1px solid var(--semantic-colors-data-visualization-tertiary); background: repeating-linear-gradient(to bottom, var(--semantic-colors-data-visualization-tertiary) 0 1px, transparent 1px 20%); }
 .chart-group { position: relative; flex: 1; min-width: 0; }
-.chart-group:focus-visible { outline: 2px solid var(--component-focus-ring-color); outline-offset: calc(var(--semantic-spacing-gap-xs) * 1px); }
+.chart-group:focus { outline: none; }
+:root[data-focus-mode="keyboard"] .chart-group:focus-visible { outline: 2px solid var(--component-focus-ring-color); outline-offset: calc(var(--semantic-spacing-gap-xs) * 1px); }
 .chart-pair { display: flex; align-items: end; justify-content: center; gap: calc(var(--semantic-spacing-gap-sm) * 1px); width: 100%; height: 100%; }
 .chart-track { display: flex; align-items: end; justify-content: center; width: 20px; height: 100%; background: var(--semantic-colors-background-surface-secondary-default); border-radius: calc(var(--semantic-radius-sm) * 1px); }
 .chart-bar { width: 16px; border-radius: calc(var(--semantic-radius-xs) * 1px) calc(var(--semantic-radius-xs) * 1px) calc(var(--semantic-radius-2xs) * 1px) calc(var(--semantic-radius-2xs) * 1px); }
 .chart-bar.incoming { background: var(--semantic-colors-data-visualization-highlight); }
 .chart-bar.outgoing { background: var(--semantic-colors-data-visualization-tertiary); }
-.chart-group:is(:hover, :focus-visible) .chart-bar.incoming { background: var(--semantic-colors-data-visualization-brand); }
-.chart-group:is(:hover, :focus-visible) .chart-bar.outgoing { background: var(--semantic-colors-data-visualization-primary); }
+.chart-group:hover .chart-bar.incoming, :root[data-focus-mode="keyboard"] .chart-group:focus-visible .chart-bar.incoming { background: var(--semantic-colors-data-visualization-brand); }
+.chart-group:hover .chart-bar.outgoing, :root[data-focus-mode="keyboard"] .chart-group:focus-visible .chart-bar.outgoing { background: var(--semantic-colors-data-visualization-primary); }
 .chart-tooltip { position: absolute; z-index: 2; top: 0; right: 50%; display: flex; flex-direction: column; gap: calc(var(--semantic-spacing-gap-md) * 1px); padding: calc(var(--semantic-spacing-padding-sm) * 1px) calc(var(--semantic-spacing-padding-md) * 1px); color: var(--semantic-colors-text-tertiary-default); background: var(--semantic-colors-background-surface-primary-default); border: 1px solid var(--semantic-colors-border-primary-default); border-radius: calc(var(--semantic-radius-md) * 1px); box-shadow: calc(var(--semantic-elevation-xs-offsetx) * 1px) calc(var(--semantic-elevation-xs-offsety) * 1px) calc(var(--semantic-elevation-xs-radius) * 1px) calc(var(--semantic-elevation-xs-spread) * 1px) var(--semantic-elevation-xs-color); font-size: 12px; line-height: 16px; font-weight: 500; white-space: nowrap; visibility: hidden; pointer-events: none; }
 .chart-group:first-child .chart-tooltip { right: auto; left: 50%; }
-.chart-group:not(.is-tooltip-dismissed):is(:hover, :focus-visible) .chart-tooltip { visibility: visible; }
+.chart-group:not(.is-tooltip-dismissed):hover .chart-tooltip, :root[data-focus-mode="keyboard"] .chart-group:not(.is-tooltip-dismissed):focus-visible .chart-tooltip { visibility: visible; }
 .chart-tooltip-value { display: flex; align-items: center; gap: calc(var(--semantic-spacing-gap-md) * 1px); }
 .chart-tooltip-value strong { color: var(--semantic-colors-text-primary-default); font-weight: 500; }
 .chart-tooltip-swatch { width: 16px; height: 8px; border-radius: calc(var(--semantic-radius-2xs) * 1px); }

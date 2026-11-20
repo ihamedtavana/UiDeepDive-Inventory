@@ -13,6 +13,7 @@ export function OverviewTabsDefault({ period, onSelect, warehouse, customRange, 
   const [isOpen, setIsOpen] = useState(false)
   const wrapper = useRef<HTMLDivElement>(null)
   useEffect(() => { if (!isOpen) return; const close = (event: PointerEvent) => { if (!wrapper.current?.contains(event.target as Node)) setIsOpen(false) }; document.addEventListener('pointerdown', close); return () => document.removeEventListener('pointerdown', close) }, [isOpen])
+  useEffect(() => { if (!isOpen) return; const onKeyDown = (event: KeyboardEvent) => { if (event.key === 'Escape') { setIsOpen(false); wrapper.current?.querySelector<HTMLButtonElement>('.tab-button:last-child')?.focus() } }; document.addEventListener('keydown', onKeyDown); return () => document.removeEventListener('keydown', onKeyDown) }, [isOpen])
   const close = () => { setIsOpen(false); wrapper.current?.querySelector<HTMLButtonElement>('.tab-button:last-child')?.focus() }
   const format = (value: string) => new Date(`${value}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
   return <section className="overview-tabs" aria-label="Overview controls">

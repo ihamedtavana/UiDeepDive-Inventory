@@ -37,6 +37,7 @@ export function Sidebar({ selectedWarehouse, onSelectWarehouse }: { selectedWare
   const [isWarehouseOpen, setIsWarehouseOpen] = useState(false)
   const switchRef = useRef<HTMLDivElement>(null)
   useEffect(() => { if (!isWarehouseOpen) return; const close = (event: PointerEvent) => { if (!switchRef.current?.contains(event.target as Node)) setIsWarehouseOpen(false) }; document.addEventListener('pointerdown', close); return () => document.removeEventListener('pointerdown', close) }, [isWarehouseOpen])
+  useEffect(() => { if (!isWarehouseOpen) return; const onKeyDown = (event: KeyboardEvent) => { if (event.key === 'Escape') { setIsWarehouseOpen(false); switchRef.current?.querySelector<HTMLButtonElement>('.warehouse-switch')?.focus() } }; document.addEventListener('keydown', onKeyDown); return () => document.removeEventListener('keydown', onKeyDown) }, [isWarehouseOpen])
   const closeWarehouse = () => { setIsWarehouseOpen(false); switchRef.current?.querySelector<HTMLButtonElement>('.warehouse-switch')?.focus() }
   const [isCollapsed, setIsCollapsed] = useState(() =>
     typeof window.matchMedia === 'function' && window.matchMedia('(min-width: 1024px) and (width < 1200px)').matches,

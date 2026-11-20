@@ -3,6 +3,32 @@ import { afterEach, expect, it } from 'vitest'
 import { App } from './App'
 
 afterEach(cleanup)
+it('uses Tab navigation for focus styling and clears it on pointer interaction', () => {
+  render(<App />)
+  fireEvent.keyDown(document, { key: 'Tab' })
+  expect(document.documentElement.dataset.focusMode).toBe('keyboard')
+  fireEvent.pointerDown(screen.getByRole('button', { name: /Switch Warehouse/ }))
+  expect(document.documentElement.dataset.focusMode).toBeUndefined()
+  fireEvent.keyDown(document, { key: 'Enter' })
+  expect(document.documentElement.dataset.focusMode).toBeUndefined()
+  fireEvent.keyDown(document, { key: 'Tab', shiftKey: true })
+  expect(document.documentElement.dataset.focusMode).toBe('keyboard')
+})
+it('leaves focus on the trigger when opening either panel and allows Escape', () => {
+  render(<App />)
+  const custom = screen.getByRole('button', { name: 'Custom' })
+  custom.focus()
+  fireEvent.click(custom)
+  expect(document.activeElement).toBe(custom)
+  fireEvent.keyDown(custom, { key: 'Escape' })
+  expect(screen.queryByRole('dialog', { name: 'Custom date range' })).toBeNull()
+  const switcher = screen.getByRole('button', { name: /Switch Warehouse/ })
+  switcher.focus()
+  fireEvent.click(switcher)
+  expect(document.activeElement).toBe(switcher)
+  fireEvent.keyDown(switcher, { key: 'Escape' })
+  expect(screen.queryByRole('dialog', { name: 'Switch warehouse' })).toBeNull()
+})
 it('applies a valid custom range, dismisses with Escape, and restores preset data', () => {
   render(<App />)
   fireEvent.click(screen.getByRole('button', { name: 'Custom' }))
