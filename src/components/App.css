@@ -44,6 +44,7 @@ body {
 .divider { width: 100%; height: 2px; border-top: 1px solid var(--semantic-colors-border-primary-default); border-bottom: 1px solid var(--semantic-colors-border-inverse-default); }
 .search-section { display: flex; flex-direction: column; gap: calc(var(--semantic-spacing-gap-xl) * 1px); }
 .search { display: flex; align-items: center; gap: calc(var(--semantic-spacing-gap-md) * 1px); height: 36px; padding: 0 calc(var(--semantic-spacing-padding-sm) * 1px) 0 calc(var(--semantic-spacing-padding-md) * 1px); background: var(--semantic-colors-background-surface-primary-default); border: 1px solid var(--semantic-colors-border-primary-default); border-radius: calc(var(--semantic-radius-md) * 1px); }
+.search.is-selected, .search:has(input:focus:not(:focus-visible)) { border-color: var(--semantic-colors-border-accent-default); }
 .search, .product-search, .button, .tab-button, .movement-filter button { position: relative; }
 .focus-ring { display: none; position: absolute; inset: calc(-1 * var(--semantic-spacing-gap-xs) * 1px); border-radius: inherit; outline: 1px solid var(--component-focus-ring-color); pointer-events: none; }
 .button > .focus-ring { border: 1px solid var(--component-focus-ring-color); border-radius: calc(var(--semantic-radius-md) * 1px); outline: none; }
