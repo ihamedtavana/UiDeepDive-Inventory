@@ -1,3 +1,4 @@
+import type { Period } from './Tab'
 import { useId, useState } from 'react'
 import { Badge } from './Badge'
 import { ChartTooltip } from './ChartTooltip'
@@ -23,37 +24,58 @@ import m3 from '../assets/raw4_4.png'
 import m4 from '../assets/raw4_5.png'
 import m5 from '../assets/raw4_8.png'
 const movements = [
-  {name:'GeForce RTX 4070 Super',sku:'GPU-0104',date:'2026-11-01',partner:'Atlas Components',type:'Inbound',quantity:'+40',image:m1},
-  {name:'Intel Core i7 14700K',sku:'CPU-0108',date:'2026-11-01',partner:'SHP-2041',type:'Inbound',quantity:'+12',image:m2},
+  {name:'GeForce RTX 4070 Super',sku:'GPU-0104',date:'2026-10-31',partner:'Atlas Components',type:'Inbound',quantity:'+40',image:m1},
+  {name:'Intel Core i7 14700K',sku:'CPU-0108',date:'2026-10-31',partner:'Core Components',type:'Inbound',quantity:'+12',image:m2},
   {name:'990 Pro 1TB',sku:'STO-0102',date:'2026-10-31',partner:'PcGaming Digital',type:'Outbound',quantity:'-120',image:m3},
   {name:'RM850e',sku:'PSU-0101',date:'2026-10-30',partner:'Order #10482',type:'Outbound',quantity:'-20',image:m4},
   {name:'Lancool 216',sku:'CAS-0102',date:'2026-10-29',partner:'From WH-02',type:'Inbound',quantity:'+20',image:m5},
 ]
 const movementDateFormatter = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' })
-const bars = [{month:'May',in:2000,out:1870},{month:'Jun',in:2160,out:2010},{month:'Jul',in:2090,out:2190},{month:'Aug',in:2210,out:2070},{month:'Sep',in:2280,out:2110},{month:'Oct',in:2470,out:2310}]
+const chartData: Record<Period, { label: string; detail: string; incoming: number; outgoing: number }[]> = {
+  Today: [
+    { label: '00–04', detail: 'Oct 31, 00:00–04:00', incoming: 8, outgoing: 0 },
+    { label: '04–08', detail: 'Oct 31, 04:00–08:00', incoming: 14, outgoing: 10 },
+    { label: '08–12', detail: 'Oct 31, 08:00–12:00', incoming: 21, outgoing: 0 },
+    { label: '12–16', detail: 'Oct 31, 12:00–16:00', incoming: 19, outgoing: 120 },
+    { label: '16–20', detail: 'Oct 31, 16:00–20:00', incoming: 12, outgoing: 5 },
+    { label: '20–24', detail: 'Oct 31, 20:00–24:00', incoming: 8, outgoing: 5 },
+  ],
+  '7 days': [70, 84, 76, 80, 88, 90, 82].map((incoming, i) => ({ label: `${25 + i} Oct`, detail: `Oct ${25 + i}, 2026`, incoming, outgoing: [55, 60, 65, 70, 60, 80, 140][i] })),
+  '30 days': [400, 390, 420, 430, 414, 416].map((incoming, i) => ({ label: `${2 + i * 5}–${6 + i * 5}`, detail: `Oct ${2 + i * 5}–${6 + i * 5}, 2026`, incoming, outgoing: [350, 380, 360, 400, 405, 415][i] })),
+  '90 days': [1100, 1120, 1150, 1120, 1180, 1290].map((incoming, i) => ({ label: ['Aug 3', 'Aug 18', 'Sep 2', 'Sep 17', 'Oct 2', 'Oct 17'][i], detail: ['Aug 3–17', 'Aug 18–Sep 1', 'Sep 2–16', 'Sep 17–Oct 1', 'Oct 2–16', 'Oct 17–31'][i] + ', 2026', incoming, outgoing: [1000, 1050, 1080, 1050, 1120, 1190][i] })),
+}
+
 const shipments = [
   {id:'SHP-2041',vehicle:'Mercedes-Benz Atego 818',status:'Loading',image:van,destination:'Center-02',end:'04 Nov',units:'410',percent:0,km:'550'},
   {id:'SHP-2043',vehicle:'Mercedes-Benz Atego 818',status:'In Transit',image:truck,destination:'WH-01',end:'06 Nov',units:'700',percent:51,km:'980'},
   {id:'SHP-2044',vehicle:'Mercedes-Benz Actros 1845',status:'Delivered',image:lorry,destination:'WH-01',end:'06 Nov',units:'1200',percent:100,km:'940'},
 ]
-export function InventoryActivity() {
+export function InventoryActivity({ period }: { period: Period }) {
+  const periodBars = chartData[period]
+  const incoming = periodBars.reduce((sum, bar) => sum + bar.incoming, 0)
+  const outgoing = periodBars.reduce((sum, bar) => sum + bar.outgoing, 0)
+  const format = (value: number) => value.toLocaleString('en-US')
+  const peak = Math.max(...periodBars.flatMap(bar => [bar.incoming, bar.outgoing]))
+  const step = 10 ** Math.floor(Math.log10(peak / 5))
+  const max = Math.ceil(peak / (5 * step)) * 5 * step
   const [filter,setFilter] = useState('All')
   const [isMovementExpanded, setIsMovementExpanded] = useState(true)
   const [isShipmentsExpanded, setIsShipmentsExpanded] = useState(true)
   const movementId = useId()
   const shipmentsId = useId()
   const [dismissedTooltip,setDismissedTooltip] = useState<string | null>(null)
-  const filtered = movements.filter(m => filter === 'All' || m.type === filter).slice(0, 5)
+  const start = { Today: '2026-10-31', '7 days': '2026-10-25', '30 days': '2026-10-02', '90 days': '2026-08-03' }[period]
+  const filtered = movements.filter(m => m.date >= start && m.date <= '2026-10-31' && (filter === 'All' || m.type === filter)).slice(0, 5)
   return <div className={`activity-layout${!isMovementExpanded && !isShipmentsExpanded ? ' is-collapsed' : ''}${isMovementExpanded && isShipmentsExpanded ? ' is-expanded' : ''}`}>
     <SectionCard className="activity-column">
       <SectionCardTitle icon={chartIcon} hasChevron isExpanded={isMovementExpanded} controlsId={movementId} onToggle={() => setIsMovementExpanded(!isMovementExpanded)}>Inventory movement</SectionCardTitle>
       <div id={movementId} className="activity-content" hidden={!isMovementExpanded}>
       <div className="movement-chart">
-        <div className="movement-summary">{[['4,780','Movements'],['2,470','Incoming'],['2,310','Outbound'],['+160','Net movement']].map(([v,l])=><div key={l}><strong>{v}</strong><span className={l === 'Incoming' ? 'legend-incoming' : l === 'Outbound' ? 'legend-outbound' : undefined}>{l}</span></div>)}</div>
-        <div className="chart-area" role="group" aria-label="Monthly inventory movements">
-          <div className="chart-axis" aria-hidden="true">{['2.5k','2k','1.5k','1k','500','0'].map(v=><span key={v}>{v}</span>)}</div>
-          <div className="chart-plot">{bars.map(bar=><div className={`chart-group${dismissedTooltip === bar.month ? ' is-tooltip-dismissed' : ''}`} key={bar.month} tabIndex={0} role="group" aria-label={`${bar.month}: ${bar.in.toLocaleString('en-US')} incoming, ${bar.out.toLocaleString('en-US')} outbound`} aria-describedby={`chart-tooltip-${bar.month}`} onMouseEnter={() => setDismissedTooltip(null)} onFocus={() => setDismissedTooltip(null)} onKeyDown={event => { if (event.key === 'Escape') setDismissedTooltip(bar.month) }}><div className="chart-pair"><div className="chart-track"><div className="chart-bar incoming" style={{height:`${bar.in/2500*100}%`}} /></div><div className="chart-track"><div className="chart-bar outgoing" style={{height:`${bar.out/2500*100}%`}} /></div></div><ChartTooltip id={`chart-tooltip-${bar.month}`} month={bar.month} incoming={bar.in} outbound={bar.out} /></div>)}</div>
-          <div className="chart-months" aria-hidden="true">{bars.map(bar=><span key={bar.month}>{bar.month}</span>)}</div>
+        <div className="movement-summary">{[[format(incoming + outgoing),'Movements'],[format(incoming),'Incoming'],[format(outgoing),'Outbound'],[`${incoming >= outgoing ? '+' : ''}${format(incoming - outgoing)}`,'Net movement']].map(([v,l])=><div key={l}><strong>{v}</strong><span className={l === 'Incoming' ? 'legend-incoming' : l === 'Outbound' ? 'legend-outbound' : undefined}>{l}</span></div>)}</div>
+        <div className="chart-area" role="group" aria-label={`${period} inventory movements`}>
+          <div className="chart-axis" aria-hidden="true">{[1, .8, .6, .4, .2, 0].map(v=><span key={v}>{format(Math.round(max * v))}</span>)}</div>
+          <div className="chart-plot">{periodBars.map(bar=><div className={`chart-group${dismissedTooltip === bar.label ? ' is-tooltip-dismissed' : ''}`} key={bar.label} tabIndex={0} role="group" aria-label={`${bar.label}: ${bar.incoming.toLocaleString('en-US')} incoming, ${bar.outgoing.toLocaleString('en-US')} outbound`} aria-describedby={`chart-tooltip-${bar.label}`} onMouseEnter={() => setDismissedTooltip(null)} onFocus={() => setDismissedTooltip(null)} onKeyDown={event => { if (event.key === 'Escape') setDismissedTooltip(bar.label) }}><div className="chart-pair"><div className="chart-track"><div className="chart-bar incoming" style={{height:`${bar.incoming/max*100}%`}} /></div><div className="chart-track"><div className="chart-bar outgoing" style={{height:`${bar.outgoing/max*100}%`}} /></div></div><ChartTooltip id={`chart-tooltip-${bar.label}`} label={bar.detail} incoming={bar.incoming} outbound={bar.outgoing} /></div>)}</div>
+          <div className="chart-months" aria-hidden="true">{periodBars.map(bar=><span key={bar.label}>{bar.label}</span>)}</div>
         </div>
       </div>
       <section className="recent-movements"><SectionCardTitle icon={trendIcon} action={<><div className="movement-filter" role="group" aria-label="Movement type">{['All','Inbound','Outbound'].map(v=><button type="button" key={v} className={filter===v?'is-selected':''} aria-pressed={filter===v} onClick={()=>setFilter(v)}>{v}<FocusRing /></button>)}</div><Button hierarchy="primary" appearance="ghost" className="accent-action">View log</Button></>}>Recent stock movements</SectionCardTitle>
@@ -66,3 +88,4 @@ export function InventoryActivity() {
     </SectionCard>
   </div>
 }
+

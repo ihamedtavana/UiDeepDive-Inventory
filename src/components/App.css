@@ -40,6 +40,37 @@ body {
 .badge--success { color: var(--component-badge-filled-success-text-icon-default); background: var(--component-badge-filled-success-background-default); border-color: var(--component-badge-filled-success-border-default); }
 .badge--brand { color: var(--component-badge-filled-brand-text-icon-default); background: var(--component-badge-filled-brand-background-default); border-color: var(--component-badge-filled-brand-border-default); }
 .warehouse-switch { display: flex; align-items: center; gap: calc(var(--semantic-spacing-gap-md) * 1px); padding: calc(var(--semantic-spacing-padding-md) * 1px); border-top: 1px solid var(--semantic-colors-border-primary-default); color: var(--semantic-colors-text-secondary-default); font-size: 12px; line-height: 16px; }
+.warehouse-switch { width: 100%; border-left: 0; border-right: 0; border-bottom: 0; background: transparent; text-align: left; font-family: inherit; cursor: pointer; }
+.warehouse-switch:hover { background: var(--semantic-colors-background-surface-secondary-hover); }
+.warehouse-switch:focus-visible, .warehouse-option:focus-visible, .input-field input:focus-visible { outline: 2px solid var(--component-focus-ring-color); outline-offset: 2px; }
+.warehouse-switch-anchor, .date-picker-anchor { position: relative; }
+.sidebar { position: relative; z-index: 4; }
+.selection-panel { position: absolute; z-index: 5; display: flex; flex-direction: column; gap: calc(var(--semantic-spacing-gap-xl) * 1px); padding: calc(var(--semantic-spacing-padding-lg) * 1px); background: var(--semantic-colors-background-surface-primary-default); border: 1px solid var(--semantic-colors-border-primary-default); border-radius: calc(var(--semantic-radius-md) * 1px); box-shadow: calc(var(--global-shadow-sm-offsetx1) * 1px) calc(var(--global-shadow-sm-offsety1) * 1px) calc(var(--global-shadow-sm-radius1) * 1px) var(--global-shadow-sm-color1); }
+.date-panel { width: 348px; right: 0; top: calc(100% + var(--semantic-spacing-gap-md) * 1px); }
+.warehouse-panel { width: 352px; top: 100%; left: 0; margin-top: calc(var(--semantic-spacing-gap-md) * 1px); }
+.selection-heading { display: flex; flex-direction: column; gap: calc(var(--semantic-spacing-gap-sm) * 1px); }
+.selection-heading strong { font-size: 16px; line-height: 20px; font-weight: 500; }
+.selection-heading span, .selection-empty { color: var(--semantic-colors-text-tertiary-default); font-size: 12px; line-height: 16px; }
+.date-inputs { display: flex; gap: calc(var(--semantic-spacing-gap-md) * 1px); }
+.input-field { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: calc(var(--semantic-spacing-gap-md) * 1px); color: var(--semantic-colors-text-primary-default); font-size: 12px; line-height: 16px; font-weight: 500; }
+.input-field input { min-width: 0; width: 100%; height: 40px; padding: 0 calc(var(--semantic-spacing-padding-md) * 1px); border: 1px solid var(--semantic-colors-border-primary-default); border-radius: calc(var(--semantic-radius-md) * 1px); color: var(--semantic-colors-text-primary-default); background: var(--semantic-colors-background-surface-primary-default); font: inherit; font-size: 12px; }
+.input-field-date { position: relative; display: flex; align-items: center; justify-content: space-between; gap: calc(var(--semantic-spacing-gap-md) * 1px); height: 40px; padding: 0 calc(var(--semantic-spacing-padding-md) * 1px); border: 1px solid var(--semantic-colors-border-primary-default); border-radius: calc(var(--semantic-radius-md) * 1px); background: var(--semantic-colors-background-surface-primary-default); }
+.input-field-date-value { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; line-height: 20px; font-weight: 400; }
+.input-field-date input { position: absolute; inset: 0; height: 100%; opacity: 0; cursor: text; }
+.input-field-date input::-webkit-calendar-picker-indicator { cursor: pointer; }
+.input-field-date:has(input:focus-visible) { outline: 2px solid var(--component-focus-ring-color); outline-offset: 2px; }
+.input-field input[aria-invalid="true"] { border-color: var(--global-colors-red-700); }
+.input-error { color: var(--global-colors-red-700); font-size: 12px; }
+.selection-actions { display: flex; justify-content: flex-end; gap: calc(var(--semantic-spacing-gap-md) * 1px); font-size: 12px; }
+.warehouse-options { display: flex; flex-direction: column; gap: calc(var(--semantic-spacing-gap-md) * 1px); }
+.warehouse-option { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: calc(var(--semantic-spacing-padding-md) * 1px); border: 1px solid transparent; border-radius: calc(var(--semantic-radius-md) * 1px); color: var(--semantic-colors-text-primary-default); background: var(--semantic-colors-background-surface-primary-default); text-align: left; font: inherit; cursor: pointer; }
+.warehouse-option:hover:not(:disabled) { background: var(--semantic-colors-background-surface-secondary-hover); }
+.warehouse-option.is-selected { border-color: var(--semantic-colors-border-primary-default); box-shadow: calc(var(--semantic-elevation-xs-offsetx) * 1px) calc(var(--semantic-elevation-xs-offsety) * 1px) calc(var(--semantic-elevation-xs-radius) * 1px) var(--semantic-elevation-xs-color); }
+.warehouse-option:disabled { color: var(--component-button-filled-secondary-text-icon-disabled); cursor: not-allowed; }
+.warehouse-option > span:first-child { display: flex; flex-direction: column; gap: calc(var(--semantic-spacing-gap-sm) * 1px); }
+.warehouse-option strong { font-size: 14px; line-height: 20px; font-weight: 500; }
+.warehouse-option small { color: var(--semantic-colors-text-tertiary-default); font-size: 12px; line-height: 16px; }
+.selection-data-empty { padding: calc(var(--semantic-spacing-padding-lg) * 1px); border: 1px solid var(--semantic-colors-border-primary-default); border-radius: calc(var(--semantic-radius-md) * 1px); color: var(--semantic-colors-text-secondary-default); font-size: 14px; }
 .warehouse-switch > span:not(.badge) { flex: 1; }
 .divider { width: 100%; height: 2px; border-top: 1px solid var(--semantic-colors-border-primary-default); border-bottom: 1px solid var(--semantic-colors-border-inverse-default); }
 .search-section { display: flex; flex-direction: column; gap: calc(var(--semantic-spacing-gap-xl) * 1px); }

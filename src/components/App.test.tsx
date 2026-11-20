@@ -103,15 +103,55 @@ it('filters recent movements by direction', () => {
 
 it('shows each month’s chart details on focus and dismisses them with Escape', () => {
   render(<App />)
-  const june = screen.getByRole('group', { name: 'Jun: 2,160 incoming, 2,010 outbound' })
+  const june = screen.getByRole('group', { name: '7–11: 390 incoming, 380 outbound' })
   expect(document.querySelector('.chart-bar.active')).toBeNull()
   fireEvent.focus(june)
   const tooltip = document.getElementById(june.getAttribute('aria-describedby')!)!
-  expect(tooltip.textContent).toContain('Jun 2026')
-  expect(tooltip.textContent).toContain('2,160')
-  expect(tooltip.textContent).toContain('2,010')
+  expect(tooltip.textContent).toContain('Oct 7–11, 2026')
+  expect(tooltip.textContent).toContain('390')
+  expect(tooltip.textContent).toContain('380')
   fireEvent.keyDown(june, { key: 'Escape' })
   expect(june.classList.contains('is-tooltip-dismissed')).toBe(true)
   fireEvent.mouseEnter(june)
   expect(june.classList.contains('is-tooltip-dismissed')).toBe(false)
+})
+
+
+it('updates the selected period and keeps warehouse data unchanged', () => {
+  render(<App />)
+  const warehouse = screen.getByRole('heading', { name: 'Warehouse Overview' }).closest('section')!
+  const original = warehouse.textContent
+  for (const [period, range, total] of [['Today', 'Oct 31', '222'], ['7 days', 'Oct 25 - Oct 31', '1,100'], ['90 days', 'Aug 3 - Oct 31', '13,450'], ['30 days', 'Oct 2 - Oct 31', '4,780']]) {
+    fireEvent.click(screen.getByRole('button', { name: period }))
+    expect(screen.getByRole('button', { name: period }).getAttribute('aria-pressed')).toBe('true')
+    expect(screen.getByText(range)).toBeTruthy()
+    expect(screen.getByText(total)).toBeTruthy()
+    expect(warehouse.textContent).toBe(original)
+  }
+})
+
+
+it('shows recent movements within the selected range and preserves direction filters', () => {
+  render(<App />)
+  const section = screen.getByRole('heading', { name: 'Recent stock movements' }).closest('section')!
+  const rows = () => within(section).getAllByRole('row').slice(1)
+  fireEvent.click(screen.getByRole('button', { name: 'Today' }))
+  expect(rows()).toHaveLength(3)
+  expect(rows().every(row => row.textContent?.includes('31 Oct 2026'))).toBe(true)
+  fireEvent.click(screen.getByRole('button', { name: '90 days' }))
+  expect(rows()).toHaveLength(5)
+  fireEvent.click(within(section).getByRole('button', { name: 'Inbound' }))
+  expect(rows()).toHaveLength(3)
+  expect(rows().every(row => row.textContent?.includes('Inbound'))).toBe(true)
+  fireEvent.click(screen.getByRole('button', { name: 'Today' }))
+  expect(rows()).toHaveLength(2)
+})
+
+
+it('shows a mix of stock statuses on the first All products page', () => {
+  render(<App />)
+  const section = screen.getByRole('heading', { name: 'Products' }).closest('section')!
+  expect(within(section).getAllByText('In Stock').length).toBeGreaterThan(0)
+  expect(within(section).getAllByText('Low Stock').length).toBeGreaterThan(0)
+  expect(within(section).getAllByText('Out Of Stock').length).toBeGreaterThan(0)
 })

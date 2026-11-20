@@ -7,9 +7,9 @@ import messages from '../assets/iconMessage.svg'
 import notifications from '../assets/iconBell.svg'
 import settings from '../assets/iconTopSettings.svg'
 
-export function TopNavigation() {
+export function TopNavigation({ warehouse = 'New York Central' }: { warehouse?: string }) {
   return <header className="top-navigation">
-    <nav className="breadcrumbs" aria-label="Breadcrumb"><span>New York Central</span><span aria-hidden="true">/</span><Badge>Inventory</Badge></nav>
+    <nav className="breadcrumbs" aria-label="Breadcrumb"><span>{warehouse}</span><span aria-hidden="true">/</span><Badge>Inventory</Badge></nav>
     <div className="top-actions">
       <Button hierarchy="primary" className="movement-button"><img className="icon" src={plus} alt="" />New Movement</Button>
       <span className="vertical-divider" />

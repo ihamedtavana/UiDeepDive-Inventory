@@ -1,3 +1,4 @@
+import type { Period } from './Tab'
 import type { ReactNode } from 'react'
 import { Badge } from './Badge'
 import { SectionCard } from './SectionCard'
@@ -18,11 +19,14 @@ function Stats({ items }: { items: Stat[] }) {
 function Reading({ value, label }: { value: string; label: string }) {
   return <div className="overview-reading"><strong>{value}</strong><span>{label}</span></div>
 }
-export function OverviewCards() {
+export function OverviewCards({ period }: { period: Period }) {
+  const data = { Today: [82, 140], '7 days': [570, 530], '30 days': [2470, 2310], '90 days': [6960, 6490] }[period]
+  const [incoming, outgoing] = data
+  const format = (value: number) => value.toLocaleString('en-US')
   return <div className="overview-cards">
     <OverviewCard title="Total Products" icon={packageSearch} badge="+3.8%" isPositive><div className="overview-card-body"><Reading value="1,240" label="Products" /><Stats items={[{value:'1,921',label:'Available'}, {value:'90',label:'Out Stock'}, {value:'180',label:'Reserved'}]} /></div></OverviewCard>
     <OverviewCard title="Stock health" icon={chart} badge="96 SKUs"><div className="overview-card-body"><Reading value="76%" label="In stock" /><Stats items={[{value:'85',label:'In stock',status:'success'}, {value:'8',label:'Low',status:'warning'}, {value:'3',label:'Out',status:'error'}]} /></div></OverviewCard>
-    <OverviewCard title="Inbound vs outbound" icon={vertical} badge="+160 net" isPositive><div className="movement-stats"><div><strong>2,470</strong><span><img className="icon" src={up} alt="" />Inbound</span></div><div><strong>2,310</strong><span><img className="icon" src={down} alt="" />Outbound</span></div></div></OverviewCard>
+    <OverviewCard title="Inbound vs outbound" icon={vertical} badge={`${incoming >= outgoing ? '+' : ''}${format(incoming - outgoing)} net`} isPositive={incoming >= outgoing}><div className="movement-stats"><div><strong>{format(incoming)}</strong><span><img className="icon" src={up} alt="" />Inbound</span></div><div><strong>{format(outgoing)}</strong><span><img className="icon" src={down} alt="" />Outbound</span></div></div></OverviewCard>
     <OverviewCard title="Warehouse Storage" icon={packageSearch} badge="2,600 Slots"><div className="overview-card-body"><Reading value="81%" label="Capacity Used" /><Stats items={[{value:'76%',label:'Zone A'}, {value:'91%',label:'Zone B'}, {value:'73%',label:'Zone C'}]} /></div></OverviewCard>
   </div>
 }
