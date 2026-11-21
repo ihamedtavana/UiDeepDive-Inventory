@@ -4,6 +4,7 @@ import { SectionCardTitle } from './SectionCardTitle'
 import { PercentageContainer } from './PercentageContainer'
 import { ShelfCard, type Shelf } from './ShelfCard'
 import { NeedsRestock } from './NeedsRestock'
+import type { StockDelivery, StockProduct } from './stockInventory'
 import home from '../assets/imgHome02.svg'
 import gpu from '../assets/wh1_imgGraphicsCard.svg'
 import cpu from '../assets/wh1_imgProcessor.svg'
@@ -23,7 +24,7 @@ const shelves: Shelf[] = [
   {code:'C1',name:'PC Cases',description:'Mid-Tower & Full-Tower',icon:pc,percentage:92,available:'320',out:'0',reserved:'30'},
   {code:'C2',name:'Cooling Systems',description:'AIO Liquid & Air Coolers',icon:cooling,percentage:20,available:'95',out:'80',reserved:'65'},
 ]
-export function WarehouseOverview() {
+export function WarehouseOverview({ warehouse, deliveries, onAddStock }: { warehouse: string; deliveries: StockDelivery[]; onAddStock: (product: StockProduct) => void }) {
   const [isExpanded, setIsExpanded] = useState(true)
   const contentId = useId()
   return <SectionCard className="warehouse-overview">
@@ -33,7 +34,7 @@ export function WarehouseOverview() {
       <div className="shelf-summary">{[['8','Total shelves'],['2','In Stock'],['3','Restock Needed'],['2','Low Stock']].map(([value,label],i)=><div className="summary-stat" key={label}><strong>{value}</strong><span>{i>0 && <i className={`status status--${i===1?'success':i===2?'warning':'error'}`} />}{label}</span></div>)}<div className="summary-capacity"><div><strong>75%</strong><span>Capacity Used</span></div><PercentageContainer percentage={75} /></div></div>
       <div className="shelf-grid">{shelves.map(shelf=><ShelfCard key={shelf.code} shelf={shelf} />)}</div>
     </div>
-    <NeedsRestock />
+    <NeedsRestock warehouse={warehouse} deliveries={deliveries} onAddStock={onAddStock} />
     </div>
   </SectionCard>
 }

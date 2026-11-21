@@ -8,6 +8,8 @@ import { WarehouseOverview } from './WarehouseOverview'
 import { InventoryActivity } from './InventoryActivity'
 import { ProductsSection } from './ProductsSection'
 import type { DateRange } from './CustomDateRange'
+import { AddStockPanel } from './AddStockPanel'
+import { readStockDeliveries, type StockProduct } from './stockInventory'
 
 export function App() {
   useEffect(() => {
@@ -20,6 +22,15 @@ export function App() {
   const [period, setPeriod] = useState<Period>('30 days')
   const [customRange, setCustomRange] = useState<DateRange | null>(null)
   const [warehouse, setWarehouse] = useState('New York Central')
+  const [deliveries, setDeliveries] = useState(readStockDeliveries)
+  const [stockProduct, setStockProduct] = useState<StockProduct | null>(null)
+  useEffect(() => {
+    const syncInventory = () => setDeliveries(readStockDeliveries())
+    window.addEventListener('storage', syncInventory)
+    return () => window.removeEventListener('storage', syncInventory)
+  }, [])
   const hasSampleData = warehouse === 'New York Central' && !customRange
-  return <div className="app-shell"><Sidebar selectedWarehouse={warehouse} onSelectWarehouse={setWarehouse} /><main aria-label="Workspace"><TopNavigation warehouse={warehouse} /><div className="main-content"><OverviewTabsDefault period={period} onSelect={setPeriod} warehouse={warehouse} customRange={customRange} onCustomRange={setCustomRange} />{hasSampleData ? <><OverviewCards period={period} /><WarehouseOverview /><InventoryActivity period={period} /><ProductsSection period={period} /></> : <div className="selection-data-empty" role="status">No demo data is available for this selection.</div>}</div></main></div>
+  return <div className="app-shell"><Sidebar selectedWarehouse={warehouse} onSelectWarehouse={setWarehouse} /><main aria-label="Workspace"><TopNavigation warehouse={warehouse} /><div className="main-content"><OverviewTabsDefault period={period} onSelect={setPeriod} warehouse={warehouse} customRange={customRange} onCustomRange={setCustomRange} />{hasSampleData ? <><OverviewCards period={period} /><WarehouseOverview warehouse={warehouse} deliveries={deliveries} onAddStock={setStockProduct} /><InventoryActivity period={period} /><ProductsSection period={period} /></> : <div className="selection-data-empty" role="status">No demo data is available for this selection.</div>}</div></main>
+    {stockProduct && <AddStockPanel key={stockProduct.sku} product={stockProduct} warehouse={warehouse} deliveries={deliveries} onInventoryChange={setDeliveries} onClose={() => setStockProduct(null)} />}
+  </div>
 }
