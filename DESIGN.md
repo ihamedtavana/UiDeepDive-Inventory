@@ -77,3 +77,5 @@ The primary design is desktop at 1440px. Complete and obtain approval for deskto
 ## Interaction Patterns
 
 Implement hover, focus, disabled, loading, and error states when present in Figma. Preserve visible keyboard focus and provide clear feedback for actions and errors. Use the relevant state tokens where available; do not infer unspecified visual details as established design decisions.
+
+Show the `Focused` variant and focus ring only during keyboard navigation. `Tab` and `Shift+Tab` enter keyboard navigation mode, and a mouse, touch, or pen press clears it. Use `:focus-visible` together with the root `data-focus-mode="keyboard"` flag for custom indicators. Pointer interaction retains native focus for typing and selection. Apply the control's `Pressed`, `Selected`, or `Error` appearance as appropriate.

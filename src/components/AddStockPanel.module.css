@@ -83,10 +83,9 @@
 .quantityControls { display: flex; flex-direction: column; gap: var(--gap-md); }
 .stepperField { display: flex; flex-direction: column; gap: var(--gap-md); }
 .stepper { display: flex; align-items: center; justify-content: space-between; gap: var(--gap-md); min-height: 56px; padding-inline: var(--gap-md); border: 1px solid var(--border); border-radius: var(--radius); }
-.stepper:focus-within { border-color: var(--semantic-colors-border-accent-default); }
+:global(:root:not([data-focus-mode="keyboard"])) .stepper:not([data-invalid]):has(input:focus) { border-color: var(--semantic-colors-border-accent-default); }
 .stepper[data-invalid] { border-color: var(--semantic-colors-feedback-error-secondary-border); }
-.stepper:has(input:focus-visible) { outline: 2px solid var(--component-focus-ring-color); outline-offset: var(--gap-xs); }
-.stepper[data-invalid]:has(input:focus-visible) { outline-color: var(--semantic-colors-feedback-error-secondary-border); }
+:global(:root[data-focus-mode="keyboard"]) .stepper:has(input:focus-visible) { outline: 2px solid var(--component-focus-ring-color); outline-offset: var(--gap-xs); }
 .stepper:has(input:disabled) { background: var(--subtle); }
 .stepperValue { display: flex; align-items: baseline; gap: var(--gap-sm); font-size: calc(var(--semantic-typography-label-md-regular-fontsize) * 1px); color: var(--muted); }
 .stepperValue input { padding: 0; border: 0; background: transparent; color: var(--foreground); font-family: inherit; font-size: calc(var(--global-type-size-2xl) * 1px); font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; width: auto; }
@@ -114,8 +113,8 @@
 .select > img, .fields :global(.input-field-with-icon) > img { position: absolute; inset-inline-start: var(--gap-lg); pointer-events: none; z-index: 1; }
 .select > select, .fields :global(.input-field-with-icon) input { padding-inline-start: calc(var(--semantic-spacing-gap-3xl) * 1px); }
 .select > select { appearance: none; font: inherit; font-size: calc(var(--semantic-typography-label-md-regular-fontsize) * 1px); background: var(--surface) url('../assets/iconChevronDown.svg') right var(--gap-md) center / 16px no-repeat; border: 1px solid var(--border); border-radius: var(--radius); color: var(--foreground); padding-inline-end: calc(var(--semantic-spacing-gap-3xl) * 1px); }
-.select > select:hover, .stepper:hover:not([data-invalid], :focus-within, :has(input:disabled)) { border-color: var(--semantic-colors-border-strong-subtle-default); }
-.select > select:focus-visible { outline: 2px solid var(--component-focus-ring-color); outline-offset: var(--gap-xs); }
+.select > select:hover:not(:focus), .stepper:hover:not([data-invalid], :focus-within, :has(input:disabled)) { border-color: var(--semantic-colors-border-strong-subtle-default); }
+:global(:root:not([data-focus-mode="keyboard"])) .select > select:enabled:focus { border-color: var(--semantic-colors-border-accent-default); }
 
 .binPicker { border: 1px solid var(--border); border-radius: var(--radius); background: var(--subtle); padding: var(--gap-lg); display: grid; gap: var(--gap-md); }
 .binPicker[data-invalid] { border-color: var(--semantic-colors-feedback-error-secondary-border); }

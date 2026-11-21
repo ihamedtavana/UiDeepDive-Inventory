@@ -12,6 +12,14 @@ body {
 }
 
 * { box-sizing: border-box; }
+
+/* Native controls still receive focus, while the ring tracks keyboard navigation. */
+:where(:root[data-focus-mode="keyboard"]) :focus-visible {
+  outline: 2px solid var(--component-focus-ring-color);
+  outline-offset: calc(var(--semantic-spacing-gap-xs) * 1px);
+}
+:where(:root:not([data-focus-mode="keyboard"])) :focus { outline: none; }
+
 .app-shell { display: flex; align-items: flex-start; gap: calc(var(--semantic-spacing-gap-md) * 1px); padding: calc(var(--semantic-spacing-layout-page-gutter) * 1px); }
 .app-shell main { flex: 1; min-width: 0; min-height: calc(100vh - 2 * var(--semantic-spacing-layout-page-gutter) * 1px); overflow: hidden; background: var(--semantic-colors-background-primary); border: 1px solid var(--semantic-colors-border-primary-default); border-radius: calc(var(--semantic-radius-xl) * 1px); }
 .sidebar { width: 248px; flex: none; display: flex; flex-direction: column; gap: calc(var(--semantic-spacing-gap-lg) * 1px); padding: calc(var(--semantic-spacing-padding-sm) * 1px); }
@@ -42,8 +50,6 @@ body {
 .warehouse-switch { display: flex; align-items: center; gap: calc(var(--semantic-spacing-gap-md) * 1px); padding: calc(var(--semantic-spacing-padding-md) * 1px); border-top: 1px solid var(--semantic-colors-border-primary-default); color: var(--semantic-colors-text-secondary-default); font-size: 12px; line-height: 16px; }
 .warehouse-switch { width: 100%; border-left: 0; border-right: 0; border-bottom: 0; border-radius: 0 0 calc(var(--semantic-radius-l) * 1px) calc(var(--semantic-radius-l) * 1px); background: transparent; text-align: left; font-family: inherit; cursor: pointer; }
 .warehouse-switch:hover { background: var(--semantic-colors-background-surface-secondary-hover); }
-.warehouse-switch:focus, .warehouse-option:focus, .input-field input:focus { outline: none; }
-:root[data-focus-mode="keyboard"] .warehouse-switch:focus-visible, :root[data-focus-mode="keyboard"] .warehouse-option:focus-visible, :root[data-focus-mode="keyboard"] .input-field input:focus-visible { outline: 2px solid var(--component-focus-ring-color); outline-offset: 2px; }
 .warehouse-switch-anchor, .date-picker-anchor { position: relative; }
 .sidebar { position: relative; z-index: 4; }
 .selection-panel { position: absolute; z-index: 5; display: flex; flex-direction: column; gap: calc(var(--semantic-spacing-gap-xl) * 1px); padding: calc(var(--semantic-spacing-padding-lg) * 1px); background: var(--semantic-colors-background-surface-primary-default); border: 1px solid var(--semantic-colors-border-primary-default); border-radius: calc(var(--semantic-radius-md) * 1px); box-shadow: calc(var(--global-shadow-sm-offsetx1) * 1px) calc(var(--global-shadow-sm-offsety1) * 1px) calc(var(--global-shadow-sm-radius1) * 1px) var(--global-shadow-sm-color1); }
@@ -58,9 +64,11 @@ body {
 .input-field-date { position: relative; display: flex; align-items: center; justify-content: space-between; gap: calc(var(--semantic-spacing-gap-md) * 1px); height: 40px; padding: 0 calc(var(--semantic-spacing-padding-md) * 1px); border: 1px solid var(--semantic-colors-border-primary-default); border-radius: calc(var(--semantic-radius-md) * 1px); background: var(--semantic-colors-background-surface-primary-default); }
 .input-field-date-value { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; line-height: 20px; font-weight: 400; }
 .input-field-date input { position: absolute; inset: 0; height: 100%; opacity: 0; cursor: text; }
+.input-field-date input:focus { outline: none; }
 .input-field-date input::-webkit-calendar-picker-indicator { cursor: pointer; }
-:root[data-focus-mode="keyboard"] .input-field-date:has(input:focus-visible) { outline: 2px solid var(--component-focus-ring-color); outline-offset: 2px; }
-.input-field-date.is-pressed, :root[data-focus-mode="keyboard"] .input-field-date.is-pressed:has(input:focus-visible) { border-color: var(--semantic-colors-border-accent-default); outline: none; }
+:root[data-focus-mode="keyboard"] .input-field-date:has(input:focus-visible) { outline: 2px solid var(--component-focus-ring-color); outline-offset: calc(var(--semantic-spacing-gap-xs) * 1px); }
+:root:not([data-focus-mode="keyboard"]) .input-field-date.is-pressed,
+:root:not([data-focus-mode="keyboard"]) .input-field input:not([type="date"], [aria-invalid="true"]):enabled:focus { border-color: var(--semantic-colors-border-accent-default); }
 .input-field input[aria-invalid="true"] { border-color: var(--global-colors-red-700); }
 .input-error { color: var(--global-colors-red-700); font-size: 12px; }
 .selection-actions { display: flex; justify-content: flex-end; gap: calc(var(--semantic-spacing-gap-md) * 1px); font-size: 12px; }
@@ -77,13 +85,12 @@ body {
 .divider { width: 100%; height: 2px; border-top: 1px solid var(--semantic-colors-border-primary-default); border-bottom: 1px solid var(--semantic-colors-border-inverse-default); }
 .search-section { display: flex; flex-direction: column; gap: calc(var(--semantic-spacing-gap-xl) * 1px); }
 .search { display: flex; align-items: center; gap: calc(var(--semantic-spacing-gap-md) * 1px); height: 36px; padding: 0 calc(var(--semantic-spacing-padding-sm) * 1px) 0 calc(var(--semantic-spacing-padding-md) * 1px); background: var(--semantic-colors-background-surface-primary-default); border: 1px solid var(--semantic-colors-border-primary-default); border-radius: calc(var(--semantic-radius-md) * 1px); }
-.search.is-selected, .search.is-pointer-focus:has(input:focus) { border-color: var(--semantic-colors-border-accent-default); }
+.search.is-selected, :root:not([data-focus-mode="keyboard"]) .search.is-pointer-focus:has(input:focus) { border-color: var(--semantic-colors-border-accent-default); }
 .search, .product-search, .button, .tab-button, .movement-filter button { position: relative; }
 .focus-ring { display: none; position: absolute; inset: calc(-1 * var(--semantic-spacing-gap-xs) * 1px - 1px); border-radius: inherit; outline: 1px solid var(--component-focus-ring-color); pointer-events: none; }
 .button > .focus-ring { border-radius: calc(var(--semantic-radius-md) * 1px); }
 .movement-filter button > .focus-ring { inset: calc(-1 * var(--semantic-spacing-gap-xs) * 1px); }
-.button:focus, .tab-button:focus, .movement-filter button:focus, .search--collapsed:focus { outline: none; }
-:root[data-focus-mode="keyboard"] .search--collapsed:focus-visible { outline: 2px solid var(--component-focus-ring-color); outline-offset: 2px; }
+.button:focus, .tab-button:focus, .movement-filter button:focus { outline: none; }
 :root[data-focus-mode="keyboard"] .button:focus-visible > .focus-ring, :root[data-focus-mode="keyboard"] .tab-button:focus-visible > .focus-ring, :root[data-focus-mode="keyboard"] .movement-filter button:focus-visible > .focus-ring, :root[data-focus-mode="keyboard"] .search:has(input:focus-visible) > .focus-ring, :root[data-focus-mode="keyboard"] .product-search:has(input:focus-visible) > .focus-ring { display: block; }
 @media (forced-colors: active) {
   .focus-ring { outline-color: Highlight; }
@@ -247,8 +254,6 @@ body {
 .chart-plot { position: relative; display: flex; min-width: 0; padding: calc(var(--semantic-spacing-padding-sm) * 1px) 0; }
 .chart-plot::before { content: ''; position: absolute; inset: calc(var(--semantic-spacing-padding-sm) * 1px) 0; border-bottom: 1px solid var(--semantic-colors-data-visualization-tertiary); background: repeating-linear-gradient(to bottom, var(--semantic-colors-data-visualization-tertiary) 0 1px, transparent 1px 20%); }
 .chart-group { position: relative; flex: 1; min-width: 0; }
-.chart-group:focus { outline: none; }
-:root[data-focus-mode="keyboard"] .chart-group:focus-visible { outline: 2px solid var(--component-focus-ring-color); outline-offset: calc(var(--semantic-spacing-gap-xs) * 1px); }
 .chart-pair { display: flex; align-items: end; justify-content: center; gap: calc(var(--semantic-spacing-gap-sm) * 1px); width: 100%; height: 100%; }
 .chart-track { display: flex; align-items: end; justify-content: center; width: 20px; height: 100%; background: var(--semantic-colors-background-surface-secondary-default); border-radius: calc(var(--semantic-radius-sm) * 1px); }
 .chart-bar { width: 16px; border-radius: calc(var(--semantic-radius-xs) * 1px) calc(var(--semantic-radius-xs) * 1px) calc(var(--semantic-radius-2xs) * 1px) calc(var(--semantic-radius-2xs) * 1px); }
