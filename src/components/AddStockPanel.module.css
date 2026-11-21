@@ -85,7 +85,7 @@
 .stepper { display: flex; align-items: center; justify-content: space-between; gap: var(--gap-md); min-height: 56px; padding-inline: var(--gap-md); border: 1px solid var(--border); border-radius: var(--radius); }
 :global(:root:not([data-focus-mode="keyboard"])) .stepper:not([data-invalid]):has(input:focus) { border-color: var(--semantic-colors-border-accent-default); }
 .stepper[data-invalid] { border-color: var(--semantic-colors-feedback-error-secondary-border); }
-:global(:root[data-focus-mode="keyboard"]) .stepper:has(input:focus-visible) { outline: 2px solid var(--component-focus-ring-color); outline-offset: var(--gap-xs); }
+:global(:root[data-focus-mode="keyboard"]) .stepper:has(input:focus-visible) { outline: var(--focus-ring-width) solid var(--component-focus-ring-color); outline-offset: var(--gap-xs); }
 .stepper:has(input:disabled) { background: var(--subtle); }
 .stepperValue { display: flex; align-items: baseline; gap: var(--gap-sm); font-size: calc(var(--semantic-typography-label-md-regular-fontsize) * 1px); color: var(--muted); }
 .stepperValue input { padding: 0; border: 0; background: transparent; color: var(--foreground); font-family: inherit; font-size: calc(var(--global-type-size-2xl) * 1px); font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; width: auto; }

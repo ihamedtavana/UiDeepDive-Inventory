@@ -14,8 +14,9 @@ body {
 * { box-sizing: border-box; }
 
 /* Native controls still receive focus, while the ring tracks keyboard navigation. */
+:root { --focus-ring-width: 1px; }
 :where(:root[data-focus-mode="keyboard"]) :focus-visible {
-  outline: 2px solid var(--component-focus-ring-color);
+  outline: var(--focus-ring-width) solid var(--component-focus-ring-color);
   outline-offset: calc(var(--semantic-spacing-gap-xs) * 1px);
 }
 :where(:root:not([data-focus-mode="keyboard"])) :focus { outline: none; }
@@ -66,7 +67,7 @@ body {
 .input-field-date input { position: absolute; inset: 0; height: 100%; opacity: 0; cursor: text; }
 .input-field-date input:focus { outline: none; }
 .input-field-date input::-webkit-calendar-picker-indicator { cursor: pointer; }
-:root[data-focus-mode="keyboard"] .input-field-date:has(input:focus-visible) { outline: 2px solid var(--component-focus-ring-color); outline-offset: calc(var(--semantic-spacing-gap-xs) * 1px); }
+:root[data-focus-mode="keyboard"] .input-field-date:has(input:focus-visible) { outline: var(--focus-ring-width) solid var(--component-focus-ring-color); outline-offset: calc(var(--semantic-spacing-gap-xs) * 1px); }
 :root:not([data-focus-mode="keyboard"]) .input-field-date.is-pressed,
 :root:not([data-focus-mode="keyboard"]) .input-field input:not([type="date"], [aria-invalid="true"]):enabled:focus { border-color: var(--semantic-colors-border-accent-default); }
 .input-field input[aria-invalid="true"] { border-color: var(--global-colors-red-700); }
@@ -87,7 +88,7 @@ body {
 .search { display: flex; align-items: center; gap: calc(var(--semantic-spacing-gap-md) * 1px); height: 36px; padding: 0 calc(var(--semantic-spacing-padding-sm) * 1px) 0 calc(var(--semantic-spacing-padding-md) * 1px); background: var(--semantic-colors-background-surface-primary-default); border: 1px solid var(--semantic-colors-border-primary-default); border-radius: calc(var(--semantic-radius-md) * 1px); }
 .search.is-selected, :root:not([data-focus-mode="keyboard"]) .search.is-pointer-focus:has(input:focus) { border-color: var(--semantic-colors-border-accent-default); }
 .search, .product-search, .button, .tab-button, .movement-filter button { position: relative; }
-.focus-ring { display: none; position: absolute; inset: calc(-1 * var(--semantic-spacing-gap-xs) * 1px - 1px); border-radius: inherit; outline: 1px solid var(--component-focus-ring-color); pointer-events: none; }
+.focus-ring { display: none; position: absolute; inset: calc(-1 * var(--semantic-spacing-gap-xs) * 1px - 1px); border-radius: inherit; outline: var(--focus-ring-width) solid var(--component-focus-ring-color); pointer-events: none; }
 .button > .focus-ring { border-radius: calc(var(--semantic-radius-md) * 1px); }
 .movement-filter button > .focus-ring { inset: calc(-1 * var(--semantic-spacing-gap-xs) * 1px); }
 .button:focus, .tab-button:focus, .movement-filter button:focus { outline: none; }
