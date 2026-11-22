@@ -17,12 +17,12 @@ import cooling from '../assets/wh3_imgCoolingFan.svg'
 const shelves: Shelf[] = [
   {code:'A1',name:'Graphics Cards',description:'NVIDIA / AMD Series',icon:gpu,percentage:25,available:'142',out:'90',reserved:'180'},
   {code:'A2',name:'Processors',description:'Intel Core / AMD Ryzen',icon:cpu,percentage:48,available:'480',out:'25',reserved:'110'},
-  {code:'A3',name:'Motherboards',description:'ATX, Micro-ATX & Mini-ITX',icon:motherboard,percentage:18,available:'64',out:'120',reserved:'45'},
+  {code:'A3',name:'Motherboards',description:'ATX, Micro-ATX & Mini-ITX',icon:motherboard,percentage:18,available:'64',out:'120',reserved:'45',status:'low'},
   {code:'B1',name:'RAM',description:'DDR4 & DDR5 Kits',icon:ram,percentage:52,available:'820',out:'40',reserved:'210'},
   {code:'B2',name:'Storage',description:'NVMe M.2 & SATA SSDs',icon:storage,percentage:42,available:'610',out:'55',reserved:'190'},
   {code:'B3',name:'Power Supplies',description:'Modular & ATX 3.0 PSUs',icon:psu,percentage:88,available:'1,450',out:'0',reserved:'75'},
   {code:'C1',name:'PC Cases',description:'Mid-Tower & Full-Tower',icon:pc,percentage:92,available:'320',out:'0',reserved:'30'},
-  {code:'C2',name:'Cooling Systems',description:'AIO Liquid & Air Coolers',icon:cooling,percentage:20,available:'95',out:'80',reserved:'65'},
+  {code:'C2',name:'Cooling Systems',description:'AIO Liquid & Air Coolers',icon:cooling,percentage:0,available:'0',out:'175',reserved:'65',status:'out'},
 ]
 export function WarehouseOverview({ warehouse, deliveries, onAddStock }: { warehouse: string; deliveries: StockDelivery[]; onAddStock: (product: StockProduct) => void }) {
   const [isExpanded, setIsExpanded] = useState(true)
