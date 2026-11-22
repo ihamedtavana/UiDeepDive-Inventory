@@ -28,13 +28,15 @@ export function WarehouseOverview({ warehouse, deliveries, onAddStock }: { wareh
   const [isExpanded, setIsExpanded] = useState(true)
   const contentId = useId()
   return <SectionCard className="warehouse-overview">
-    <SectionCardTitle icon={home} hasChevron isExpanded={isExpanded} controlsId={contentId} onToggle={() => setIsExpanded(!isExpanded)}>Warehouse Overview</SectionCardTitle>
-    <div id={contentId} hidden={!isExpanded}>
+    <SectionCardTitle icon={home} hasChevron isExpanded={isExpanded} controlsId={contentId} onToggle={() => setIsExpanded(expanded => !expanded)}>Warehouse Overview</SectionCardTitle>
+    <div id={contentId} className="section-disclosure" inert={!isExpanded} aria-hidden={!isExpanded || undefined}>
+    <div className="section-disclosure-body">
     <div className="warehouse-overview-content">
       <div className="shelf-summary">{[['8','Total shelves'],['2','In Stock'],['3','Restock Needed'],['2','Low Stock']].map(([value,label],i)=><div className="summary-stat" key={label}><strong>{value}</strong><span>{i>0 && <i className={`status status--${i===1?'success':i===2?'warning':'error'}`} />}{label}</span></div>)}<div className="summary-capacity"><div><strong>75%</strong><span>Capacity Used</span></div><PercentageContainer percentage={75} /></div></div>
       <div className="shelf-grid">{shelves.map(shelf=><ShelfCard key={shelf.code} shelf={shelf} />)}</div>
     </div>
     <NeedsRestock warehouse={warehouse} deliveries={deliveries} onAddStock={onAddStock} />
+    </div>
     </div>
   </SectionCard>
 }

@@ -9,12 +9,14 @@ it('independently collapses and expands each section with a chevron', () => {
   for (const name of ['Warehouse Overview', 'Inventory movement', 'Shipments On Road']) {
     const button = screen.getByRole('button', { name: `Collapse ${name}` })
     const content = document.getElementById(button.getAttribute('aria-controls')!)!
-    expect(content.hidden).toBe(false)
+    expect(content.hasAttribute('inert')).toBe(false)
     fireEvent.click(button)
-    expect(content.hidden).toBe(true)
+    expect(content.hasAttribute('inert')).toBe(true)
+    expect(content.getAttribute('aria-hidden')).toBe('true')
     expect(button.getAttribute('aria-expanded')).toBe('false')
     fireEvent.click(screen.getByRole('button', { name: `Expand ${name}` }))
-    expect(content.hidden).toBe(false)
+    expect(content.hasAttribute('inert')).toBe(false)
+    expect(content.hasAttribute('aria-hidden')).toBe(false)
     expect(button.getAttribute('aria-expanded')).toBe('true')
   }
 })
@@ -31,7 +33,6 @@ it('collapses and restores the chart and recent movements together', () => {
   const content = document.getElementById(button.getAttribute('aria-controls')!)!
   expect(within(content).getByRole('heading', { name: 'Recent stock movements' })).toBeTruthy()
   fireEvent.click(button)
-  expect(content.hidden).toBe(true)
   expect(screen.queryByRole('heading', { name: 'Recent stock movements' })).toBeNull()
   fireEvent.click(screen.getByRole('button', { name: 'Expand Inventory movement' }))
   expect(screen.getByRole('heading', { name: 'Recent stock movements' })).toBeTruthy()
