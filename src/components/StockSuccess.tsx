@@ -2,7 +2,6 @@ import { Button } from './Button'
 import { StockBox } from './StockBox'
 import { StockSummary } from './StockSummary'
 import { BIN_CAPACITY, shelfLabel, units, type StockBin, type StockDelivery, type StockMode, type StockProduct } from './stockInventory'
-import clock from '../assets/remaining1_imgClock.svg'
 import retry from '../assets/stock-refresh-ccw-01.svg'
 import styles from './AddStockPanel.module.css'
 
@@ -41,9 +40,9 @@ export function StockSuccess({ delivery, product, mode, before, bins, canUndo, o
     <section className={styles.successHero}>
       <StockBox width={228} adding={first.quantity} onHand={previousBinStock} state="success" />
       <h3>{units(quantity)} added</h3>
-      <p>{before === 0 ? `${product.name} is back in stock.` : `${product.name} now has ${units(after)} on hand.`}</p>
+      <p>{before === 0 ? `${product.name} is back in stock.` : `${product.name} now has ${units(after)} in stock.`}</p>
     </section>
     <StockSummary title="What changed" before={before} after={after} rows={rows} />
-    <div className={styles.undo}><img className="icon" src={clock} alt="" /><p>{canUndo ? 'Made a mistake? You can undo this for the next 10 minutes.' : 'The 10-minute undo window has ended.'}</p><Button disabled={!canUndo} onClick={onUndo}><img className="icon" src={retry} alt="" />Undo</Button></div>
+    <div className={styles.undo}><span className={`icon ${styles.undoClock}`} aria-hidden="true" /><p>{canUndo ? 'Made a mistake? You can undo this for the next 10 minutes.' : 'The 10-minute undo window has ended.'}</p><Button disabled={!canUndo} onClick={onUndo}><img className="icon" src={retry} alt="" />Undo</Button></div>
   </>
 }

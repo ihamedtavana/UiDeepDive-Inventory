@@ -148,6 +148,7 @@
 .successHero h3 { font-size: calc(var(--global-type-size-2xl) * 1px); line-height: calc(var(--global-type-leading-4) * 1px); }
 .successHero p { font-size: calc(var(--semantic-typography-label-md-regular-fontsize) * 1px); line-height: calc(var(--semantic-typography-label-md-regular-lineheight) * 1px); color: var(--secondary); }
 .undo { display: flex; align-items: center; gap: var(--gap-md); padding: var(--gap-lg); background: var(--subtle); border: 1px solid var(--border); border-radius: var(--radius); color: var(--secondary); }
+.undoClock { flex: none; background: var(--semantic-colors-icon-secondary-default); mask: url('../assets/remaining1_imgClock.svg') center / contain no-repeat; }
 .undo p { flex: 1; }
 .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: calc(var(--semantic-radius-full) * 1px); animation: spin 800ms linear infinite; }
 
