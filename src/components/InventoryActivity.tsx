@@ -66,7 +66,7 @@ export function InventoryActivity({ period }: { period: Period }) {
   const [dismissedTooltip,setDismissedTooltip] = useState<string | null>(null)
   const start = { Today: '2026-10-31', '7 days': '2026-10-25', '30 days': '2026-10-02', '90 days': '2026-08-03' }[period]
   const filtered = movements.filter(m => m.date >= start && m.date <= '2026-10-31' && (filter === 'All' || m.type === filter)).slice(0, 5)
-  return <div className={`activity-layout${!isMovementExpanded && !isShipmentsExpanded ? ' is-collapsed' : ''}${isMovementExpanded && isShipmentsExpanded ? ' is-expanded' : ''}`}>
+  return <div className={`activity-layout${isMovementExpanded && isShipmentsExpanded ? ' is-expanded' : ''}`}>
     <SectionCard className="activity-column">
       <SectionCardTitle icon={chartIcon} hasChevron isExpanded={isMovementExpanded} controlsId={movementId} onToggle={() => setIsMovementExpanded(!isMovementExpanded)}>Inventory movement</SectionCardTitle>
       <div id={movementId} className="activity-content" hidden={!isMovementExpanded}>

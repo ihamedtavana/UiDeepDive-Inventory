@@ -243,7 +243,6 @@ body {
 .restock-table col:nth-child(4) { width: 120px; }
 .restock-table col:nth-child(5) { width: 127px; }
 .activity-layout { display: grid; grid-template-columns: 2fr 1fr; gap: calc(var(--semantic-spacing-layout-grid-gap) * 1px); align-items: start; }
-.activity-layout.is-collapsed { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .activity-layout.is-expanded { align-items: stretch; }
 .activity-column { display: flex; flex-direction: column; min-width: 0; }
 .activity-content:not([hidden]) { display: flex; flex: 1; flex-direction: column; }

@@ -159,9 +159,10 @@ it('shows a mix of stock statuses on the first All products page', () => {
 it('shows shelf status badges and marks Cooling Systems as out of stock', () => {
   render(<App />)
   const overview = screen.getByRole('heading', { name: 'Warehouse Overview' }).closest('section')!
-  const motherboards = within(overview).getByText('Motherboards').closest('.shelf-card')!
-  const cooling = within(overview).getByText('Cooling Systems').closest('.shelf-card')!
+  const motherboards = within(overview).getByText('Motherboards', { selector: '.shelf-identity strong' }).closest<HTMLElement>('.shelf-card')!
+  const cooling = within(overview).getByText('Cooling Systems', { selector: '.shelf-identity strong' }).closest<HTMLElement>('.shelf-card')!
   expect(within(motherboards).getByText('Low Stock').closest('.card-title')).toBeTruthy()
   expect(within(cooling).getByText('Out Of Stock').closest('.card-title')).toBeTruthy()
-  expect(within(cooling).getByText('0')).toBeTruthy()
+  const available = within(cooling).getByText('Available').parentElement!
+  expect(within(available).getByText('0')).toBeTruthy()
 })
