@@ -205,9 +205,7 @@ body {
 .summary-capacity > div:first-child span { color: var(--semantic-colors-text-tertiary-default); font-size: 12px; }
 .shelf-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: calc(var(--semantic-spacing-gap-lg) * 1px) calc(var(--semantic-spacing-layout-grid-gap) * 1px); margin-top: calc(var(--semantic-spacing-gap-lg) * 1px); }
 .shelf-card { display: flex; flex-direction: column; gap: calc(var(--semantic-spacing-gap-xl) * 1px); padding: calc(var(--semantic-spacing-padding-md) * 1px); min-width: 0; }
-.shelf-label { display: flex; align-items: center; height: 40px; padding: calc(var(--semantic-spacing-padding-sm) * 1px); border: 1px solid var(--semantic-colors-border-primary-default); border-radius: calc(var(--semantic-radius-md) * 1px); background: var(--semantic-colors-background-surface-tertiary-default); font-size: 12px; }
 .shelf-identity { display: flex; align-items: center; gap: calc(var(--semantic-spacing-gap-lg) * 1px); }
-.shelf-title { display: flex; align-items: center; gap: calc(var(--semantic-spacing-gap-md) * 1px); min-width: 0; }
 .shelf-icon, .product-image { display: flex; align-items: center; justify-content: center; flex: none; border: 1px solid var(--semantic-colors-border-primary-default); border-radius: calc(var(--semantic-radius-md) * 1px); background: var(--semantic-colors-background-surface-primary-default); }
 .shelf-icon { width: 48px; height: 48px; }
 .shelf-icon img { width: 24px; height: 24px; }
