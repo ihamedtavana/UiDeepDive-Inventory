@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { App } from './App'
 import { inventorySummary, readStockDeliveries } from './stockInventory'
@@ -41,7 +41,7 @@ it('replaces the entire shelf grid, saves stock into the clicked bin, updates to
   expect(screen.getAllByRole('button', { name: /View Shelf/ })).toHaveLength(8)
 })
 
-it('switches sections by keyboard and remembers the selected shelf in each section', () => {
+it('switches sections by keyboard and remembers the selected shelf in each section', async () => {
   render(<App />)
   fireEvent.click(screen.getByRole('button', { name: 'View Shelf A1' }))
   fireEvent.click(screen.getByRole('button', { name: 'A2' }))
@@ -50,7 +50,7 @@ it('switches sections by keyboard and remembers the selected shelf in each secti
   const a = screen.getByRole('option', { name: 'Section A' })
   fireEvent.keyDown(a, { key: 'ArrowDown' })
   const b = screen.getByRole('option', { name: 'Section B' })
-  expect(document.activeElement).toBe(b)
+  await waitFor(() => expect(document.activeElement).toBe(b))
   fireEvent.click(b)
   expect(screen.getByRole('heading', { name: 'Shelf B1 · RAM' })).toBeTruthy()
   fireEvent.click(screen.getByRole('button', { name: 'B3' }))

@@ -55,7 +55,7 @@
 .header h2 { font-size: calc(var(--semantic-typography-title-md-fontsize) * 1px); line-height: calc(var(--semantic-typography-title-md-lineheight) * 1px); font-weight: var(--semantic-typography-title-md-weight); }
 .header h2:focus { outline: none; }
 .closeGlyph { font-size: calc(var(--semantic-typography-title-md-fontsize) * 1px); }
-.body { flex: 1; min-height: 0; overflow-y: auto; padding: var(--gap-xl); display: flex; flex-direction: column; gap: var(--gap-xl); scrollbar-width: thin; }
+.body { flex: 1; min-height: 0; overflow-y: auto; padding: var(--gap-xl); display: flex; flex-direction: column; gap: var(--gap-xl); scrollbar-width: thin; scrollbar-gutter: stable; }
 .body > * { flex-shrink: 0; }
 .footer { justify-content: flex-end; border-top: 1px solid var(--border); }
 .footerHint { flex: 1; color: var(--secondary); }
@@ -74,7 +74,13 @@
 .productStock { white-space: nowrap; font-variant-numeric: tabular-nums; }
 .modeRow { display: flex; justify-content: space-between; align-items: center; gap: var(--gap-md); }
 .modeRow :global(.tab) { flex: none; }
-.defaultBin { padding: var(--gap-md) var(--gap-lg); background: var(--subtle); color: var(--secondary); border-radius: var(--radius); }
+.defaultBin { padding: var(--gap-md) var(--gap-lg); background: var(--subtle); color: var(--secondary); border-radius: var(--radius); transition: opacity 160ms ease, visibility 160ms; }
+.defaultBin[data-hidden] { opacity: 0; visibility: hidden; }
+.editFields { min-width: 0; }
+.detailedFields { display: grid; grid-template-rows: 0fr; opacity: 0; visibility: hidden; transform: translateY(calc(-1 * var(--gap-md))); transition: grid-template-rows 280ms cubic-bezier(.2,.8,.2,1), opacity 200ms ease, transform 280ms ease, visibility 280ms; }
+.detailedFields[data-expanded='true'] { grid-template-rows: 1fr; opacity: 1; visibility: visible; transform: none; }
+.detailedClip { min-height: 0; overflow: clip; }
+.detailedContent { display: flex; flex-direction: column; gap: var(--gap-xl); padding-top: var(--gap-xl); }
 .card :global(.section-card-title--compact) { min-height: 40px; padding: var(--gap-sm) var(--gap-md); border: 1px solid var(--border); border-radius: var(--radius); background: var(--subtle); }
 .card :global(.section-card-title--compact h3) { font: inherit; }
 .card :global(.section-card-title--compact .section-title-icon) { width: 16px; height: 16px; }
@@ -154,4 +160,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   .panel[open], .panel::backdrop, .callout, .spinner { animation: none; }
+  .defaultBin, .detailedFields { transition: none; }
 }

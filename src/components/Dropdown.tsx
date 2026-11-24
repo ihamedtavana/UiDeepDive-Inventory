@@ -1,3 +1,4 @@
+import './Dropdown.css'
 import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react'
 import { Button } from './Button'
 import { DropdownMenuBase } from './DropdownMenuBase'
@@ -22,7 +23,10 @@ export function Dropdown({ label, value, options, isDisabled = false, onChange }
   const selected = options.find(option => option.value === value)
 
   useEffect(() => {
-    if (isOpen) document.getElementById(`${id}-option-${active}`)?.focus()
+    if (!isOpen) return
+    // Wait until the popup is visible before moving keyboard focus into it.
+    const frame = window.requestAnimationFrame(() => document.getElementById(`${id}-option-${active}`)?.focus({ preventScroll: true }))
+    return () => window.cancelAnimationFrame(frame)
   }, [isOpen, active, id])
 
   useEffect(() => {

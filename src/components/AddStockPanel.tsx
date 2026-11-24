@@ -179,13 +179,17 @@ export function AddStockPanel({ product, warehouse, deliveries, onInventoryChang
               <TabButton isSelected={!isDetailed} isDisabled={isSaving} onClick={() => { setMode('quick'); setError(null) }}>Quick add</TabButton>
               <TabButton isSelected={isDetailed} isDisabled={isSaving} onClick={() => { setMode('detailed'); setError(null) }}>Detailed add</TabButton>
             </div>
-            {!isDetailed && <span className={styles.defaultBin}>Goes to the default bin {product.defaultBin}.</span>}
+            <span className={styles.defaultBin} data-hidden={isDetailed || undefined} aria-hidden={isDetailed || undefined}>Goes to the default bin {product.defaultBin}.</span>
           </div>
-          <StockQuantity value={value} onHand={onHand} onHandInBin={shownBin?.used ?? 0} room={room} bin={shownBinId} minimum={product.minimum} hasError={hasOverCapacity} isDisabled={isSaving} boxState={boxStateFor({ adding: boxQuantity, room: shownBin ? room : Infinity, phase: boxPhase })} onChange={editValue} onSubmit={submit} />
-          {isDetailed && <>
-            <StockDestination warehouse={destination} shelf={shelf} defaultBin={shelf === defaultShelf ? product.defaultBin : ''} bins={bins} selected={selection} allocations={allocations} remaining={remaining} hasError={hasOverCapacity} isSplit={isSplit} onWarehouse={next => { setDestination(next); resetDestination() }} onShelf={next => { setShelf(next); resetDestination() }} onBin={selectBin} />
-            <StockSource details={details} onChange={change => setDetails(current => ({ ...current, ...change }))} />
-          </>}
+          <div className={styles.editFields}>
+            <StockQuantity value={value} onHand={onHand} onHandInBin={shownBin?.used ?? 0} room={room} bin={shownBinId} minimum={product.minimum} hasError={hasOverCapacity} isDisabled={isSaving} boxState={boxStateFor({ adding: boxQuantity, room: shownBin ? room : Infinity, phase: boxPhase })} onChange={editValue} onSubmit={submit} />
+            <div className={styles.detailedFields} data-expanded={isDetailed} inert={!isDetailed} aria-hidden={!isDetailed || undefined}>
+              <div className={styles.detailedClip}><div className={styles.detailedContent}>
+                <StockDestination warehouse={destination} shelf={shelf} defaultBin={shelf === defaultShelf ? product.defaultBin : ''} bins={bins} selected={selection} allocations={allocations} remaining={remaining} hasError={hasOverCapacity} isSplit={isSplit} onWarehouse={next => { setDestination(next); resetDestination() }} onShelf={next => { setShelf(next); resetDestination() }} onBin={selectBin} />
+                <StockSource details={details} onChange={change => setDetails(current => ({ ...current, ...change }))} />
+              </div></div>
+            </div>
+          </div>
           {hasOverCapacity && !isSaving && !error && <>
             <StockCallout title={isSplit ? `${units(remaining)} still need a bin` : `${units(quantity)} won’t fit in this bin`} action={!isSplit && room > 0 ? `Set to ${room}` : undefined} onAction={() => editValue(String(room))}>
               {isSplit ? 'Select additional bins with enough space.' : isDetailed ? 'Reduce the quantity or split the delivery across bins.' : 'Reduce the quantity or switch to Detailed add to split the delivery across bins.'}

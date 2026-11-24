@@ -1,3 +1,4 @@
+import './Dropdown.css'
 import type { ReactNode } from 'react'
 
 export function DropdownMenuBase({ id, labelId, children }: { id: string; labelId: string; children: ReactNode }) {

@@ -1,0 +1,10 @@
+.shelf-header { display: flex; align-items: center; gap: calc(var(--semantic-spacing-gap-lg) * 1px); min-height: 40px; }
+.shelf-back-arrow { background: currentColor; mask: url('../assets/shelfHeaderArrowLeft.svg') center / contain no-repeat; }
+.shelf-header-title { display: flex; align-items: center; gap: calc(var(--semantic-spacing-gap-lg) * 1px); flex: 1; min-width: 0; }
+.shelf-header .shelf-icon { width: 40px; height: 40px; }
+.shelf-header-title p { margin: 0; color: var(--semantic-colors-text-tertiary-default); font-size: calc(var(--semantic-typography-caption-sm-regular-fontsize) * 1px); line-height: calc(var(--semantic-typography-caption-sm-regular-lineheight) * 1px); }
+.shelf-header-title h3 { margin: 0; font-size: calc(var(--semantic-typography-title-md-fontsize) * 1px); line-height: calc(var(--semantic-typography-title-md-lineheight) * 1px); font-weight: var(--semantic-typography-title-md-weight); }
+.shelf-navigation { display: flex; align-items: center; gap: calc(var(--semantic-spacing-gap-md) * 1px); flex: none; }
+.shelf-header-text { display: flex; flex-direction: column; gap: calc(var(--semantic-spacing-gap-sm) * 1px); min-width: 0; }
+.shelf-header-title p { font-weight: var(--semantic-typography-caption-sm-regular-weight); }
+.shelf-header .shelf-header-icon { width: 20px; height: 20px; }
