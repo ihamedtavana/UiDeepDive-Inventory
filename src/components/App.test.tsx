@@ -78,20 +78,20 @@ it('filters products by stock, combines search, and resets pagination', () => {
   render(<App />)
   const section = screen.getByRole('heading', { name: 'Products' }).closest('section')!
   const products = within(section)
-  expect(products.getByText('Showing 1–5 of 15 products')).toBeTruthy()
+  expect(products.getByText('Showing 1–5 of 96 products')).toBeTruthy()
   fireEvent.click(products.getByRole('button', { name: 'Next page' }))
-  expect(products.getByText('Showing 6–10 of 15 products')).toBeTruthy()
-  fireEvent.click(products.getByRole('button', { name: 'Low · 5' }))
-  expect(products.getByText('Showing 1–5 of 5 products')).toBeTruthy()
+  expect(products.getByText('Showing 6–10 of 96 products')).toBeTruthy()
+  fireEvent.click(products.getByRole('button', { name: 'Low · 14' }))
+  expect(products.getByText('Showing 1–5 of 14 products')).toBeTruthy()
   expect(products.getAllByText('Low Stock')).toHaveLength(5)
-  fireEvent.click(products.getByRole('button', { name: 'Out · 5' }))
+  fireEvent.click(products.getByRole('button', { name: 'Out · 21' }))
   expect(products.getAllByText('Out Of Stock')).toHaveLength(5)
   expect(products.getAllByText('Inactive')).toHaveLength(5)
   expect(products.queryByText('Active')).toBeNull()
   fireEvent.change(products.getByRole('textbox', { name: 'Search products' }), { target: { value: 'RAM-0112' } })
   expect(products.getByText('Corsair Vengeance RGB DDR5 64GB')).toBeTruthy()
   expect(products.getByText('Showing 1–1 of 1 products')).toBeTruthy()
-  fireEvent.click(products.getByRole('button', { name: 'In Stock · 5' }))
+  fireEvent.click(products.getByRole('button', { name: 'In Stock · 61' }))
   expect(products.getByText('No matching products')).toBeTruthy()
 })
 
@@ -157,11 +157,15 @@ it('shows a mix of stock statuses on the first All products page', () => {
   expect(within(section).getAllByText('Out Of Stock').length).toBeGreaterThan(0)
 })
 
-it('shows shelf status badges and marks Cooling Systems as out of stock', () => {
+it('shows Low Stock only below 50% shelf health and preserves Out Of Stock for empty shelves', () => {
   render(<App />)
   const overview = screen.getByRole('heading', { name: 'Warehouse Overview' }).closest('section')!
   const motherboards = within(overview).getByText('Motherboards', { selector: '.shelf-identity strong' }).closest<HTMLElement>('.shelf-card')!
   const cooling = within(overview).getByText('Cooling Systems', { selector: '.shelf-identity strong' }).closest<HTMLElement>('.shelf-card')!
+  for (const name of ['Graphics Cards', 'Processors', 'RAM', 'Storage', 'Power Supplies', 'PC Cases']) {
+    const card = within(overview).getByText(name, { selector: '.shelf-identity strong' }).closest<HTMLElement>('.shelf-card')!
+    expect(within(card).queryByText('Low Stock')).toBeNull()
+  }
   expect(within(motherboards).getByText('Low Stock').closest('.card-title')).toBeTruthy()
   expect(within(cooling).getByText('Out Of Stock').closest('.card-title')).toBeTruthy()
   const available = within(cooling).getByText('Available').parentElement!

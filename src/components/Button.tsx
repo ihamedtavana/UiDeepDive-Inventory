@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes } from 'react'
+import type { ButtonHTMLAttributes, Ref } from 'react'
 import { FocusRing } from './FocusRing'
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   hierarchy?: 'primary' | 'secondary'
@@ -6,6 +6,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   size?: 'small' | 'medium'
   isIconOnly?: boolean
   hasBadge?: boolean
+  ref?: Ref<HTMLButtonElement>
 }
 export function Button({ className = '', hierarchy = 'secondary', appearance = 'filled', size = 'small', isIconOnly = false, hasBadge = false, children, ...props }: ButtonProps) {
   return <button className={`button button--${hierarchy} button--${size}${appearance === 'ghost' ? ' button--ghost' : ''}${isIconOnly ? ' button--icon' : ''} ${className}`} type="button" {...props}>{children}{hasBadge && <span className="button-badge" aria-hidden="true" />}<FocusRing /></button>

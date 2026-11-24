@@ -51,7 +51,7 @@
   transition: fill 0.15s;
 }
 .slot_free { fill: var(--semantic-colors-border-primary-default); }
-.slot_have { fill: var(--semantic-colors-text-secondary-default); }
+.slot_have { fill: var(--semantic-colors-data-visualization-primary); }
 .slot_add  { fill: var(--semantic-colors-data-visualization-brand); }
 .slot_ok   { fill: var(--semantic-colors-data-visualization-positive); }
 .slotPop { animation: slotPop 0.26s cubic-bezier(0.34, 1.56, 0.64, 1) both; }

@@ -2,7 +2,7 @@ import { Badge } from './Badge'
 import { Button } from './Button'
 import { ProductIdentity } from './ProductIdentity'
 import { SectionCardTitle } from './SectionCardTitle'
-import { RESTOCK_PRODUCTS, stockCount, stockTone, type StockDelivery, type StockProduct } from './stockInventory'
+import { productSummary, RESTOCK_PRODUCTS, stockCount, stockTone, type StockDelivery, type StockProduct } from './stockInventory'
 import packageSearch from '../assets/wh4_imgPackageSearch.svg'
 
 type NeedsRestockProps = {
@@ -16,8 +16,7 @@ export function NeedsRestock({ warehouse, deliveries, onAddStock }: NeedsRestock
     const onHand = stockCount(deliveries, product.sku, warehouse)
     return { product, onHand, status: stockTone(onHand, product.minimum) }
   })
-  const out = 80 - rows.filter(row => row.onHand > 0).length
-  const low = 160 + rows.filter(row => row.status.tone === 'warning').length
+  const { out, low } = productSummary(deliveries, warehouse)
 
   return <section className="needs-restock">
     <SectionCardTitle icon={packageSearch} action={<><Badge tone="error">{out} Out</Badge><Badge tone="warning">{low} Low</Badge><Button hierarchy="primary" appearance="ghost" className="accent-action">Show All</Button></>}>Needs Restock</SectionCardTitle>

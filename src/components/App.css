@@ -4,6 +4,9 @@ body,
   min-height: 100%;
 }
 
+/* Keep the dashboard width stable while a modal locks page scrolling. */
+html { scrollbar-gutter: stable; }
+
 body {
   margin: 0;
   background: var(--semantic-colors-background-secondary);

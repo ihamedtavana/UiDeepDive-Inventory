@@ -7,6 +7,8 @@ import { FocusRing } from './FocusRing'
 import { SectionCard } from './SectionCard'
 import { SectionCardTitle } from './SectionCardTitle'
 import { ProductIdentity } from './ProductIdentity'
+import { currentDeliveries, type StockDelivery } from './stockInventory'
+import { catalogProduct } from './inventoryCatalog'
 import chartIcon from '../assets/remaining1_imgBarChart11.svg'
 import trendIcon from '../assets/remaining1_imgTrendUp01.svg'
 import truckIcon from '../assets/remaining1_imgTruck2.svg'
@@ -24,8 +26,8 @@ import m3 from '../assets/raw4_4.png'
 import m4 from '../assets/raw4_5.png'
 import m5 from '../assets/raw4_8.png'
 const movements = [
-  {name:'GeForce RTX 4070 Super',sku:'GPU-0104',date:'2026-10-31',partner:'Atlas Components',type:'Inbound',quantity:'+40',image:m1},
-  {name:'Intel Core i7 14700K',sku:'CPU-0108',date:'2026-10-31',partner:'Core Components',type:'Inbound',quantity:'+12',image:m2},
+  {name:'GeForce RTX 4070 Super',sku:'GPU-0107',date:'2026-10-31',partner:'Atlas Components',type:'Inbound',quantity:'+40',image:m1},
+  {name:'Intel Core i7 14700K',sku:'CPU-0103',date:'2026-10-31',partner:'Core Components',type:'Inbound',quantity:'+12',image:m2},
   {name:'990 Pro 1TB',sku:'STO-0102',date:'2026-10-31',partner:'PcGaming Digital',type:'Outbound',quantity:'-120',image:m3},
   {name:'RM850e',sku:'PSU-0101',date:'2026-10-30',partner:'Order #10482',type:'Outbound',quantity:'-20',image:m4},
   {name:'Lancool 216',sku:'CAS-0102',date:'2026-10-29',partner:'From WH-02',type:'Inbound',quantity:'+20',image:m5},
@@ -50,8 +52,10 @@ const shipments = [
   {id:'SHP-2043',vehicle:'Mercedes-Benz Atego 818',status:'In Transit',image:truck,destination:'WH-01',end:'06 Nov',units:'700',percent:51,km:'980'},
   {id:'SHP-2044',vehicle:'Mercedes-Benz Actros 1845',status:'Delivered',image:lorry,destination:'WH-01',end:'06 Nov',units:'1200',percent:100,km:'940'},
 ]
-export function InventoryActivity({ period }: { period: Period }) {
-  const periodBars = chartData[period]
+export function InventoryActivity({ period, warehouse, deliveries }: { period: Period; warehouse: string; deliveries: StockDelivery[] }) {
+  const receipts = currentDeliveries(deliveries, warehouse, period)
+  const received = receipts.flatMap(delivery => delivery.allocations).reduce((sum, allocation) => sum + allocation.quantity, 0)
+  const periodBars = received ? [...chartData[period], { label: 'Latest', detail: 'Latest received stock', incoming: received, outgoing: 0 }] : chartData[period]
   const incoming = periodBars.reduce((sum, bar) => sum + bar.incoming, 0)
   const outgoing = periodBars.reduce((sum, bar) => sum + bar.outgoing, 0)
   const format = (value: number) => value.toLocaleString('en-US')
@@ -65,7 +69,12 @@ export function InventoryActivity({ period }: { period: Period }) {
   const shipmentsId = useId()
   const [dismissedTooltip,setDismissedTooltip] = useState<string | null>(null)
   const start = { Today: '2026-10-31', '7 days': '2026-10-25', '30 days': '2026-10-02', '90 days': '2026-08-03' }[period]
-  const filtered = movements.filter(m => m.date >= start && m.date <= '2026-10-31' && (filter === 'All' || m.type === filter)).slice(0, 5)
+  const latest = [...receipts].sort((a, b) => b.savedAt - a.savedAt).map(delivery => {
+    const product = catalogProduct(delivery.sku)
+    return { id: delivery.id, name: product?.name ?? delivery.sku, sku: delivery.sku, date: new Date(delivery.savedAt).toISOString().slice(0, 10), partner: delivery.details.supplier || delivery.allocations.map(allocation => allocation.bin).join(', '), type: 'Inbound', quantity: '+' + delivery.allocations.reduce((sum, allocation) => sum + allocation.quantity, 0), image: product?.image ?? m1 }
+  })
+  const history = movements.filter(m => m.date >= start && m.date <= '2026-10-31').map(m => ({ ...m, id: `${m.sku}-${m.date}-${m.quantity}` }))
+  const filtered = [...latest, ...history].filter(m => filter === 'All' || m.type === filter).slice(0, 5)
   return <div className={`activity-layout${isMovementExpanded && isShipmentsExpanded ? ' is-expanded' : ''}`}>
     <SectionCard className="activity-column">
       <SectionCardTitle icon={chartIcon} hasChevron isExpanded={isMovementExpanded} controlsId={movementId} onToggle={() => setIsMovementExpanded(expanded => !expanded)}>Inventory movement</SectionCardTitle>
@@ -80,7 +89,7 @@ export function InventoryActivity({ period }: { period: Period }) {
         </div>
       </div>
       <section className="recent-movements"><SectionCardTitle icon={trendIcon} action={<><div className="movement-filter" role="group" aria-label="Movement type">{['All','Inbound','Outbound'].map(v=><button type="button" key={v} className={filter===v?'is-selected':''} aria-pressed={filter===v} onClick={()=>setFilter(v)}>{v}<FocusRing /></button>)}</div><Button hierarchy="primary" appearance="ghost" className="accent-action">View log</Button></>}>Recent stock movements</SectionCardTitle>
-        <div className="table-wrap"><table className="data-table movements-table"><thead><tr><th>Product</th><th>Type</th><th>Qty</th><th>Date</th></tr></thead><tbody>{filtered.map(m=><tr key={m.sku}><td><div className="movement-product"><ProductIdentity name={m.name} category={m.sku} image={m.image} /><Badge>{m.partner}</Badge></div></td><td><Badge tone={m.type==='Inbound'?'success':'error'}>{m.type}</Badge></td><td><strong>{m.quantity}</strong></td><td className="table-muted"><time dateTime={m.date}>{movementDateFormatter.format(new Date(`${m.date}T00:00:00Z`))}</time></td></tr>)}</tbody></table></div>
+        <div className="table-wrap"><table className="data-table movements-table"><thead><tr><th>Product</th><th>Type</th><th>Qty</th><th>Date</th></tr></thead><tbody>{filtered.map(m=><tr key={m.id}><td><div className="movement-product"><ProductIdentity name={m.name} category={m.sku} image={m.image} /><Badge>{m.partner}</Badge></div></td><td><Badge tone={m.type==='Inbound'?'success':'error'}>{m.type}</Badge></td><td><strong>{m.quantity}</strong></td><td className="table-muted"><time dateTime={m.date}>{movementDateFormatter.format(new Date(`${m.date}T00:00:00Z`))}</time></td></tr>)}</tbody></table></div>
       </section>
       </div>
       </div>

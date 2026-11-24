@@ -113,9 +113,10 @@ export type StockBoxProps = {
   /** Rendered width in px; height keeps the 216 : 156 ratio. */
   width?: number;
   className?: string;
+  isCompact?: boolean;
 };
 
-export function StockBox({ state, onHand = 0, adding, width = W, className }: StockBoxProps) {
+export function StockBox({ state, onHand = 0, adding, width = W, className, isCompact = false }: StockBoxProps) {
   const reduce = usePrefersReducedMotion();
   const clipId = `sb-face-${useId().replace(/:/g, "")}`;
   const filled = Math.min(CAPACITY, onHand + adding);
@@ -127,7 +128,7 @@ export function StockBox({ state, onHand = 0, adding, width = W, className }: St
     return () => window.clearTimeout(timer);
   }, [state, reduce]);
 
-  const closed = state === 'saving' || state === 'success' || (state === 'full' && isFullSealed);
+  const closed = isCompact || state === 'saving' || state === 'success' || (state === 'full' && isFullSealed);
   const initialFlap = reduce && !closed ? 1 : 0;
   const leftT = useTween(closed ? 0 : 1, closed ? 320 : 420, closed ? ease.inOut : ease.back, closed ? 60 : 0, reduce, initialFlap);
   const rightT = useTween(closed ? 0 : 1, closed ? 320 : 420, closed ? ease.inOut : ease.back, closed ? 130 : 70, reduce, initialFlap);
@@ -143,16 +144,30 @@ export function StockBox({ state, onHand = 0, adding, width = W, className }: St
   useLayoutEffect(() => {
     const previous = previousFill.current;
     previousFill.current = { filled, onHand };
-    const before = previous.onHand === onHand ? previous.filled : filled;
+    const before = isCompact || previous.onHand === onHand ? previous.filled : filled;
     setFillMotion(motion => ({ before, sequence: motion.sequence + 1 }));
-  }, [filled, onHand, reduce, state]);
+  }, [filled, onHand, reduce, state, isCompact]);
 
   const isEditing = state !== 'saving' && state !== 'success' && state !== 'error';
   const change = isEditing && !reduce ? filled - fillMotion.before : 0;
   const drops = Array.from({ length: Math.min(5, Math.max(0, change)) }, (_, index) => index);
   const move = state === 'success' ? 'hop' : state === 'error' ? 'shake' : state === 'over' ? 'overShake' : '';
 
-  const height = (width * H) / W;
+  const height = Math.round((width * H) / W);
+
+  if (isCompact) return <svg className={[s.box, className].filter(Boolean).join(' ')} width={112} height={76} viewBox="0 0 112 76" role="img" aria-label={`Bin: ${filled} of ${CAPACITY} slots used`} data-state={state}>
+    <ellipse className={s.shadow} cx={56} cy={73} rx={49} ry={3} />
+    <path className={s.face} d="M10 15H102V64Q102 72 94 72H18Q10 72 10 64Z" />
+    {kinds.map((kind, index) => {
+      const x = 18 + index % 6 * 13;
+      const y = 24 + (3 - Math.floor(index / 6)) * 10;
+      const isNew = change > 0 && index >= fillMotion.before && index < filled;
+      return <g key={index}><rect className={s.slot_free} x={x} y={y} width={11} height={8} rx={2} />{kind !== 'free' && <rect key={isNew ? fillMotion.sequence : kind} className={[s.slot, s[`slot_${kind}`], isNew && s.slotPop].filter(Boolean).join(' ')} x={x} y={y} width={11} height={8} rx={2} style={{ animationDelay: `${isNew ? (index - fillMotion.before) * 25 : 0}ms` }} />}</g>;
+    })}
+    <path className={s.faceStroke} d="M10 15H102V64Q102 72 94 72H18Q10 72 10 64Z" />
+    <path className={s.flap} d="M10 15L18 2H94L102 15Z M56 2V15" />
+    <path className={s.tapeFill} d="M52 2H60L62 15V26L59 24L56 26L53 24L51 26V15Z" />
+  </svg>;
 
   return (
     <svg

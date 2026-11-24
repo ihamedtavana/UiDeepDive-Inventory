@@ -1,7 +1,7 @@
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { App } from './App'
-import { readStockDeliveries, UNDO_WINDOW, undoStockDelivery } from './stockInventory'
+import { inventorySummary, readStockDeliveries, stockCount, UNDO_WINDOW, undoStockDelivery } from './stockInventory'
 
 const stored = new Map<string, string>()
 const write = vi.fn((key: string, value: string) => { stored.set(key, value) })
@@ -57,7 +57,7 @@ it('reviews a split Detailed delivery, preserves the draft on a failed write and
   fireEvent.change(dialog.getByRole('textbox', { name: 'Quantity to add' }), { target: { value: '30' } })
   fireEvent.click(dialog.getByRole('button', { name: 'Split across bins' }))
   fireEvent.click(dialog.getByRole('button', { name: /A1-L2-S3, room for 24/ }))
-  fireEvent.click(dialog.getByRole('button', { name: /A1-L1-S1, room for 24/ }))
+  fireEvent.click(dialog.getByRole('button', { name: /A1-L1-S1, room for 15/ }))
   fireEvent.change(dialog.getByLabelText('Note'), { target: { value: 'Delivery checked' } })
   fireEvent.click(dialog.getByRole('button', { name: 'Review' }))
   expect(dialog.getByRole('heading', { name: 'Review and confirm' })).toBeTruthy()
@@ -72,6 +72,12 @@ it('reviews a split Detailed delivery, preserves the draft on a failed write and
   fireEvent.click(dialog.getByRole('button', { name: 'Try again' }))
   await dialog.findByRole('heading', { name: '30 units added' })
   expect(readStockDeliveries()[0].allocations).toEqual([{ bin: 'A1-L2-S3', quantity: 24 }, { bin: 'A1-L1-S1', quantity: 6 }])
+  expect(inventorySummary(readStockDeliveries(), 'New York Central').used).toBe(1264)
+  const mixedBin = inventorySummary(readStockDeliveries(), 'New York Central', 'A1').bins.find(bin => bin.id === 'A1-L1-S1')!
+  expect(mixedBin.used).toBe(15)
+  expect(mixedBin.contents).toEqual([{ sku: 'GPU-0109', quantity: 9 }, { sku: 'GPU-0107', quantity: 6 }])
+  expect(stockCount(readStockDeliveries(), 'GPU-0107', 'New York Central')).toBe(30)
+  expect(stockCount(readStockDeliveries(), 'GPU-0109', 'New York Central')).toBe(9)
   expect(within(row).getByText('In Stock')).toBeTruthy()
   fireEvent.click(dialog.getByRole('button', { name: 'Undo' }))
   await waitFor(() => expect(within(row).getByText('Out Of Stock')).toBeTruthy())
