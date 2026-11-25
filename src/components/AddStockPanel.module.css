@@ -117,8 +117,8 @@
 .fields > .note, .binPicker { grid-column: 1 / -1; }
 
 .select, .fields :global(.input-field-with-icon) { position: relative; display: flex; align-items: center; min-width: 0; }
-.select > img, .fields :global(.input-field-with-icon) > :global(.input-field-icon) { position: absolute; inset-inline-start: var(--gap-lg); pointer-events: none; z-index: 1; }
-.select > select, .fields :global(.input-field-with-icon) input { padding-inline-start: calc(var(--semantic-spacing-gap-3xl) * 1px); }
+.select > img, .fields :global(.input-field-with-icon) > :global(.input-field-leading-icon) { position: absolute; inset-inline-start: var(--gap-lg); pointer-events: none; z-index: 1; }
+.select > select, .fields :global(.input-field-with-icon.has-leading-icon) input { padding-inline-start: calc(var(--semantic-spacing-gap-3xl) * 1px); }
 .select > select { appearance: none; font: inherit; font-size: calc(var(--semantic-typography-label-md-regular-fontsize) * 1px); background: var(--surface) url('../assets/iconChevronDown.svg') right var(--gap-md) center / 16px no-repeat; border: 1px solid var(--border); border-radius: var(--radius); color: var(--foreground); padding-inline-end: calc(var(--semantic-spacing-gap-3xl) * 1px); }
 .select > select:hover:not(:focus), .stepper:hover:not([data-invalid], :focus-within, :has(input:disabled)) { border-color: var(--semantic-colors-border-strong-subtle-default); }
 :global(:root:not([data-focus-mode="keyboard"])) .select > select:enabled:focus { border-color: var(--semantic-colors-border-accent-default); }

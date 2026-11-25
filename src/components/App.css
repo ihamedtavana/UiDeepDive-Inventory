@@ -67,8 +67,13 @@ body {
 .input-field input::placeholder { color: var(--semantic-colors-text-tertiary-default); opacity: 1; }
 .input-field-icon { display: block; flex: none; background: var(--semantic-colors-icon-secondary-default); mask-position: center; mask-size: contain; mask-repeat: no-repeat; }
 .input-field-with-icon { position: relative; display: flex; align-items: center; min-width: 0; }
-.input-field-with-icon > .input-field-icon { position: absolute; inset-inline-start: calc(var(--semantic-spacing-padding-md) * 1px); pointer-events: none; }
-.input-field-with-icon input { padding-inline-start: calc((var(--semantic-spacing-padding-md) + var(--semantic-spacing-gap-md)) * 1px + 16px); }
+.input-field-with-icon > .input-field-leading-icon { position: absolute; inset-inline-start: calc(var(--semantic-spacing-padding-md) * 1px); pointer-events: none; }
+.input-field-with-icon.has-leading-icon input { padding-inline-start: calc((var(--semantic-spacing-padding-md) + var(--semantic-spacing-gap-md) + var(--global-spacing-4)) * 1px); }
+.input-field-with-icon.has-trailing-icon input { padding-inline-end: calc((var(--semantic-spacing-padding-md) + var(--semantic-spacing-gap-md) + var(--global-spacing-4)) * 1px); }
+.input-field-with-icon > .input-field-trailing-icon { position: absolute; inset-inline-end: calc(var(--semantic-spacing-padding-md) * 1px); pointer-events: none; }
+.input-field-with-icon > .input-field-trailing-action { position: absolute; inset-inline-end: calc(var(--semantic-spacing-gap-sm) * 1px); }
+.input-field-trailing-action .input-field-icon { background: currentColor; }
+.input-field-with-icon:has(input:disabled) > .input-field-icon { background: var(--semantic-colors-icon-tertiary-default); }
 .input-field input:disabled, .input-field-date:has(input:disabled) { background: var(--semantic-colors-background-surface-secondary-default); color: var(--semantic-colors-text-tertiary-default); }
 .input-field-date { position: relative; display: flex; align-items: center; justify-content: space-between; gap: calc(var(--semantic-spacing-gap-md) * 1px); height: 40px; padding: 0 calc(var(--semantic-spacing-padding-md) * 1px); border: 1px solid var(--semantic-colors-border-primary-default); border-radius: calc(var(--semantic-radius-md) * 1px); background: var(--semantic-colors-background-surface-primary-default); }
 .input-field-date-value { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; line-height: 20px; font-weight: 400; }
