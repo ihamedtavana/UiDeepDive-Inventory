@@ -12,6 +12,7 @@ export default defineConfig({
         fileURLToPath(new URL('./designsystem/foundation/color.html', import.meta.url)),
         fileURLToPath(new URL('./designsystem/foundation/typography.html', import.meta.url)),
         fileURLToPath(new URL('./designsystem/foundation/spacing.html', import.meta.url)),
+        fileURLToPath(new URL('./designsystem/foundation/radius.html', import.meta.url)),
       ],
     },
   },

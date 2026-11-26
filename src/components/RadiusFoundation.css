@@ -1,0 +1,194 @@
+.radius-foundation {
+  font-family: var(--semantic-typography-fontname), sans-serif;
+  --radius-preview-width: calc(var(--global-spacing-16) * 1px);
+}
+
+@media (min-width: 1280px) {
+  .radius-foundation .overview-tabs { gap: var(--docs-gap); }
+}
+
+.radius-table--scale col:first-child { width: 92px; }
+.radius-table--scale col:nth-child(2) { width: 142px; }
+.radius-table--scale col:nth-child(3) { width: 72px; }
+.radius-table--scale col:nth-child(4) { width: 112px; }
+.radius-table--scale col:last-child { width: 104px; }
+.radius-table--nesting col:nth-child(2) { width: 132px; }
+.radius-table--nesting col:last-child { width: 94px; }
+.radius-table--accessibility col:first-child,
+.radius-table--audit col:first-child { width: 172px; }
+.radius-table--accessibility col:last-child { width: 154px; }
+.radius-table--audit col:nth-child(2) { width: 232px; }
+.radius-table--audit col:last-child { width: 144px; }
+
+.radius-table :is(th, td) { padding-inline-end: var(--docs-padding); }
+.radius-table .badge { vertical-align: middle; }
+.radius-table--scale td:is(:nth-child(3), :nth-child(4), :last-child),
+.radius-table--nesting td:last-child,
+.radius-table--audit td:nth-child(2) { color: var(--global-colors-neutral-600); }
+.radius-table--nesting td:nth-child(2) {
+  color: var(--docs-text);
+  font-weight: var(--semantic-typography-label-sm-default-weight);
+}
+
+.radius-preview {
+  display: block;
+  width: var(--radius-preview-width);
+  height: calc(var(--global-spacing-10) * 1px);
+  border: 1px solid var(--semantic-colors-border-accent-subtle-default);
+  background: var(--semantic-colors-background-brand-tertiary-default);
+}
+
+.radius-nesting {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: start;
+  gap: var(--docs-padding-large);
+}
+
+.radius-nesting-panel,
+.radius-nesting-panel div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--docs-gap);
+  border: 1px solid var(--docs-border);
+}
+
+.radius-nesting-panel {
+  padding: var(--docs-padding-large);
+  border-radius: calc(var(--semantic-radius-xl) * 1px);
+  background: var(--semantic-colors-background-surface-secondary-default);
+  color: var(--global-colors-neutral-600);
+}
+
+.radius-nesting-section {
+  padding: var(--docs-padding);
+  border-radius: var(--docs-radius-large);
+  background: var(--docs-surface);
+}
+
+.radius-nesting-title {
+  padding: var(--docs-gap);
+  border-radius: var(--docs-radius);
+  background: var(--docs-tint);
+}
+
+.radius-nesting-panel .radius-nesting-badge {
+  padding: calc(var(--semantic-spacing-padding-xs) * 1px);
+  border-color: var(--semantic-colors-border-accent-subtle-default);
+  border-radius: calc(var(--semantic-radius-sm) * 1px);
+  background: var(--semantic-colors-background-brand-tertiary-default);
+  color: var(--docs-text);
+}
+
+.radius-nesting-indicator {
+  width: calc(var(--global-spacing-4) * 1px);
+  height: calc(var(--global-spacing-2) * 1px);
+  border-radius: calc(var(--semantic-radius-2xs) * 1px);
+  background: var(--semantic-colors-feedback-success-secondary-background);
+}
+
+.radius-joined { gap: var(--docs-padding-large); }
+.radius-joined-example {
+  display: grid;
+  gap: var(--docs-gap);
+  margin: 0;
+}
+
+.radius-joined-example figcaption {
+  display: flex;
+  align-items: center;
+  gap: var(--docs-gap);
+}
+
+.radius-joined-title,
+.radius-joined-body {
+  border: 1px solid var(--docs-border);
+  background: var(--docs-surface);
+  border-radius: var(--docs-radius-large);
+}
+
+.radius-joined-title {
+  padding: var(--docs-padding);
+  color: var(--docs-text);
+  font-weight: var(--semantic-typography-label-sm-default-weight);
+}
+
+.radius-joined-body {
+  padding: var(--docs-padding-large);
+  border-block-start: 0;
+  color: var(--global-colors-neutral-600);
+}
+
+.radius-joined-example--split .radius-joined-title {
+  border-end-start-radius: calc(var(--semantic-radius-none) * 1px);
+  border-end-end-radius: calc(var(--semantic-radius-none) * 1px);
+}
+
+.radius-joined-example--split .radius-joined-body {
+  border-start-start-radius: calc(var(--semantic-radius-none) * 1px);
+  border-start-end-radius: calc(var(--semantic-radius-none) * 1px);
+}
+
+.radius-guidelines { column-gap: var(--docs-padding-large); }
+
+@media (width < 1280px) {
+  .radius-nesting {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: start;
+    gap: var(--docs-padding);
+  }
+
+  .radius-nesting .docs-table-container { width: 100%; }
+
+  .radius-table--scale {
+    --docs-table-cols: var(--radius-preview-width) calc(var(--global-spacing-10) * 1px) minmax(0, 1fr) minmax(0, 2fr);
+  }
+
+  .radius-table--scale tr > :nth-child(2) { grid-area: 1 / 2 / auto / 4; }
+  .radius-table--scale tr > :nth-child(5) { grid-area: 1 / 4; }
+  .radius-table--scale tbody tr > :nth-child(1) { grid-area: 1 / 1 / span 3; }
+  .radius-table--scale tbody tr > :nth-child(3) { grid-area: 2 / 2; }
+  .radius-table--scale tbody tr > :nth-child(4) { grid-area: 2 / 3; }
+  .radius-table--scale tbody tr > :nth-child(5) { grid-row-end: span 3; }
+  .radius-table--scale tbody tr > :nth-child(6) { grid-area: 3 / 2 / auto / 4; }
+
+  .radius-table--scale thead th:is(:nth-child(3), :nth-child(4), :nth-child(6)) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .radius-table--scale td:last-child:not(:has(.badge)) .docs-stacked-label {
+    position: static;
+    display: inline;
+    clip-path: none;
+    overflow: visible;
+  }
+
+  .radius-table--nesting { --docs-table-cols: minmax(0, 2fr) minmax(0, 1fr) max-content; }
+  .radius-table--accessibility { --docs-table-cols: minmax(0, 1fr) minmax(0, 3fr) max-content; }
+}
+
+@media (width < 768px) {
+  #radius-overview { scroll-margin-top: calc(var(--docs-toolbar-height) + var(--docs-gap)); }
+
+  .radius-joined { gap: var(--docs-padding); }
+
+  .radius-table--scale {
+    --docs-table-cols: var(--radius-preview-width) max-content minmax(0, 1fr);
+  }
+
+  .radius-table--scale tbody tr > :nth-child(1) { grid-row-end: span 4; }
+  .radius-table--scale tbody tr > :nth-child(5) { grid-area: 4 / 2 / auto / -1; }
+
+  .radius-table--nesting,
+  .radius-table--accessibility { --docs-table-cols: minmax(0, 1fr) max-content; }
+
+  .radius-table--nesting tbody tr > :first-child { grid-column: 1 / -1; }
+  .radius-table--accessibility tbody tr > :nth-child(2) { grid-area: 2 / 1 / auto / -1; }
+  .radius-table--accessibility tbody tr > :nth-child(3) { grid-area: 1 / 2; }
+}
