@@ -74,6 +74,16 @@ Reuse components from `src/components` where applicable. Prefer component tokens
 
 The primary design is desktop at 1440px. Complete and obtain approval for desktop before starting mobile. Mobile breakpoints and behavior are not yet specified here; derive them from the approved desktop design and flag decisions or missing interactions for review.
 
+### Design System documentation
+
+Use the [responsive Color frames](https://www.figma.com/design/7mKvYS6GfWwRv0NcpUxYGz/T01---Ui-Deep-Dive---Tea-A--D?node-id=8548-25319) as the reference for future documentation pages. The docs use desktop at 1280px and wider, tablet from 768px to 1279px, and mobile below 768px. Check the desktop reference at 1440px, tablet at 768px and 1024px, and mobile at 320px, 360px, 390px, and 414px.
+
+- Use the permanent sidebar on desktop. Tablet and mobile share a modal navigation drawer and a menu, logo, and search bar. The bar stays sticky on mobile. Verify focus containment, Escape, backdrop dismissal, focus restoration, and the search shortcut.
+- Keep Export beside the title and move section links to the next row below desktop. Only the section-link strip may scroll horizontally. Section links are in-page anchors and indicate the current section.
+- Keep the same content and type scale at every width. Metrics go from four columns to two on mobile, concept cards stack below desktop, palette ramps use 11 / 6 / 4 columns, and Do / Don't pairs keep their order.
+- Reflow tables by column role. Stack secondary fields on tablet, and use divider-separated rows with the preview on the left on mobile. Keep header semantics. Feedback and button matrices become two-up cards on tablet and stacked cards on mobile. Badge tones keep the table on tablet and become cards on mobile.
+- Use the existing spacing, radius, and color tokens. Keep responsive implementation in the docs code. The breakpoints, 288px drawer cap, and overlay shadow and opacity are documented CSS values.
+
 ## Interaction Patterns
 
 Implement hover, focus, disabled, loading, and error states when present in Figma. Preserve visible keyboard focus and provide clear feedback for actions and errors. Use the relevant state tokens where available; do not infer unspecified visual details as established design decisions.

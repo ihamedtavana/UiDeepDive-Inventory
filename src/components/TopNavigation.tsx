@@ -7,7 +7,17 @@ import messages from '../assets/iconMessage.svg'
 import notifications from '../assets/iconBell.svg'
 import settings from '../assets/iconTopSettings.svg'
 
-export function TopNavigation({ warehouse = 'New York Central' }: { warehouse?: string }) {
+type Props = { warehouse?: string; variant?: 'dashboard' } | { variant: 'design-system'; section: string; page: string }
+
+export function TopNavigation(props: Props) {
+  if (props.variant === 'design-system') {
+    return <header className="top-navigation top-navigation--docs">
+      <nav className="breadcrumbs" aria-label="Breadcrumb">
+        <span>{props.section}</span><span aria-hidden="true">/</span><Badge>{props.page}</Badge>
+      </nav>
+    </header>
+  }
+  const { warehouse = 'New York Central' } = props
   return <header className="top-navigation">
     <nav className="breadcrumbs" aria-label="Breadcrumb"><span>{warehouse}</span><span aria-hidden="true">/</span><Badge>Inventory</Badge></nav>
     <div className="top-actions">

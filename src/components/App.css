@@ -50,6 +50,7 @@ body {
 .badge--error { color: var(--component-badge-filled-error-text-icon-default); background: var(--component-badge-filled-error-background-default); border-color: var(--component-badge-filled-error-border-default); }
 .badge--success { color: var(--component-badge-filled-success-text-icon-default); background: var(--component-badge-filled-success-background-default); border-color: var(--component-badge-filled-success-border-default); }
 .badge--brand { color: var(--component-badge-filled-brand-text-icon-default); background: var(--component-badge-filled-brand-background-default); border-color: var(--component-badge-filled-brand-border-default); }
+.badge--info { color: var(--component-badge-filled-info-text-icon-default); background: var(--component-badge-filled-info-background-default); border-color: var(--component-badge-filled-info-border-default); }
 .warehouse-switch { display: flex; align-items: center; gap: calc(var(--semantic-spacing-gap-md) * 1px); padding: calc(var(--semantic-spacing-padding-md) * 1px); border-top: 1px solid var(--semantic-colors-border-primary-default); color: var(--semantic-colors-text-secondary-default); font-size: 12px; line-height: 16px; }
 .warehouse-switch { width: 100%; border-left: 0; border-right: 0; border-bottom: 0; border-radius: 0 0 calc(var(--semantic-radius-l) * 1px) calc(var(--semantic-radius-l) * 1px); background: transparent; text-align: left; font-family: inherit; cursor: pointer; }
 .warehouse-switch:hover { background: var(--semantic-colors-background-surface-secondary-hover); }
