@@ -4,6 +4,7 @@ import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/600.css'
 import { ColorFoundation } from './components/ColorFoundation'
+import { IconographyFoundation } from './components/IconographyFoundation'
 import { LayoutFoundation } from './components/LayoutFoundation'
 import { RadiusFoundation } from './components/RadiusFoundation'
 import { ShadowFoundation } from './components/ShadowFoundation'
@@ -18,11 +19,13 @@ import './components/SpacingFoundation.css'
 import './components/RadiusFoundation.css'
 import './components/ShadowFoundation.css'
 import './components/LayoutFoundation.css'
+import './components/IconographyFoundation.css'
 
 const root = document.getElementById('root')
 if (!root) throw new Error('Root element not found')
 
 const foundations = new Map([
+  ['/designsystem/foundation/iconography', IconographyFoundation],
   ['/designsystem/foundation/layout', LayoutFoundation],
   ['/designsystem/foundation/radius', RadiusFoundation],
   ['/designsystem/foundation/shadow', ShadowFoundation],

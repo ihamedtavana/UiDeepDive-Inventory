@@ -15,6 +15,7 @@ export default defineConfig({
         fileURLToPath(new URL('./designsystem/foundation/radius.html', import.meta.url)),
         fileURLToPath(new URL('./designsystem/foundation/shadow.html', import.meta.url)),
         fileURLToPath(new URL('./designsystem/foundation/layout.html', import.meta.url)),
+        fileURLToPath(new URL('./designsystem/foundation/iconography.html', import.meta.url)),
       ],
     },
   },
