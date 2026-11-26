@@ -17,6 +17,7 @@ export default defineConfig({
         fileURLToPath(new URL('./designsystem/foundation/layout.html', import.meta.url)),
         fileURLToPath(new URL('./designsystem/foundation/iconography.html', import.meta.url)),
         fileURLToPath(new URL('./designsystem/components/button.html', import.meta.url)),
+        fileURLToPath(new URL('./designsystem/components/badge.html', import.meta.url)),
       ],
     },
   },
