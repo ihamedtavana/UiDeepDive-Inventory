@@ -1,0 +1,184 @@
+.shadow-foundation {
+  font-family: var(--semantic-typography-fontname), sans-serif;
+  --shadow-stage-background: var(--semantic-colors-background-surface-secondary-default);
+  --shadow-gap-xs: calc(var(--semantic-spacing-gap-xs) * 1px);
+}
+
+@media (min-width: 1280px) {
+  .shadow-foundation .overview-tabs { gap: var(--docs-gap); }
+}
+
+.shadow-spec {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--docs-padding-large);
+}
+
+.shadow-stage,
+.shadow-scale li,
+.shadow-depth-example {
+  background: var(--shadow-stage-background);
+  border-radius: var(--docs-radius-large);
+}
+
+.shadow-stage {
+  display: grid;
+  place-items: center;
+  padding: calc(var(--semantic-spacing-padding-xl) * 1px);
+}
+
+.shadow-effect {
+  display: grid;
+  gap: var(--shadow-gap-xs);
+  padding: var(--docs-padding-large);
+  border: 1px solid var(--docs-border);
+  border-radius: var(--docs-radius);
+  background: var(--docs-surface);
+}
+
+.shadow-effect strong {
+  font-size: calc(var(--semantic-typography-title-sm-default-fontsize) * 1px);
+  line-height: calc(var(--semantic-typography-title-sm-default-lineheight) * 1px);
+  font-weight: var(--semantic-typography-title-sm-default-weight);
+}
+
+.shadow-scale {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: start;
+  gap: var(--docs-padding) var(--docs-padding-large);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.shadow-scale li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--docs-padding);
+  padding: var(--docs-padding-large);
+  overflow: hidden;
+  text-align: center;
+}
+
+.shadow-swatch {
+  width: min(100%, calc(var(--global-spacing-24) * 1px));
+  height: calc(var(--global-spacing-14) * 1px);
+  border-radius: var(--docs-radius);
+  background: var(--docs-surface);
+}
+
+.shadow-scale-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--shadow-gap-xs);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.shadow-scale-label .badge { max-width: 100%; }
+
+.shadow-depth-example,
+.shadow-depth-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--docs-padding-large);
+}
+
+.shadow-depth-example {
+  margin: 0;
+  padding: var(--docs-padding-large);
+}
+
+.shadow-depth-controls {
+  width: max-content;
+  max-width: 100%;
+}
+
+.shadow-depth-controls .sidebar-menu-button {
+  width: calc(var(--global-spacing-56) * 1px + var(--docs-gap));
+  max-width: 100%;
+  height: calc(var(--global-spacing-10) * 1px);
+  box-shadow: calc(var(--semantic-elevation-xs-offsetx) * 1px) calc(var(--semantic-elevation-xs-offsety) * 1px)
+    calc(var(--semantic-elevation-xs-radius) * 1px) calc(var(--semantic-elevation-xs-spread) * 1px) var(--semantic-elevation-xs-color);
+}
+
+.shadow-depth-controls .sidebar-menu-button .icon { width: auto; height: auto; }
+.shadow-guidelines { column-gap: var(--docs-padding-large); }
+
+.shadow-table :is(th, td) { padding-inline-end: var(--docs-padding); }
+.shadow-table .badge { vertical-align: middle; }
+.shadow-table--effect col:first-child { width: 102px; }
+.shadow-table--effect col:last-child,
+.shadow-table--depth col:last-child { width: 122px; }
+.shadow-table--depth col:nth-child(2) { width: 272px; }
+.shadow-table--depth col:nth-child(3) { width: 202px; }
+.shadow-table--accessibility col:first-child { width: 182px; }
+.shadow-table--accessibility col:last-child { width: 142px; }
+.shadow-table--audit col:nth-child(2) { width: 242px; }
+.shadow-table--effect td:nth-child(2) {
+  color: var(--docs-text);
+  font-weight: var(--semantic-typography-label-sm-default-weight);
+}
+.shadow-table--effect td:nth-child(n + 3),
+.shadow-table--depth td { color: var(--docs-muted); }
+
+@media (width < 1280px) {
+  .shadow-scale { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .shadow-table--effect {
+    --docs-table-cols: calc(var(--global-spacing-20) * 1px) minmax(0, 1fr) max-content;
+  }
+
+  .shadow-table--depth { --docs-table-cols: minmax(0, 2fr) minmax(0, 3fr) max-content; }
+  .shadow-table--accessibility { --docs-table-cols: minmax(0, 1fr) minmax(0, 3fr) max-content; }
+
+  :is(.shadow-table--effect, .shadow-table--depth) thead th:nth-child(3) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  :is(.shadow-table--effect, .shadow-table--depth) tbody tr > :nth-child(1) { grid-area: 1 / 1 / span 2; }
+  :is(.shadow-table--effect, .shadow-table--depth) tbody tr > :nth-child(3) { grid-area: 2 / 2; }
+  :is(.shadow-table--effect, .shadow-table--depth) tbody tr > :nth-child(4) { grid-area: 1 / 3 / span 2; }
+}
+
+@media (width < 768px) {
+  #shadow-overview { scroll-margin-top: calc(var(--docs-toolbar-height) + var(--docs-gap)); }
+
+  .shadow-foundation .docs-metrics > div { justify-content: flex-end; }
+  .shadow-spec { grid-template-columns: minmax(0, 1fr); }
+  .shadow-scale { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--docs-padding); }
+  .shadow-scale li { padding-inline: var(--docs-padding); }
+  .shadow-scale-label .badge {
+    height: auto;
+    min-height: calc(var(--global-spacing-6) * 1px);
+    white-space: normal;
+  }
+
+  .shadow-depth-controls .tab {
+    flex-wrap: wrap;
+    width: fit-content;
+    max-width: 100%;
+    height: auto;
+    padding-block: var(--docs-gap-small);
+  }
+
+  .shadow-table--effect,
+  .shadow-table--depth,
+  .shadow-table--accessibility { --docs-table-cols: minmax(0, 1fr) max-content; }
+
+  :is(.shadow-table--effect, .shadow-table--depth) tbody tr > :nth-child(1) { grid-area: 1 / 1 / auto / -1; }
+  :is(.shadow-table--effect, .shadow-table--depth) tbody tr > :nth-child(2) { grid-area: 2 / 1 / auto / -1; }
+  :is(.shadow-table--effect, .shadow-table--depth) tbody tr > :nth-child(3) { grid-area: 3 / 1; }
+  :is(.shadow-table--effect, .shadow-table--depth) tbody tr > :nth-child(4) { grid-area: 3 / 2; }
+  .shadow-table--accessibility tbody tr > :nth-child(2) { grid-area: 2 / 1 / auto / -1; }
+  .shadow-table--accessibility tbody tr > :nth-child(3) { grid-area: 1 / 2; }
+}

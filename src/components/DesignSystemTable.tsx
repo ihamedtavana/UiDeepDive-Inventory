@@ -18,7 +18,7 @@ export function DesignSystemTable({ className, label, headings, rows, renderPrev
         {headings.map(heading => <th key={heading} scope="col" role="columnheader">{heading}</th>)}
       </tr></thead>
       <tbody role="rowgroup">
-        {rows.map(([name, ...values]) => <tr key={name} role="row">
+        {rows.map(([name, ...values], rowIndex) => <tr key={`${rowIndex}-${name}`} role="row">
           {renderPreview && <td role="cell">{renderPreview(name)}</td>}
           <th scope="row" role="rowheader">{wrapTokenPath(name)}</th>
           {values.map((value, index) => <td role="cell" key={headings[index + 1]}>

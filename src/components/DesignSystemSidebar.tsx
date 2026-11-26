@@ -22,8 +22,9 @@ const foundationPaths: Readonly<Record<string, string | undefined>> = {
   Typography: '/designsystem/foundation/typography',
   Spacing: '/designsystem/foundation/spacing',
   Radius: '/designsystem/foundation/radius',
+  Shadow: '/designsystem/foundation/shadow',
 }
-export type FoundationPage = 'Color' | 'Typography' | 'Spacing' | 'Radius'
+export type FoundationPage = 'Color' | 'Typography' | 'Spacing' | 'Radius' | 'Shadow'
 const menus = [
   { title: 'Getting Started', isCompact: true, items: [{ label: 'Introduction', icon: intro }, { label: 'Principles', icon: principles }, { label: 'How to Use', icon: howToUse }] },
   { title: 'Foundations', items: ['Color', 'Typography', 'Spacing', 'Radius', 'Shadow', 'Layout', 'Iconography'].map((label, index) => ({ label, detail: `F${index + 1}`, status: 'success' as const })) },
