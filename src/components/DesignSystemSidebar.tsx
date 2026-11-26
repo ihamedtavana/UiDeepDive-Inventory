@@ -31,8 +31,9 @@ const pagePaths: Readonly<Record<string, string | undefined>> = {
   Search: '/designsystem/components/search',
   'Section Card': '/designsystem/components/section-card',
   Table: '/designsystem/components/table',
+  Pagination: '/designsystem/components/pagination',
 }
-export type DesignSystemPage = 'Color' | 'Typography' | 'Spacing' | 'Radius' | 'Shadow' | 'Layout' | 'Iconography' | 'Button' | 'Badge' | 'Tab' | 'Search' | 'Section Card' | 'Table'
+export type DesignSystemPage = 'Color' | 'Typography' | 'Spacing' | 'Radius' | 'Shadow' | 'Layout' | 'Iconography' | 'Button' | 'Badge' | 'Tab' | 'Search' | 'Section Card' | 'Table' | 'Pagination'
 const menus = [
   { title: 'Getting Started', isCompact: true, items: [{ label: 'Introduction', icon: intro }, { label: 'Principles', icon: principles }, { label: 'How to Use', icon: howToUse }] },
   { title: 'Foundations', items: ['Color', 'Typography', 'Spacing', 'Radius', 'Shadow', 'Layout', 'Iconography'].map((label, index) => ({ label, detail: `F${index + 1}`, status: 'success' as const })) },

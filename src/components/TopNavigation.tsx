@@ -1,5 +1,5 @@
 import { Avatar } from './Avatar'
-import { Badge } from './Badge'
+import { Breadcrumb } from './Breadcrumb'
 import { Button } from './Button'
 import avatar from '../assets/top0_imgAvatar.png'
 import plus from '../assets/top0_imgLeadingIcon.svg'
@@ -12,14 +12,12 @@ type Props = { warehouse?: string; variant?: 'dashboard' } | { variant: 'design-
 export function TopNavigation(props: Props) {
   if (props.variant === 'design-system') {
     return <header className="top-navigation top-navigation--docs">
-      <nav className="breadcrumbs" aria-label="Breadcrumb">
-        <span>{props.section}</span><span aria-hidden="true">/</span><Badge>{props.page}</Badge>
-      </nav>
+      <Breadcrumb location={props.section} page={props.page} />
     </header>
   }
   const { warehouse = 'New York Central' } = props
   return <header className="top-navigation">
-    <nav className="breadcrumbs" aria-label="Breadcrumb"><span>{warehouse}</span><span aria-hidden="true">/</span><Badge>Inventory</Badge></nav>
+    <Breadcrumb location={warehouse} page="Inventory" />
     <div className="top-actions">
       <Button hierarchy="primary" className="movement-button"><img className="icon" src={plus} alt="" />New Movement</Button>
       <span className="vertical-divider" />

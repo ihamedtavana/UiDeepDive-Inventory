@@ -1,8 +1,9 @@
 import type { Period } from './Tab'
-import { Fragment, useState } from 'react'
+import { useState } from 'react'
 import { Badge } from './Badge'
 import { Button } from './Button'
 import { FocusRing } from './FocusRing'
+import { Pagination } from './Pagination'
 import { SectionCard } from './SectionCard'
 import { SectionCardTitle } from './SectionCardTitle'
 import { ProductIdentity } from './ProductIdentity'
@@ -41,7 +42,10 @@ export function ProductsSection({ warehouse, deliveries, onAddStock }: { period:
     <SectionCardTitle icon={productIcon} action={<div className="products-controls"><label className="product-search"><img className="icon" src={searchIcon} alt="" /><input aria-label="Search products" placeholder="Search SKU, bin…" value={query} onChange={e => { setQuery(e.target.value); setPage(1) }} /><FocusRing /></label><div className="product-filters" role="group" aria-label="Filter products by stock">{filters.map(option => <TabButton key={option} isSelected={filter === option} onClick={() => { setFilter(option); setPage(1) }}>{`${option} · ${option === 'All' ? periodProducts.length : periodProducts.filter(p => stockStatus(p) === option).length}`}</TabButton>)}</div><Button hierarchy="primary" className="table-action">Add product</Button></div>}>Products</SectionCardTitle>
     <div className="table-wrap"><table className="data-table products-table"><thead><tr><th scope="col">Product</th><th scope="col">SKU &amp; Bin</th><th scope="col">Stock</th><th scope="col">Reserved</th><th scope="col">Incoming</th><th scope="col">Stock</th><th scope="col">Product status</th><th scope="col"><span className="visually-hidden">Actions</span></th></tr></thead><tbody>{visible.map(p => { const status = stockStatus(p); const isActive = status !== 'Out' && p.isActive; return <tr key={p.sku}><td><ProductIdentity name={p.name} category={p.category} image={p.image} /></td><td><strong>{p.sku}</strong><span className="table-secondary">{p.bin}</span></td><td><strong>{p.stock}</strong><span className="table-muted"> / Min {p.minimum}</span></td><td>{p.reserved || '–'}</td><td>{p.incoming ? `+${p.incoming}` : '–'}</td><td><Badge tone={status === 'Out' ? 'error' : status === 'Low' ? 'warning' : 'success'}>{status === 'Out' ? 'Out Of Stock' : status === 'Low' ? 'Low Stock' : 'In Stock'}</Badge></td><td className={isActive ? '' : 'table-muted'}>{isActive ? 'Active' : 'Inactive'}</td><td><Button isIconOnly className="more-button" aria-label={`Manage stock for ${p.name}`} aria-haspopup="dialog" onClick={() => onAddStock({ ...p, defaultBin: p.bin })}><span aria-hidden="true">···</span></Button></td></tr> })}</tbody></table>
       {visible.length === 0 && <p className="empty-message">No matching products</p>}
-      <footer className="table-footer"><span>Showing {filtered.length ? `${(currentPage - 1) * pageSize + 1}–${Math.min(currentPage * pageSize, filtered.length)}` : '0'} of {filtered.length} products</span><nav className="pagination" aria-label="Product pages"><Button isIconOnly appearance="ghost" disabled={currentPage <= 1} onClick={() => setPage(currentPage - 1)} aria-label="Previous page"><span className="pagination-chevron pagination-chevron--previous" aria-hidden="true" /></Button>{pages.map((number, index) => <Fragment key={number}>{index > 0 && number - pages[index - 1] > 1 && <span aria-hidden="true">…</span>}<Button appearance={currentPage === number ? 'filled' : 'ghost'} aria-label={`Page ${number}`} aria-current={currentPage === number ? 'page' : undefined} onClick={() => setPage(number)}>{number}</Button></Fragment>)}<Button isIconOnly appearance="ghost" disabled={currentPage >= pageCount} onClick={() => setPage(currentPage + 1)} aria-label="Next page"><span className="pagination-chevron" aria-hidden="true" /></Button></nav></footer>
+      <footer className="table-footer">
+        <span>Showing {filtered.length ? `${(currentPage - 1) * pageSize + 1}–${Math.min(currentPage * pageSize, filtered.length)}` : '0'} of {filtered.length} products</span>
+        <Pagination label="Product pages" page={currentPage} pageCount={pageCount} pages={pages} onPageChange={setPage} />
+      </footer>
     </div>
   </SectionCard>
 }
