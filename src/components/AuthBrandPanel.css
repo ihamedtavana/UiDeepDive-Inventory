@@ -1,5 +1,3 @@
-@property --auth-light-angle { syntax: '<angle>'; inherits: false; initial-value: -45deg; }
-
 .auth-brand-panel {
   width: 519px;
   flex: none;
@@ -33,16 +31,54 @@
 .auth-brand-field-4 img { left: -110px; top: -110px; }
 .auth-brand-field-5 { inset: 67.39% 52.19% -2.43% -11.95%; opacity: .7; }
 .auth-brand-field-5 img { left: -120px; top: -120px; }
-.auth-brand-mark { position: absolute; width: 251px; height: 249px; left: calc(50% + .5px); top: calc(50% + .5px); transform: translate(-50%, -50%); }
-.auth-brand-glass { position: absolute; backdrop-filter: blur(2px); }
-.auth-brand-c { width: 160px; height: 180px; left: 0; bottom: -.1px; clip-path: path('M0 90C0 65.8975 6.6569 43.2469 21.5449 26.3408C36.7352 9.0917 58.5967 2.51632e-05 84.3242 0H160V40H84.3242C68.4305 40 58.1299 45.3199 51.5635 52.7764C44.6947 60.5762 40 72.9261 40 90C40 107.074 44.6947 119.424 51.5635 127.224C58.1299 134.68 68.4305 140 84.3242 140H160V180H84.3242C58.5967 180 36.7352 170.908 21.5449 153.659C6.6569 136.753 0 114.103 0 90Z'); }
-.auth-brand-notch { width: 100px; height: 100px; right: .1px; top: 0; clip-path: path('M0 0H100V100H57.1429V42.8571H0V0Z'); }
-.auth-brand-glass img { display: block; }
-.auth-brand-glass svg { position: absolute; inset: 0; fill: none; stroke: var(--semantic-colors-background-primary); stroke-width: 1; opacity: .8; }
-.auth-brand-glass::after {
-  content: '';
+.auth-brand-mark {
+  position: absolute; left: 50%; top: 50%;
+  width: 50%;                       /* 251 / 502 in Figma */
+  aspect-ratio: 251 / 249;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+.auth-brand-glass {
+  position: absolute; inset: 0;
+  /* mask (not clip-path) so the backdrop blur is cut to the C shape in every engine */
+  -webkit-mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 251 249' preserveAspectRatio='none'%3E%3Cpath d='M 0 159.1 C 0 135 6.66 112.35 21.54 95.44 C 36.74 78.19 58.6 69.1 84.32 69.1 L 160 69.1 L 160 109.1 L 84.32 109.1 C 68.43 109.1 58.13 114.42 51.56 121.88 C 44.69 129.68 40 142.03 40 159.1 C 40 176.17 44.69 188.52 51.56 196.32 C 58.13 203.78 68.43 209.1 84.32 209.1 L 160 209.1 L 160 249.1 L 84.32 249.1 C 58.6 249.1 36.74 240.01 21.54 222.76 C 6.66 205.85 0 183.2 0 159.1 Z M 150.9 0 L 250.9 0 L 250.9 100 L 208.04 100 L 208.04 42.86 L 150.9 42.86 L 150.9 0 Z' fill='white'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 251 249' preserveAspectRatio='none'%3E%3Cpath d='M 0 159.1 C 0 135 6.66 112.35 21.54 95.44 C 36.74 78.19 58.6 69.1 84.32 69.1 L 160 69.1 L 160 109.1 L 84.32 109.1 C 68.43 109.1 58.13 114.42 51.56 121.88 C 44.69 129.68 40 142.03 40 159.1 C 40 176.17 44.69 188.52 51.56 196.32 C 58.13 203.78 68.43 209.1 84.32 209.1 L 160 209.1 L 160 249.1 L 84.32 249.1 C 58.6 249.1 36.74 240.01 21.54 222.76 C 6.66 205.85 0 183.2 0 159.1 Z M 150.9 0 L 250.9 0 L 250.9 100 L 208.04 100 L 208.04 42.86 L 150.9 42.86 L 150.9 0 Z' fill='white'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  /* matches Figma: fill = background/primary @ 22%, glass frost radius 2, no colour boost */
+  background: color-mix(in srgb, var(--semantic-colors-background-primary) 22%, transparent);
+  -webkit-backdrop-filter: blur(2px) brightness(1.03);
+          backdrop-filter: blur(2px) brightness(1.03);
+}
+.auth-brand-edge { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+
+/* Rim light: a big conic gradient rotating behind a mask of the C outline */
+.auth-brand-rim {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(var(--auth-light-angle), transparent 25%, var(--semantic-colors-background-primary) 50%, transparent 75%);
-  opacity: .14;
+  left: -1.594%; right: -1.594%; top: -1.606%; bottom: -1.606%;   /* 4px mask padding */
+  overflow: hidden;
+  -webkit-mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 259 257' preserveAspectRatio='none'%3E%3Cpath d='M 0 159.1 C 0 135 6.66 112.35 21.54 95.44 C 36.74 78.19 58.6 69.1 84.32 69.1 L 160 69.1 L 160 109.1 L 84.32 109.1 C 68.43 109.1 58.13 114.42 51.56 121.88 C 44.69 129.68 40 142.03 40 159.1 C 40 176.17 44.69 188.52 51.56 196.32 C 58.13 203.78 68.43 209.1 84.32 209.1 L 160 209.1 L 160 249.1 L 84.32 249.1 C 58.6 249.1 36.74 240.01 21.54 222.76 C 6.66 205.85 0 183.2 0 159.1 Z M 150.9 0 L 250.9 0 L 250.9 100 L 208.04 100 L 208.04 42.86 L 150.9 42.86 L 150.9 0 Z' fill='none' stroke='white' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 259 257' preserveAspectRatio='none'%3E%3Cpath d='M 0 159.1 C 0 135 6.66 112.35 21.54 95.44 C 36.74 78.19 58.6 69.1 84.32 69.1 L 160 69.1 L 160 109.1 L 84.32 109.1 C 68.43 109.1 58.13 114.42 51.56 121.88 C 44.69 129.68 40 142.03 40 159.1 C 40 176.17 44.69 188.52 51.56 196.32 C 58.13 203.78 68.43 209.1 84.32 209.1 L 160 209.1 L 160 249.1 L 84.32 249.1 C 58.6 249.1 36.74 240.01 21.54 222.76 C 6.66 205.85 0 183.2 0 159.1 Z M 150.9 0 L 250.9 0 L 250.9 100 L 208.04 100 L 208.04 42.86 L 150.9 42.86 L 150.9 0 Z' fill='none' stroke='white' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+.auth-brand-rim--soft {
+  -webkit-mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 259 257' preserveAspectRatio='none'%3E%3Cpath d='M 0 159.1 C 0 135 6.66 112.35 21.54 95.44 C 36.74 78.19 58.6 69.1 84.32 69.1 L 160 69.1 L 160 109.1 L 84.32 109.1 C 68.43 109.1 58.13 114.42 51.56 121.88 C 44.69 129.68 40 142.03 40 159.1 C 40 176.17 44.69 188.52 51.56 196.32 C 58.13 203.78 68.43 209.1 84.32 209.1 L 160 209.1 L 160 249.1 L 84.32 249.1 C 58.6 249.1 36.74 240.01 21.54 222.76 C 6.66 205.85 0 183.2 0 159.1 Z M 150.9 0 L 250.9 0 L 250.9 100 L 208.04 100 L 208.04 42.86 L 150.9 42.86 L 150.9 0 Z' fill='none' stroke='white' stroke-width='9' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 259 257' preserveAspectRatio='none'%3E%3Cpath d='M 0 159.1 C 0 135 6.66 112.35 21.54 95.44 C 36.74 78.19 58.6 69.1 84.32 69.1 L 160 69.1 L 160 109.1 L 84.32 109.1 C 68.43 109.1 58.13 114.42 51.56 121.88 C 44.69 129.68 40 142.03 40 159.1 C 40 176.17 44.69 188.52 51.56 196.32 C 58.13 203.78 68.43 209.1 84.32 209.1 L 160 209.1 L 160 249.1 L 84.32 249.1 C 58.6 249.1 36.74 240.01 21.54 222.76 C 6.66 205.85 0 183.2 0 159.1 Z M 150.9 0 L 250.9 0 L 250.9 100 L 208.04 100 L 208.04 42.86 L 150.9 42.86 L 150.9 0 Z' fill='none' stroke='white' stroke-width='9' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  filter: blur(3px);
+  opacity: .3;
+}
+.auth-brand-rim-light {
+  position: absolute; left: 50%; top: 50%;
+  width: 160%; aspect-ratio: 1;
+  translate: -50% -50%;
+  /* main specular at top-left (315°) + a weaker opposite reflection */
+  background: conic-gradient(from 270deg,
+      transparent 0deg,
+      color-mix(in srgb, var(--semantic-colors-background-primary) 45%, transparent) 45deg,
+      transparent 95deg,
+      transparent 175deg,
+      color-mix(in srgb, var(--semantic-colors-background-primary) 18%, transparent) 225deg,
+      transparent 275deg);
+  will-change: transform;
+}
+.auth-brand-edge-line {
+  stroke: var(--semantic-colors-background-primary);
+  stroke-opacity: .35;
 }

@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef } from 'react'
+import { memo, useEffect, useId, useRef } from 'react'
 import { brandMotion, brandMotionDuration } from './authBrandMotion'
 import field200 from '../assets/auth/brand-panel/FieldBrand200.svg'
 import field300 from '../assets/auth/brand-panel/FieldBrand300.svg'
@@ -6,13 +6,12 @@ import glow from '../assets/auth/brand-panel/GlowBrand400.svg'
 import core from '../assets/auth/brand-panel/CoreBrand500.svg'
 import ember from '../assets/auth/brand-panel/EmberBrand600.svg'
 import highlight from '../assets/auth/brand-panel/HighlightBrand50.svg'
-import cMark from '../assets/auth/brand-panel/C.svg'
-import notch from '../assets/auth/brand-panel/Notch.svg'
 import './AuthBrandPanel.css'
 
 const fields = [field200, field300, glow, core, ember, highlight]
 
 export const AuthBrandPanel = memo(function AuthBrandPanel() {
+  const edgeClipId = useId()
   const canvas = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -40,10 +39,20 @@ export const AuthBrandPanel = memo(function AuthBrandPanel() {
           })), timing))
         }
       })
-      // Approved CSS approximation of Figma's animated glass specular light.
-      root.querySelectorAll<HTMLElement>('.auth-brand-glass').forEach(glass => {
-        animations.push(glass.animate([{ '--auth-light-angle': '-45deg' }, { '--auth-light-angle': '315deg' }],
-          { ...timing, easing: 'cubic-bezier(.5, 0, .5, 1)' }))
+      root.querySelectorAll<HTMLElement>('.auth-brand-rim-light').forEach(light => {
+        animations.push(light.animate([{ transform: 'rotate(0deg)' }, { transform: 'rotate(360deg)' }],
+          { ...timing, easing: 'linear' }))
+      })
+      root.querySelectorAll<HTMLElement>('.auth-brand-rim').forEach(rim => {
+        const strength = rim.classList.contains('auth-brand-rim--soft') ? .3 : 1
+        animations.push(rim.animate([
+          { opacity: .8 * strength, offset: 0 },
+          { opacity: strength, offset: .125 },
+          { opacity: .6 * strength, offset: .375 },
+          { opacity: strength, offset: .625 },
+          { opacity: .6 * strength, offset: .875 },
+          { opacity: .8 * strength, offset: 1 },
+        ], { ...timing, easing: 'ease-in-out' }))
       })
       if (document.hidden) animations.forEach(animation => animation.pause())
     }
@@ -58,8 +67,13 @@ export const AuthBrandPanel = memo(function AuthBrandPanel() {
     <div className="auth-brand-canvas" ref={canvas} aria-hidden="true">
       {fields.map((src, index) => <div className={`auth-brand-field auth-brand-field-${index}`} data-node-id={brandMotion[index].nodeId} key={src}><img src={src} alt="" /></div>)}
       <div className="auth-brand-mark">
-        <div className="auth-brand-glass auth-brand-c"><img src={cMark} alt="" /><svg width="160" height="180" viewBox="0 0 160 180"><path d="M0 90C0 65.8975 6.6569 43.2469 21.5449 26.3408C36.7352 9.0917 58.5967 2.51632e-05 84.3242 0H160V40H84.3242C68.4305 40 58.1299 45.3199 51.5635 52.7764C44.6947 60.5762 40 72.9261 40 90C40 107.074 44.6947 119.424 51.5635 127.224C58.1299 134.68 68.4305 140 84.3242 140H160V180H84.3242C58.5967 180 36.7352 170.908 21.5449 153.659C6.6569 136.753 0 114.103 0 90Z" /></svg></div>
-        <div className="auth-brand-glass auth-brand-notch"><img src={notch} alt="" /><svg width="100" height="100" viewBox="0 0 100 100"><path d="M0 0H100V100H57.1429V42.8571H0V0Z" /></svg></div>
+        <div className="auth-brand-glass"></div>
+        <svg className="auth-brand-edge" viewBox="0 0 251 249" preserveAspectRatio="none" aria-hidden="true">
+          <defs><clipPath id={edgeClipId}><path d="M 0 159.1 C 0 135 6.66 112.35 21.54 95.44 C 36.74 78.19 58.6 69.1 84.32 69.1 L 160 69.1 L 160 109.1 L 84.32 109.1 C 68.43 109.1 58.13 114.42 51.56 121.88 C 44.69 129.68 40 142.03 40 159.1 C 40 176.17 44.69 188.52 51.56 196.32 C 58.13 203.78 68.43 209.1 84.32 209.1 L 160 209.1 L 160 249.1 L 84.32 249.1 C 58.6 249.1 36.74 240.01 21.54 222.76 C 6.66 205.85 0 183.2 0 159.1 Z M 150.9 0 L 250.9 0 L 250.9 100 L 208.04 100 L 208.04 42.86 L 150.9 42.86 L 150.9 0 Z" /></clipPath></defs>
+          <path d="M 0 159.1 C 0 135 6.66 112.35 21.54 95.44 C 36.74 78.19 58.6 69.1 84.32 69.1 L 160 69.1 L 160 109.1 L 84.32 109.1 C 68.43 109.1 58.13 114.42 51.56 121.88 C 44.69 129.68 40 142.03 40 159.1 C 40 176.17 44.69 188.52 51.56 196.32 C 58.13 203.78 68.43 209.1 84.32 209.1 L 160 209.1 L 160 249.1 L 84.32 249.1 C 58.6 249.1 36.74 240.01 21.54 222.76 C 6.66 205.85 0 183.2 0 159.1 Z M 150.9 0 L 250.9 0 L 250.9 100 L 208.04 100 L 208.04 42.86 L 150.9 42.86 L 150.9 0 Z" fill="none" className="auth-brand-edge-line" strokeWidth="1.5" clipPath={`url(#${edgeClipId})`} />
+        </svg>
+        <div className="auth-brand-rim auth-brand-rim--soft" aria-hidden="true"><span className="auth-brand-rim-light"></span></div>
+        <div className="auth-brand-rim" aria-hidden="true"><span className="auth-brand-rim-light"></span></div>
       </div>
     </div>
   </aside>
