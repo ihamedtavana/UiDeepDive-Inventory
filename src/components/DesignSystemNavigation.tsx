@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useSyncExternalStore, type KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { Button } from './Button'
-import { DesignSystemSidebar } from './DesignSystemSidebar'
+import { DesignSystemSidebar, type FoundationPage } from './DesignSystemSidebar'
 import logo from '../assets/design-system/logo.svg'
 import search from '../assets/design-system/search.svg'
 
@@ -28,7 +28,7 @@ function keepTabFocusInDrawer(event: ReactKeyboardEvent<HTMLDialogElement>) {
   }
 }
 
-export function DesignSystemNavigation() {
+export function DesignSystemNavigation({ page = 'Color' }: { page?: FoundationPage }) {
   const isDesktop = useSyncExternalStore(subscribeViewport, isDesktopViewport)
   const [isOpen, setIsOpen] = useState(false)
   const dialog = useRef<HTMLDialogElement>(null)
@@ -56,6 +56,22 @@ export function DesignSystemNavigation() {
   }
 
   useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Tab' && !event.altKey && !event.ctrlKey && !event.metaKey) {
+        document.documentElement.dataset.focusMode = 'keyboard'
+      }
+    }
+    const handlePointerDown = () => { delete document.documentElement.dataset.focusMode }
+    document.addEventListener('keydown', handleKeyDown, true)
+    document.addEventListener('pointerdown', handlePointerDown, true)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown, true)
+      document.removeEventListener('pointerdown', handlePointerDown, true)
+      delete document.documentElement.dataset.focusMode
+    }
+  }, [])
+
+  useEffect(() => {
     if (isDesktop) setIsOpen(false)
   }, [isDesktop])
 
@@ -81,7 +97,7 @@ export function DesignSystemNavigation() {
     return () => document.removeEventListener('keydown', handleShortcut)
   }, [isDesktop])
 
-  if (isDesktop) return <DesignSystemSidebar mode="static" searchInput={searchInput} onClose={close} />
+  if (isDesktop) return <DesignSystemSidebar mode="static" page={page} searchInput={searchInput} onClose={close} />
 
   return <>
     <header className="docs-topbar" aria-label="Design system controls">
@@ -99,7 +115,7 @@ export function DesignSystemNavigation() {
       onKeyDown={keepTabFocusInDrawer}
       onCancel={event => { event.preventDefault(); close() }}
       onClick={event => { if (event.target === event.currentTarget) close() }}>
-      <DesignSystemSidebar mode="drawer" searchInput={searchInput} onClose={close} />
+      <DesignSystemSidebar mode="drawer" page={page} searchInput={searchInput} onClose={close} />
     </dialog>
   </>
 }

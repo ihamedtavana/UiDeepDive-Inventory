@@ -1,7 +1,5 @@
 import type { Period } from './Tab'
-import type { ReactNode } from 'react'
-import { Badge } from './Badge'
-import { SectionCard } from './SectionCard'
+import { OverviewCard } from './OverviewCard'
 import packageSearch from '../assets/top2_imgPackageSearch.svg'
 import chart from '../assets/top2_imgBarChart10.svg'
 import vertical from '../assets/top2_imgSwitchVertical02.svg'
@@ -10,10 +8,6 @@ import down from '../assets/top2_imgArrowDown.svg'
 import { currentDeliveries, productSummary, inventorySummary, type StockDelivery } from './stockInventory'
 import { SHELF_CATALOG } from './inventoryCatalog'
 
-type CardProps = { title: string; icon: string; badge: string; isPositive?: boolean; children: ReactNode }
-function OverviewCard({ title, icon, badge, isPositive = false, children }: CardProps) {
-  return <SectionCard className="overview-card"><div className="card-title"><div><img className="icon" src={icon} alt="" /><span className="card-title-label" title={title}>{title}</span></div><Badge tone={isPositive ? 'success' : 'neutral'}>{badge}</Badge></div>{children}</SectionCard>
-}
 type Stat = { value: string; label: string; status?: 'success' | 'warning' | 'error' }
 function Stats({ items }: { items: Stat[] }) {
   return <div className="overview-stats">{items.map(item => <div className="overview-stat" key={item.label}><strong>{item.value}</strong><div>{item.status && <span className={`status status--${item.status}`} aria-hidden="true" />}<span>{item.label}</span></div></div>)}</div>

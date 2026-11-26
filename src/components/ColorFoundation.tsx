@@ -1,13 +1,14 @@
-import { useEffect, type CSSProperties } from 'react'
+import type { CSSProperties } from 'react'
 import { Badge } from './Badge'
-import { Button } from './Button'
 import { DesignSystemNavigation } from './DesignSystemNavigation'
-import { DesignSystemSectionLinks } from './DesignSystemSectionLinks'
+import { DesignSystemPageHeader } from './DesignSystemPageHeader'
 import { SectionCard } from './SectionCard'
 import { SectionCardTitle } from './SectionCardTitle'
 import { TopNavigation } from './TopNavigation'
-import { ColorFoundationTable, wrapTokenPath } from './ColorFoundationTable'
+import { ColorFoundationTable } from './ColorFoundationTable'
 import { colorSections, type ColorCell } from './colorFoundationData'
+import { exportDesignSystemCsv } from './exportDesignSystemCsv'
+import { wrapTokenPath } from './wrapTokenPath'
 import architectureIcon from '../assets/design-system/architecture.svg'
 import paletteIcon from '../assets/design-system/palette.svg'
 import searchIcon from '../assets/design-system/search.svg'
@@ -17,7 +18,6 @@ import dataIcon from '../assets/design-system/data-visualization.svg'
 import componentIcon from '../assets/design-system/component.svg'
 import guidelinesIcon from '../assets/design-system/guidelines.svg'
 import auditIcon from '../assets/design-system/audit.svg'
-import exportIcon from '../assets/design-system/export.svg'
 
 const sections = [
   ['Overview', 'color-architecture'],
@@ -60,22 +60,6 @@ const sectionIcons: Record<string, string> = {
 }
 
 export function ColorFoundation() {
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Tab' && !event.altKey && !event.ctrlKey && !event.metaKey) {
-        document.documentElement.dataset.focusMode = 'keyboard'
-      }
-    }
-    const handlePointerDown = () => { delete document.documentElement.dataset.focusMode }
-    document.addEventListener('keydown', handleKeyDown, true)
-    document.addEventListener('pointerdown', handlePointerDown, true)
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown, true)
-      document.removeEventListener('pointerdown', handlePointerDown, true)
-      delete document.documentElement.dataset.focusMode
-    }
-  }, [])
-
   const [semanticSections, otherSections] = [colorSections.slice(0, 6), colorSections.slice(6)]
 
   return <div className="app-shell docs-shell">
@@ -83,14 +67,8 @@ export function ColorFoundation() {
     <main aria-labelledby="color-title">
       <TopNavigation variant="design-system" section="Foundations" page="Color" />
       <div className="docs-content">
-        <header className="docs-page-header">
-          <div className="overview-tabs">
-            <div className="overview-heading"><h1 id="color-title">Color</h1><Badge tone="success">Foundations · Ready</Badge></div>
-            <DesignSystemSectionLinks sections={sections} label="Color sections" />
-            <Button className="docs-export" size="medium" onClick={exportColorDocumentation}><img src={exportIcon} alt="" />Export</Button>
-          </div>
-          <p>Color in CoreTech communicates hierarchy, state and brand. Every color is delivered as a token in three layers: Global tokens hold the raw palette, Semantic tokens describe a purpose (text, icon, surface, border, feedback, data), and Component tokens bind those purposes to a specific component. Always reach for the most specific token available — never a raw hex value.</p>
-        </header>
+        <DesignSystemPageHeader title="Color" headingId="color-title" sections={sections} onExport={exportColorDocumentation}
+          description="Color in CoreTech communicates hierarchy, state and brand. Every color is delivered as a token in three layers: Global tokens hold the raw palette, Semantic tokens describe a purpose (text, icon, surface, border, feedback, data), and Component tokens bind those purposes to a specific component. Always reach for the most specific token available — never a raw hex value." />
         <SectionCard className="docs-section" id="color-architecture" aria-labelledby="color-architecture-title" tabIndex={-1}>
           <SectionCardTitle headingId="color-architecture-title" icon={architectureIcon} action={<Badge>3 layers</Badge>}>Color Architecture</SectionCardTitle>
           <div className="docs-section-body">
@@ -161,7 +139,6 @@ function exportColorDocumentation() {
     if (cell.kind === 'preview') return `${cell.foreground} on ${cell.background}`
     return cell.items.map(([token, label]) => label ? `${token} (${label})` : token).join(' · ')
   }
-  const csvLine = (values: readonly string[]) => values.map(value => `"${value.replaceAll('"', '""')}"`).join(',')
   const rows = [
     ['Palette', 'Token', 'Value'],
     ...ramps.flatMap(({ name, values }) => steps.map((step, index) => [name, `${name.toLowerCase()}/${step}`, values[index]])),
@@ -172,10 +149,5 @@ function exportColorDocumentation() {
       ...table.rows.map(row => row.map(serializeCell)),
     ])),
   ]
-  const url = URL.createObjectURL(new Blob([rows.map(csvLine).join('\r\n')], { type: 'text/csv;charset=utf-8' }))
-  const link = document.createElement('a')
-  link.href = url
-  link.download = 'coretech-color-tokens.csv'
-  link.click()
-  window.setTimeout(() => URL.revokeObjectURL(url), 1000)
+  exportDesignSystemCsv('coretech-color-tokens.csv', rows)
 }

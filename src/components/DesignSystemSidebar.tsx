@@ -17,7 +17,11 @@ import pageStatus from '../assets/design-system/page-status.svg'
 import changelog from '../assets/design-system/changelog.svg'
 import contribute from '../assets/design-system/contribute.svg'
 
-const colorPath = '/designsystem/foundation/color'
+const foundationPaths: Readonly<Record<string, string | undefined>> = {
+  Color: '/designsystem/foundation/color',
+  Typography: '/designsystem/foundation/typography',
+}
+export type FoundationPage = 'Color' | 'Typography'
 const menus = [
   { title: 'Getting Started', isCompact: true, items: [{ label: 'Introduction', icon: intro }, { label: 'Principles', icon: principles }, { label: 'How to Use', icon: howToUse }] },
   { title: 'Foundations', items: ['Color', 'Typography', 'Spacing', 'Radius', 'Shadow', 'Layout', 'Iconography'].map((label, index) => ({ label, detail: `F${index + 1}`, status: 'success' as const })) },
@@ -28,11 +32,12 @@ const legend = [['Ready', 'success'], ['In progress', 'warning'], ['Not started'
 
 type Props = {
   mode: 'static' | 'drawer'
+  page: FoundationPage
   searchInput: RefObject<HTMLInputElement | null>
   onClose: () => void
 }
 
-export function DesignSystemSidebar({ mode, searchInput, onClose }: Props) {
+export function DesignSystemSidebar({ mode, page, searchInput, onClose }: Props) {
   const isDrawer = mode === 'drawer'
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [query, setQuery] = useState('')
@@ -67,8 +72,8 @@ export function DesignSystemSidebar({ mode, searchInput, onClose }: Props) {
           {!isCollapsed && <div className={`section-label${isCompact ? ' section-label--compact' : ''}`}>{title}</div>}
           <div className="menu-list">
             {items.map(({ label, ...item }) => <SidebarMenuButton
-              key={label} {...item} isCollapsed={isCollapsed} isSelected={label === 'Color'}
-              href={label === 'Color' ? colorPath : undefined}
+              key={label} {...item} isCollapsed={isCollapsed} isSelected={label === page}
+              href={foundationPaths[label]}
             >{label}</SidebarMenuButton>)}
           </div>
         </div>

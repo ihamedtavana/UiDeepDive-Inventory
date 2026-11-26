@@ -10,6 +10,7 @@ export default defineConfig({
         fileURLToPath(new URL('./index.html', import.meta.url)),
         fileURLToPath(new URL('./designsystem.html', import.meta.url)),
         fileURLToPath(new URL('./designsystem/foundation/color.html', import.meta.url)),
+        fileURLToPath(new URL('./designsystem/foundation/typography.html', import.meta.url)),
       ],
     },
   },

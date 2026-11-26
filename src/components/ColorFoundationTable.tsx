@@ -1,6 +1,7 @@
-import { Fragment, type CSSProperties } from 'react'
+import type { CSSProperties } from 'react'
 import { Badge } from './Badge'
 import type { ColorCell, ColorTableSpec } from './colorFoundationData'
+import { wrapTokenPath } from './wrapTokenPath'
 
 export function ColorFoundationTable({ table, label }: { table: ColorTableSpec; label: string }) {
   const isMatrix = ['feedback', 'badge', 'button'].includes(table.layout)
@@ -23,11 +24,6 @@ export function ColorFoundationTable({ table, label }: { table: ColorTableSpec; 
       </tr>)}</tbody>
     </table>
   </div>
-}
-
-export function wrapTokenPath(value: string) {
-  const parts = value.split('/')
-  return parts.map((part, index) => <Fragment key={index}>{index > 0 && <>/<wbr /></>}{part}</Fragment>)
 }
 
 function renderCell(cell: ColorCell, roleLabel?: string) {

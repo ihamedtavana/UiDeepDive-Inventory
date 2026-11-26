@@ -1,0 +1,199 @@
+.typography-foundation {
+  font-family: var(--semantic-typography-fontname), sans-serif;
+}
+
+@media (min-width: 1280px) {
+  .typography-foundation .overview-tabs { gap: var(--docs-gap); }
+}
+
+.typography-typeface {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--docs-padding-large);
+}
+
+.typography-specimen {
+  color: var(--docs-text);
+  font-size: 64px;
+  line-height: calc(var(--global-type-leading-11) * 1px);
+  font-weight: var(--global-type-weight-semibold);
+}
+
+.typography-typeface-name {
+  display: flex;
+  align-items: center;
+  gap: var(--docs-gap);
+  color: var(--docs-text);
+}
+
+.typography-weights {
+  display: grid;
+  gap: var(--docs-padding);
+  width: 100%;
+  margin: 0;
+}
+
+.typography-weights > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--docs-gap);
+}
+
+.typography-weights dt {
+  color: var(--docs-text);
+  font-size: calc(var(--semantic-typography-label-md-regular-fontsize) * 1px);
+  line-height: calc(var(--semantic-typography-label-md-regular-lineheight) * 1px);
+}
+
+.typography-weights dd { margin: 0; }
+
+.typography-context {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--docs-padding-large);
+}
+
+.typography-context-example {
+  display: grid;
+  align-items: center;
+  padding: var(--docs-padding-large);
+  border-radius: var(--docs-radius-large);
+  background: var(--semantic-colors-background-surface-secondary-default);
+}
+
+.typography-context-example .overview-card {
+  width: 270px;
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--docs-border);
+}
+.typography-context-example .overview-card .card-title { color: var(--docs-text); }
+.typography-context-example .overview-stat > div { font-weight: var(--semantic-typography-body-sm-default-weight); }
+
+.typography-guidelines { column-gap: var(--docs-padding-large); }
+
+.typography-table--scale col:nth-child(1) { width: 182px; }
+.typography-table--scale col:nth-child(3) { width: 142px; }
+.typography-table--scale col:nth-child(4) { width: 122px; }
+.typography-table--scale col:nth-child(5) { width: 93px; }
+.typography-table--roles col:nth-child(1) { width: 11.07%; }
+.typography-table--roles col:nth-child(2) { width: 23.77%; }
+.typography-table--roles col:nth-child(3) { width: 36.48%; }
+.typography-table--context col:nth-child(-n + 2) { width: 132px; }
+.typography-table--semantic col:first-child,
+.typography-table--accessibility col:first-child,
+.typography-table--audit col:first-child { width: 162px; }
+.typography-table--global col:first-child { width: 232px; }
+.typography-table--global col:nth-child(2) { width: 112px; }
+.typography-table--accessibility col:last-child { width: 143px; }
+.typography-table--audit col:nth-child(2) { width: 28.31%; }
+.typography-table--audit col:last-child { width: 133px; }
+
+.typography-table--scale td:nth-child(n + 3),
+.typography-table--roles td:nth-child(even),
+.typography-table--context td:nth-child(2),
+.typography-table--global td:nth-child(2),
+.typography-table--audit td:nth-child(2) { color: var(--docs-muted); }
+
+.typography-table--scale td:nth-child(2),
+.typography-table--context td:nth-child(3) { color: var(--docs-text); }
+.typography-table--context td:nth-child(3) { font-weight: var(--semantic-typography-label-sm-default-weight); }
+
+.typography-table--roles tbody th {
+  font-size: calc(var(--semantic-typography-title-sm-default-fontsize) * 1px);
+  line-height: calc(var(--semantic-typography-title-sm-default-lineheight) * 1px);
+  font-weight: var(--semantic-typography-title-sm-default-weight);
+}
+
+.typography-token {
+  display: grid;
+  gap: calc(var(--semantic-spacing-gap-xs) * 1px);
+}
+
+@media (width < 1280px) {
+  .typography-typeface,
+  .typography-context {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--docs-padding);
+  }
+
+  .typography-typeface-name { flex-wrap: wrap; }
+  .typography-typeface p { overflow-wrap: anywhere; }
+  .typography-weights dd { text-align: end; overflow-wrap: anywhere; }
+  .typography-context-example {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+  }
+  .typography-context-example .overview-card { max-width: 100%; }
+
+  .typography-table--scale {
+    --docs-table-cols: calc(var(--global-spacing-44) * 1px) repeat(3, minmax(0, 1fr));
+  }
+  .typography-table--scale tbody tr > :nth-child(1) { grid-area: 1 / 2 / 2 / -1; }
+  .typography-table--scale tr > :nth-child(2) { grid-area: 1 / 1 / span 2 / 2; }
+  .typography-table--scale tbody tr > :nth-child(3) { grid-area: 2 / 2; }
+  .typography-table--scale tbody tr > :nth-child(4) { grid-area: 2 / 3; }
+  .typography-table--scale tbody tr > :nth-child(5) { grid-area: 2 / 4; }
+  .typography-table--scale thead tr > :nth-child(1) { grid-area: 1 / 2; }
+  .typography-table--scale thead tr > :nth-child(2) { grid-area: 1 / 1; }
+  .typography-table--scale thead tr > :nth-child(3) { grid-area: 1 / 3; }
+  .typography-table--scale thead tr > :nth-child(4) { grid-area: 1 / 4; }
+  .typography-table--scale thead tr > :nth-child(n + 3),
+  .typography-table--roles thead tr > :nth-child(2) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .typography-table--scale tbody td:last-child:not(:has(.badge)) .docs-stacked-label {
+    position: static;
+    display: inline;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+  }
+
+  .typography-table--roles {
+    --docs-table-cols: minmax(0, 1fr) minmax(calc(var(--global-spacing-60) * 1px), 1.5fr) minmax(0, 1fr);
+  }
+  .typography-table--roles tbody tr > :nth-child(1) { grid-area: 1 / 1; }
+  .typography-table--roles tbody tr > :nth-child(2) { grid-area: 2 / 1; }
+  .typography-table--roles tbody tr > :nth-child(3) { grid-area: 1 / 2 / span 2; }
+  .typography-table--roles tbody tr > :nth-child(4) { grid-area: 1 / 3 / span 2; }
+
+  .typography-table--context,
+  .typography-table--global { --docs-table-cols: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr); }
+  .typography-table--semantic { --docs-table-cols: repeat(4, minmax(0, 1fr)); }
+  .typography-table--accessibility {
+    --docs-table-cols: calc(var(--global-spacing-32) * 1px) minmax(0, 1fr) max-content;
+  }
+}
+
+@media (width < 768px) {
+  .typography-table--scale { --docs-table-cols: minmax(0, 2fr) minmax(0, 3fr); }
+  .typography-table--scale tbody tr > :nth-child(2) { grid-area: 1 / 1 / span 4; }
+  .typography-table--scale tbody tr > :nth-child(3) { grid-area: 2 / 2; }
+  .typography-table--scale tbody tr > :nth-child(4) { grid-area: 3 / 2; }
+  .typography-table--scale tbody tr > :nth-child(5) { grid-area: 4 / 2; }
+
+  .typography-table--roles,
+  .typography-table--context,
+  .typography-table--semantic { --docs-table-cols: minmax(0, 1fr); }
+  .typography-table--roles tbody tr > :nth-child(n) { grid-area: auto; }
+
+  .typography-table--global,
+  .typography-table--accessibility { --docs-table-cols: minmax(0, 1fr) max-content; }
+  .typography-table--global tbody tr > :last-child,
+  .typography-table--accessibility tbody tr > :nth-child(2) { grid-area: 2 / 1 / auto / -1; }
+  .typography-table--accessibility tbody tr > :last-child { grid-area: 1 / 2; }
+  .typography-table--accessibility tbody th { align-self: center; }
+}
+
+@media (min-width: 360px) and (width < 768px) {
+  .typography-table--scale { --docs-table-cols: minmax(0, 2fr) minmax(0, 1.2fr) minmax(0, 1.8fr); }
+  .typography-table--scale tbody tr > :nth-child(2) { grid-row: 1 / span 3; }
+  .typography-table--scale tbody tr > :nth-child(4) { grid-area: 2 / 3; }
+  .typography-table--scale tbody tr > :nth-child(5) { grid-area: 3 / 2 / auto / -1; }
+}
