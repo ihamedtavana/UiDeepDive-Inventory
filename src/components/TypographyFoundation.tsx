@@ -6,7 +6,7 @@ import { OverviewCard } from './OverviewCard'
 import { SectionCard } from './SectionCard'
 import { SectionCardTitle } from './SectionCardTitle'
 import { TopNavigation } from './TopNavigation'
-import { TypographyFoundationTable } from './TypographyFoundationTable'
+import { DesignSystemTable } from './DesignSystemTable'
 import { exportDesignSystemCsv } from './exportDesignSystemCsv'
 import { wrapTokenPath } from './wrapTokenPath'
 import {
@@ -91,7 +91,7 @@ export function TypographyFoundation() {
           <SectionCardTitle headingId="type-scale-title" icon={scaleIcon} action={<Badge>{typeScale.length} styles</Badge>}>Type Scale</SectionCardTitle>
           <div className="docs-section-body">
             <p>All 14 text styles, from largest to smallest. “Used” counts the text layers using each style on the Inventory Dashboard.</p>
-            <TypographyFoundationTable layout="scale" label="Type Scale" headings={scaleHeadings}
+            <DesignSystemTable className="typography-table typography-table--scale" label="Type Scale" headings={scaleHeadings}
               rows={typeScale.map(([style, path, preview, size, leading, weight, uses]) => [
                 style, <span style={previewStyle(path)}>{preview}</span>, `${size} / ${leading} px`,
                 `${typographyWeights[weight].label} · ${weight}`, uses > 0 ? uses : <Badge tone="warning">Unused</Badge>,
@@ -102,7 +102,7 @@ export function TypographyFoundation() {
         <SectionCard className="docs-section" id="roles" aria-labelledby="roles-title" tabIndex={-1}>
           <SectionCardTitle headingId="roles-title" icon={rolesIcon} action={<Badge>{typographyRoles.length} roles</Badge>}>Roles</SectionCardTitle>
           <div className="docs-section-body">
-            <TypographyFoundationTable layout="roles" label="Roles" headings={['Role', 'Styles', 'Use for', 'Example on the dashboard']}
+            <DesignSystemTable className="typography-table typography-table--roles" label="Roles" headings={['Role', 'Styles', 'Use for', 'Example on the dashboard']}
               rows={typographyRoles.map(([role, styles, usage, example]) => [role, wrapTokenPath(styles), usage, example])} />
           </div>
         </SectionCard>
@@ -122,7 +122,7 @@ export function TypographyFoundation() {
                   </div>
                 </OverviewCard>
               </div>
-              <TypographyFoundationTable layout="context" label="Typography in context" headings={['Element', 'Text', 'Style']}
+              <DesignSystemTable className="typography-table typography-table--context" label="Typography in context" headings={['Element', 'Text', 'Style']}
                 rows={typographyContext.map(([element, text, style]) => [element, text, wrapTokenPath(style)])} />
             </div>
           </div>
@@ -132,11 +132,11 @@ export function TypographyFoundation() {
           <SectionCardTitle headingId="typography-tokens-title" icon={tokensIcon} action={<Badge>{typeScale.length * 3 + 1} tokens</Badge>}>Typography Tokens</SectionCardTitle>
           <div className="docs-section-body">
             <p>Each text style is bound to four semantic tokens: the shared Fontname plus its own size, line height and weight. Semantic tokens alias a small global scale (type/size, type/leading, type/weight).</p>
-            <TypographyFoundationTable layout="semantic" label="Semantic typography tokens" headings={semanticHeadings}
+            <DesignSystemTable className="typography-table typography-table--semantic" label="Semantic typography tokens" headings={semanticHeadings}
               rows={semanticTypographyTokens.map(({ style, metrics }) => [style, ...metrics.map(([path, alias, value]) =>
                 <span className="typography-token" key={path}><strong>{wrapTokenPath(path)}</strong><span className="docs-muted">{wrapTokenPath(alias)} · {value}</span></span>,
               )])} />
-            <TypographyFoundationTable layout="global" label="Global typography tokens" headings={globalHeadings} rows={globalTypographyTokens} />
+            <DesignSystemTable className="typography-table typography-table--global" label="Global typography tokens" headings={globalHeadings} rows={globalTypographyTokens} />
           </div>
         </SectionCard>
 
@@ -153,7 +153,7 @@ export function TypographyFoundation() {
         <SectionCard className="docs-section" id="accessibility" aria-labelledby="accessibility-title" tabIndex={-1}>
           <SectionCardTitle headingId="accessibility-title" icon={searchIcon} action={<Badge>WCAG 2.2</Badge>}>Accessibility</SectionCardTitle>
           <div className="docs-section-body">
-            <TypographyFoundationTable layout="accessibility" label="Typography accessibility" headings={['Guideline', 'Detail', 'Status']}
+            <DesignSystemTable className="typography-table typography-table--accessibility" label="Typography accessibility" headings={['Guideline', 'Detail', 'Status']}
               rows={typographyAccessibility.map(([name, detail, status, tone]) => [name, detail, <Badge tone={tone}>{status}</Badge>])} />
           </div>
         </SectionCard>
@@ -162,7 +162,7 @@ export function TypographyFoundation() {
           <SectionCardTitle headingId="token-audit-notes-title" icon={contextIcon} action={<Badge>For review</Badge>}>Token Audit Notes</SectionCardTitle>
           <div className="docs-section-body">
             <p>Findings collected while documenting this page. Nothing has been changed in the styles or tokens — these are suggestions for the team to review.</p>
-            <TypographyFoundationTable layout="audit" label="Token Audit Notes" headings={['Finding', 'Tokens / Styles', 'Details', 'Severity']}
+            <DesignSystemTable className="typography-table typography-table--audit docs-table--audit" label="Token Audit Notes" headings={['Finding', 'Tokens / Styles', 'Details', 'Severity']}
               rows={typographyAudit.map(([finding, tokens, details, severity, tone]) => [finding, wrapTokenPath(tokens), details, <Badge tone={tone}>{severity}</Badge>])} />
           </div>
         </SectionCard>

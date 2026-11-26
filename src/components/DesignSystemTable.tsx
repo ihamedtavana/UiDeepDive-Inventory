@@ -2,16 +2,15 @@ import type { ReactNode } from 'react'
 import { wrapTokenPath } from './wrapTokenPath'
 
 type Props = {
-  layout: 'scale' | 'roles' | 'context' | 'semantic' | 'global' | 'accessibility' | 'audit'
+  className: string
   label: string
   headings: readonly string[]
   rows: ReadonlyArray<readonly [string, ...ReactNode[]]>
 }
 
-export function TypographyFoundationTable({ layout, label, headings, rows }: Props) {
-  const layoutClass = layout === 'audit' ? ' docs-table--audit' : ''
+export function DesignSystemTable({ className, label, headings, rows }: Props) {
   return <div className="docs-table-container">
-    <table role="table" className={`docs-table typography-table typography-table--${layout}${layoutClass}`} aria-label={label}>
+    <table role="table" className={`docs-table ${className}`} aria-label={label}>
       <colgroup>{headings.map(heading => <col key={heading} />)}</colgroup>
       <thead role="rowgroup"><tr role="row">
         {headings.map(heading => <th key={heading} scope="col" role="columnheader">{heading}</th>)}
