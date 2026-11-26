@@ -1,8 +1,8 @@
-import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
-import { afterEach, expect, it } from 'vitest'
+import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react'
+import { afterEach, expect, it, vi } from 'vitest'
 import { App } from './App'
 
-afterEach(cleanup)
+afterEach(() => { cleanup(); vi.useRealTimers() })
 it('uses Tab navigation for focus styling and clears it on pointer interaction', () => {
   render(<App />)
   fireEvent.keyDown(document, { key: 'Tab' })
@@ -14,7 +14,7 @@ it('uses Tab navigation for focus styling and clears it on pointer interaction',
   fireEvent.keyDown(document, { key: 'Tab', shiftKey: true })
   expect(document.documentElement.dataset.focusMode).toBe('keyboard')
 })
-it('leaves focus on the trigger when opening either panel and allows Escape', () => {
+it('keeps date-panel focus and moves focus into the warehouse page, with Escape support', () => {
   render(<App />)
   const custom = screen.getByRole('button', { name: 'Custom' })
   custom.focus()
@@ -25,8 +25,8 @@ it('leaves focus on the trigger when opening either panel and allows Escape', ()
   const switcher = screen.getByRole('button', { name: /Switch Warehouse/ })
   switcher.focus()
   fireEvent.click(switcher)
-  expect(document.activeElement).toBe(switcher)
-  fireEvent.keyDown(switcher, { key: 'Escape' })
+  expect(document.activeElement).toBe(screen.getByRole('heading', {name:'Switch warehouse'}))
+  fireEvent.keyDown(document.activeElement!, { key: 'Escape' })
   expect(screen.queryByRole('dialog', { name: 'Switch warehouse' })).toBeNull()
 })
 it('applies a valid custom range, dismisses with Escape, and restores preset data', () => {
@@ -45,14 +45,20 @@ it('applies a valid custom range, dismisses with Escape, and restores preset dat
   fireEvent.click(screen.getByRole('button', { name: '30 days' }))
   expect(screen.getByRole('heading', { name: 'Warehouse Overview' })).toBeTruthy()
 })
-it('searches and switches warehouses without presenting another warehouse’s data', () => {
+it('searches and confirms the new warehouse before updating the dashboard', async () => {
+  vi.useFakeTimers()
   render(<App />)
-  fireEvent.click(screen.getByRole('button', { name: /Switch Warehouse/ }))
-  const dialog = screen.getByRole('dialog', { name: 'Switch warehouse' })
-  fireEvent.change(within(dialog).getByRole('textbox', { name: 'Search warehouses' }), { target: { value: 'chicago' } })
-  expect(within(dialog).queryByText('Dallas South')).toBeNull()
-  fireEvent.click(within(dialog).getByRole('button', { name: /Chicago North/ }))
-  expect(screen.getByRole('heading', { name: 'Chicago North' })).toBeTruthy()
-  expect(screen.getByRole('status').textContent).toContain('No demo data')
-  expect(screen.queryByRole('region', { name: 'Shelves' })).toBeNull()
+  fireEvent.click(screen.getByRole('button', {name:/Switch Warehouse/}))
+  const dialog=screen.getByRole('dialog',{name:'Switch warehouse'})
+  expect(within(dialog).getByRole('button',{name:'Switch to this warehouse'}).hasAttribute('disabled')).toBe(true)
+  fireEvent.change(within(dialog).getByRole('textbox',{name:'Search warehouses'}),{target:{value:'frankfurt'}})
+  expect(within(dialog).queryByRole('radio',{name:/London/})).toBeNull()
+  fireEvent.click(within(dialog).getByRole('radio',{name:/Frankfurt Hub/}))
+  expect(screen.queryByRole('heading',{name:'Frankfurt Hub'})).toBeNull()
+  fireEvent.click(within(dialog).getByRole('button',{name:'Switch to this warehouse'}))
+  expect(screen.getByRole('button',{name:'Switching…'}).hasAttribute('disabled')).toBe(true)
+  await act(async()=>{vi.advanceTimersByTime(500)})
+  expect(screen.getByRole('heading',{name:'Frankfurt Hub'})).toBeTruthy()
+  expect(screen.getByRole('status').textContent).toContain('Switched to Frankfurt Hub')
+  expect(screen.getByRole('heading',{name:'Warehouse Overview'})).toBeTruthy()
 })

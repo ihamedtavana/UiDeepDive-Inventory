@@ -114,9 +114,11 @@ export type StockBoxProps = {
   width?: number;
   className?: string;
   isCompact?: boolean;
+  /** Keep the standard illustration geometry while sealing a partially filled box. */
+  isSealed?: boolean;
 };
 
-export function StockBox({ state, onHand = 0, adding, width = W, className, isCompact = false }: StockBoxProps) {
+export function StockBox({ state, onHand = 0, adding, width = W, className, isCompact = false, isSealed = false }: StockBoxProps) {
   const reduce = usePrefersReducedMotion();
   const clipId = `sb-face-${useId().replace(/:/g, "")}`;
   const filled = Math.min(CAPACITY, onHand + adding);
@@ -128,7 +130,7 @@ export function StockBox({ state, onHand = 0, adding, width = W, className, isCo
     return () => window.clearTimeout(timer);
   }, [state, reduce]);
 
-  const closed = isCompact || state === 'saving' || state === 'success' || (state === 'full' && isFullSealed);
+  const closed = isSealed || isCompact || state === 'saving' || state === 'success' || (state === 'full' && isFullSealed);
   const initialFlap = reduce && !closed ? 1 : 0;
   const leftT = useTween(closed ? 0 : 1, closed ? 320 : 420, closed ? ease.inOut : ease.back, closed ? 60 : 0, reduce, initialFlap);
   const rightT = useTween(closed ? 0 : 1, closed ? 320 : 420, closed ? ease.inOut : ease.back, closed ? 130 : 70, reduce, initialFlap);

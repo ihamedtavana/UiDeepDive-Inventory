@@ -3,7 +3,7 @@ import motherboard from '../assets/raw0_0.png'
 import ram1 from '../assets/raw1_0.png'
 import ram2 from '../assets/raw2_0.png'
 import cpu from '../assets/raw3_0.png'
-import { warehouses } from './SwitchWarehouse'
+import { warehouseCatalog as warehouses } from './warehouseCatalog'
 import { INVENTORY_CATALOG, SHELF_CATALOG } from './inventoryCatalog'
 
 export const WAREHOUSES = warehouses.map(warehouse => warehouse.name)
@@ -68,7 +68,7 @@ export function stockCount(deliveries: StockDelivery[], sku: string, warehouse: 
   const product = INVENTORY_CATALOG.find(item => item.sku === sku)
   const recorded = deliveries.filter(item => item.warehouse === warehouse).flatMap(item => item.allocations)
   const allocated = recorded.filter(item => item.bin === product?.defaultBin).reduce((sum, item) => sum + item.quantity, 0)
-  const initial = warehouse === WAREHOUSES[0] ? Math.min(product?.initial ?? 0, Math.max(0, BIN_CAPACITY - allocated)) : 0
+  const initial = (warehouse === WAREHOUSES[0] || warehouse === 'Frankfurt Hub') ? Math.min(product?.initial ?? 0, Math.max(0, BIN_CAPACITY - allocated)) : 0
   return initial + deliveries.filter(item => item.sku === sku && item.warehouse === warehouse)
     .flatMap(item => item.allocations).reduce((total, allocation) => total + allocation.quantity, 0)
 }
@@ -87,7 +87,7 @@ export function shelfBins(deliveries: StockDelivery[], warehouse: string, shelf:
     const added = allocations.filter(item => item.bin === id).reduce((total, item) => total + item.quantity, 0)
     const seed = INVENTORY_CATALOG.find(product => product.defaultBin === id)?.initial ?? 0
     // Existing saved deliveries take precedence when introducing the seeded inventory.
-    const initial = warehouse === WAREHOUSES[0] ? Math.min(seed, Math.max(0, BIN_CAPACITY - added)) : 0
+    const initial = (warehouse === WAREHOUSES[0] || warehouse === 'Frankfurt Hub') ? Math.min(seed, Math.max(0, BIN_CAPACITY - added)) : 0
     const used = initial + added
     return { id, label, used, room: Math.max(0, BIN_CAPACITY - used) }
   })

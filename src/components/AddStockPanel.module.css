@@ -137,6 +137,11 @@
 
 .callout { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--gap-xl); border: 1px solid var(--semantic-colors-feedback-error-primary-border); border-radius: var(--radius); background: var(--semantic-colors-feedback-error-primary-background); color: var(--error); padding: var(--gap-lg); animation: appear 160ms ease-out both; }
 .callout > div { display: flex; gap: var(--gap-md); }
+.callout.success { --gap-xs: calc(var(--semantic-spacing-gap-xs) * 1px); --gap-md: calc(var(--semantic-spacing-gap-md) * 1px); --gap-lg: calc(var(--semantic-spacing-padding-md) * 1px); --radius: calc(var(--semantic-radius-md) * 1px); color: var(--semantic-colors-feedback-success-primary-text); background: var(--semantic-colors-feedback-success-primary-background); border-color: var(--semantic-colors-feedback-success-primary-border); }
+.success > div { flex-direction: column; gap: calc(var(--semantic-spacing-gap-sm) * 1px); }
+.callout.success strong { display: flex; align-items: center; gap: calc(var(--semantic-spacing-gap-md) * 1px); margin: 0; }
+.callout.success strong :global(.icon) { margin: 0; }
+.success p { margin: 0; padding-left: calc(var(--semantic-spacing-padding-xl) * 1px); font-size: calc(var(--semantic-typography-label-sm-regular-fontsize) * 1px); line-height: calc(var(--semantic-typography-label-sm-regular-lineheight) * 1px); }
 .callout strong { display: block; margin-bottom: var(--gap-xs); font-size: calc(var(--semantic-typography-label-md-regular-fontsize) * 1px); line-height: calc(var(--semantic-typography-label-md-regular-lineheight) * 1px); font-weight: 500; }
 .callout :global(.icon) { margin-top: var(--gap-xs); }
 .callout :global(.button) { flex: none; }

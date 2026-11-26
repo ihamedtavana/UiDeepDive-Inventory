@@ -34,6 +34,13 @@ export function OverviewCards({ period, warehouse, deliveries }: { period: Perio
   const received = currentDeliveries(deliveries, warehouse, period).flatMap(delivery => delivery.allocations).reduce((sum, allocation) => sum + allocation.quantity, 0)
   const incoming = baselineIncoming + received
   const format = (value: number) => value.toLocaleString('en-US')
+  // Frankfurt summary is the explicit demo snapshot in Final / Warehouse Switch / 04.
+  if (warehouse === 'Frankfurt Hub' && period === '30 days' && !received) return <div className="overview-cards">
+    <OverviewCard title="Total Products" icon={packageSearch} badge="+2.1%" isPositive><div className="overview-card-body"><Reading value="980" label="Products"/><Stats items={[{value:'1,540',label:'Available'},{value:'42',label:'Out Stock'},{value:'126',label:'Reserved'}]}/></div></OverviewCard>
+    <OverviewCard title="Stock health" icon={chart} badge="74 SKUs"><div className="overview-card-body"><Reading value="82%" label="In stock"/><Stats items={[{value:'68',label:'In stock',status:'success'},{value:'6',label:'Low',status:'warning'},{value:'0',label:'Out',status:'error'}]}/></div></OverviewCard>
+    <OverviewCard title="Inbound vs outbound" icon={vertical} badge="+65 net" isPositive><div className="movement-stats"><div><strong>1,860</strong><span><img className="icon" src={up} alt=""/>Inbound</span></div><div><strong>1,795</strong><span><img className="icon" src={down} alt=""/>Outbound</span></div></div></OverviewCard>
+    <OverviewCard title="Warehouse Storage" icon={packageSearch} badge="1,900 Slots"><div className="overview-card-body"><Reading value="68%" label="Capacity Used"/><Stats items={[{value:'64%',label:'Zone A'},{value:'72%',label:'Zone B'},{value:'69%',label:'Zone C'}]}/></div></OverviewCard>
+  </div>
   return <div className="overview-cards">
     <OverviewCard title="Total Products" icon={packageSearch} badge={`${summary.bins.length} SKUs`}><div className="overview-card-body"><Reading value={format(summary.bins.length)} label="Products" /><Stats items={[{value:format(summary.used),label:'On hand'}, {value:String(health.out),label:'Out Stock'}, {value:String(health.low),label:'Low Stock'}]} /></div></OverviewCard>
     <OverviewCard title="Stock health" icon={chart} badge={`${summary.bins.length} SKUs`}><div className="overview-card-body"><Reading value={`${Math.round(healthy / summary.bins.length * 100)}%`} label="In stock" /><Stats items={[{value:String(healthy),label:'In stock',status:'success'}, {value:String(health.low),label:'Low',status:'warning'}, {value:String(health.out),label:'Out',status:'error'}]} /></div></OverviewCard>

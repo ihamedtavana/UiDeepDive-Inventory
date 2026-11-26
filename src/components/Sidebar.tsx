@@ -6,7 +6,6 @@ import { SidebarMenuButton } from './SidebarMenuButton'
 import { SectionCard } from './SectionCard'
 import { PercentageContainer } from './PercentageContainer'
 import logo from '../assets/imgFrame2147235759.svg'
-import warehouse from '../assets/imgImage236.png'
 import layout from '../assets/imgLayoutRight.svg'
 import grid from '../assets/imgGrid01.svg'
 import home from '../assets/imgHome02.svg'
@@ -20,9 +19,8 @@ import packageSearch from '../assets/imgPackageSearch.svg'
 import chevron from '../assets/imgChevronRight.svg'
 import settings from '../assets/imgSettings01.svg'
 import headphones from '../assets/imgHeadphones02.svg'
-import { SwitchWarehouse, warehouses } from './SwitchWarehouse'
+import { warehouseCatalog as warehouses } from './warehouseCatalog'
 import { productSummary, inventorySummary, type StockDelivery } from './stockInventory'
-import { SHELF_CATALOG } from './inventoryCatalog'
 
 const menu = [
   { label: 'Overview', icon: grid }, { label: 'Warehouse', icon: home },
@@ -35,14 +33,9 @@ const shelves = [
   ['RAM', 'B1', 'warning'], ['Storage', 'B2', 'warning'], ['Power Supplies', 'B3', 'success'],
   ['Cases', 'C1', 'success'], ['Cooling Systems', 'C2', 'error'],
 ] as const
-export function Sidebar({ selectedWarehouse, deliveries, onSelectWarehouse }: { selectedWarehouse: string; deliveries: StockDelivery[]; onSelectWarehouse: (name: string) => void }) {
+export function Sidebar({ selectedWarehouse, deliveries, onOpenWarehouse, isSwitching = false }: { selectedWarehouse: string; deliveries: StockDelivery[]; onOpenWarehouse: () => void; isSwitching?: boolean }) {
   const summary = { ...inventorySummary(deliveries, selectedWarehouse), ...productSummary(deliveries, selectedWarehouse) }
-  const [isWarehouseOpen, setIsWarehouseOpen] = useState(false)
-  const switchRef = useRef<HTMLDivElement>(null)
-  useEffect(() => { if (!isWarehouseOpen) return; const close = (event: PointerEvent) => { if (!switchRef.current?.contains(event.target as Node)) setIsWarehouseOpen(false) }; document.addEventListener('pointerdown', close); return () => document.removeEventListener('pointerdown', close) }, [isWarehouseOpen])
-  useEffect(() => { if (!isWarehouseOpen) return; const onKeyDown = (event: KeyboardEvent) => { if (event.key === 'Escape') { setIsWarehouseOpen(false); switchRef.current?.querySelector<HTMLButtonElement>('.warehouse-switch')?.focus() } }; document.addEventListener('keydown', onKeyDown); return () => document.removeEventListener('keydown', onKeyDown) }, [isWarehouseOpen])
-  const closeWarehouse = () => { setIsWarehouseOpen(false); switchRef.current?.querySelector<HTMLButtonElement>('.warehouse-switch')?.focus() }
-  const [isCollapsed, setIsCollapsed] = useState(() =>
+  const [isManuallyCollapsed, setIsCollapsed] = useState(() =>
     typeof window.matchMedia === 'function' && window.matchMedia('(min-width: 1024px) and (width < 1200px)').matches,
   )
   useEffect(() => {
@@ -52,6 +45,8 @@ export function Sidebar({ selectedWarehouse, deliveries, onSelectWarehouse }: { 
     breakpoint.addEventListener('change', handleChange)
     return () => breakpoint.removeEventListener('change', handleChange)
   }, [])
+  const isCollapsed = isSwitching || isManuallyCollapsed
+  const activeWarehouse = warehouses.find(w => w.name === selectedWarehouse) ?? warehouses[0]
   const searchRef = useRef<HTMLInputElement>(null)
   const expandSearch = () => {
     setIsCollapsed(false)
@@ -59,17 +54,17 @@ export function Sidebar({ selectedWarehouse, deliveries, onSelectWarehouse }: { 
   }
   return <aside className={`sidebar${isCollapsed ? ' is-collapsed' : ''}`} aria-label="Sidebar">
     <div className="sidebar-logo"><div className="brand"><img src={logo} alt="" />{!isCollapsed && <h1>CoreTech</h1>}</div><Button appearance="ghost" className="sidebar-toggle" aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'} aria-expanded={!isCollapsed} onClick={() => setIsCollapsed(!isCollapsed)}><img className="icon" src={layout} alt="" /></Button></div>
-    {!isCollapsed && <div className="warehouse-switch-anchor" ref={switchRef}><section className="warehouse-card" aria-label="Current warehouse">
-      <div className="warehouse-card-content"><img className="warehouse-image" src={warehouse} alt="" />
+    {!isCollapsed && <div className="warehouse-switch-anchor"><section className="warehouse-card" aria-label="Current warehouse">
+      <div className="warehouse-card-content"><img className="warehouse-image" src={activeWarehouse.image} alt={`${selectedWarehouse} building`} />
         <div><div className="muted">Warehouse</div><strong>{selectedWarehouse}</strong></div>
-        <div className="badges"><Badge>{selectedWarehouse === 'New York Central' ? SHELF_CATALOG.length : warehouses.find(item => item.name === selectedWarehouse)?.shelves} Shelves</Badge>{selectedWarehouse === 'New York Central' && <><Badge tone="warning">{summary.low} Low</Badge><Badge tone="error">{summary.out} Out</Badge></>}</div>
+        <div className="badges"><Badge>{activeWarehouse.shelves} Shelves</Badge>{activeWarehouse.low > 0 && <Badge tone="warning">{activeWarehouse.low} Low</Badge>}{activeWarehouse.out > 0 && <Badge tone="error">{activeWarehouse.out} Out</Badge>}</div>
       </div>
-      <button type="button" className="warehouse-switch" aria-expanded={isWarehouseOpen} aria-haspopup="dialog" onClick={() => setIsWarehouseOpen(open => !open)}><img className="icon" src={switchIcon} alt="" /><span>Switch Warehouse</span><Badge>4</Badge></button>
-    </section>{isWarehouseOpen && <SwitchWarehouse selected={selectedWarehouse} onClose={closeWarehouse} onSelect={name => { onSelectWarehouse(name); closeWarehouse() }} />}</div>}
+      <button type="button" className="warehouse-switch" onClick={onOpenWarehouse}><img className="icon" src={switchIcon} alt="" /><span>Switch Warehouse</span><Badge>{warehouses.length - 1}</Badge></button>
+    </section></div>}
     <div className="search-section"><div className="divider" /><Search isCollapsed={isCollapsed} onExpand={expandSearch} inputRef={searchRef} /><div className="divider" /></div>
     <nav aria-label="Main menu" className="menu-section">{!isCollapsed && <div className="section-label">Main Menu</div>}<div className="menu-list">{menu.map((item, index) => <SidebarMenuButton key={item.label} icon={item.icon} detail={item.detail} isCollapsed={isCollapsed} isSelected={index === 0}>{item.label}</SidebarMenuButton>)}</div></nav>
     <div className="divider" />
-    {selectedWarehouse === 'New York Central' && <><section className="menu-section" aria-label="Shelves">{!isCollapsed && <div className="section-label">Shelves</div>}<div className="menu-list">{shelves.map(([label, detail]) => { const stock = inventorySummary(deliveries, selectedWarehouse, detail); return <SidebarMenuButton key={label} detail={detail} status={stock.out ? 'error' : stock.low ? 'warning' : 'success'} isCollapsed={isCollapsed}>{label}</SidebarMenuButton> })}</div></section>
+    {<><section className="menu-section" aria-label="Shelves">{!isCollapsed && <div className="section-label">Shelves</div>}<div className="menu-list">{shelves.map(([label, detail]) => { const stock = inventorySummary(deliveries, selectedWarehouse, detail); return <SidebarMenuButton key={label} detail={detail} status={stock.out ? 'error' : stock.low ? 'warning' : 'success'} isCollapsed={isCollapsed}>{label}</SidebarMenuButton> })}</div></section>
     <div className="divider" />
     {!isCollapsed && <><SectionCard className="storage-card" aria-label="Warehouse storage">
       <div className="storage-title"><img className="icon" src={packageSearch} alt="" />Warehouse Storage</div>

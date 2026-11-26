@@ -4,7 +4,7 @@ import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/600.css'
 import '@fontsource/roboto/700.css'
-import { App } from './components/App'
+import { AppRouter } from './components/AppRouter'
 import './tokens/tokens.css'
 import './components/App.css'
 
@@ -14,6 +14,6 @@ if (!root) throw new Error('Root element not found')
 
 createRoot(root).render(
   <StrictMode>
-    <App />
+    <AppRouter />
   </StrictMode>,
 )
