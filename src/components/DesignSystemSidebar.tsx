@@ -17,7 +17,7 @@ import pageStatus from '../assets/design-system/page-status.svg'
 import changelog from '../assets/design-system/changelog.svg'
 import contribute from '../assets/design-system/contribute.svg'
 
-const foundationPaths: Readonly<Record<string, string | undefined>> = {
+const pagePaths: Readonly<Record<string, string | undefined>> = {
   Color: '/designsystem/foundation/color',
   Typography: '/designsystem/foundation/typography',
   Spacing: '/designsystem/foundation/spacing',
@@ -25,8 +25,9 @@ const foundationPaths: Readonly<Record<string, string | undefined>> = {
   Shadow: '/designsystem/foundation/shadow',
   Layout: '/designsystem/foundation/layout',
   Iconography: '/designsystem/foundation/iconography',
+  Button: '/designsystem/components/button',
 }
-export type FoundationPage = 'Color' | 'Typography' | 'Spacing' | 'Radius' | 'Shadow' | 'Layout' | 'Iconography'
+export type DesignSystemPage = 'Color' | 'Typography' | 'Spacing' | 'Radius' | 'Shadow' | 'Layout' | 'Iconography' | 'Button'
 const menus = [
   { title: 'Getting Started', isCompact: true, items: [{ label: 'Introduction', icon: intro }, { label: 'Principles', icon: principles }, { label: 'How to Use', icon: howToUse }] },
   { title: 'Foundations', items: ['Color', 'Typography', 'Spacing', 'Radius', 'Shadow', 'Layout', 'Iconography'].map((label, index) => ({ label, detail: `F${index + 1}`, status: 'success' as const })) },
@@ -37,7 +38,7 @@ const legend = [['Ready', 'success'], ['In progress', 'warning'], ['Not started'
 
 type Props = {
   mode: 'static' | 'drawer'
-  page: FoundationPage
+  page: DesignSystemPage
   searchInput: RefObject<HTMLInputElement | null>
   onClose: () => void
 }
@@ -78,7 +79,7 @@ export function DesignSystemSidebar({ mode, page, searchInput, onClose }: Props)
           <div className="menu-list">
             {items.map(({ label, ...item }) => <SidebarMenuButton
               key={label} {...item} isCollapsed={isCollapsed} isSelected={label === page}
-              href={foundationPaths[label]}
+              href={pagePaths[label]}
             >{label}</SidebarMenuButton>)}
           </div>
         </div>

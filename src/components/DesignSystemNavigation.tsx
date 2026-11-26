@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useSyncExternalStore, type KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { Button } from './Button'
-import { DesignSystemSidebar, type FoundationPage } from './DesignSystemSidebar'
+import { DesignSystemSidebar, type DesignSystemPage } from './DesignSystemSidebar'
 import logo from '../assets/design-system/logo.svg'
 import search from '../assets/design-system/search.svg'
 
@@ -28,7 +28,7 @@ function keepTabFocusInDrawer(event: ReactKeyboardEvent<HTMLDialogElement>) {
   }
 }
 
-export function DesignSystemNavigation({ page = 'Color' }: { page?: FoundationPage }) {
+export function DesignSystemNavigation({ page = 'Color' }: { page?: DesignSystemPage }) {
   const isDesktop = useSyncExternalStore(subscribeViewport, isDesktopViewport)
   const [isOpen, setIsOpen] = useState(false)
   const dialog = useRef<HTMLDialogElement>(null)

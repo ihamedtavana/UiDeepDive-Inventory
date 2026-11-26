@@ -1,25 +1,25 @@
 .button.sidebar-toggle { display: flex; align-items: center; justify-content: center; width: 32px; padding: 0; }
 .button > .focus-ring { border-radius: calc(var(--semantic-radius-md) * 1px); }
 .button:focus, .tab-button:focus, .movement-filter button:focus { outline: none; }
-:root[data-focus-mode="keyboard"] .button:focus-visible > .focus-ring, :root[data-focus-mode="keyboard"] .tab-button:focus-visible > .focus-ring, :root[data-focus-mode="keyboard"] .movement-filter button:focus-visible > .focus-ring, :root[data-focus-mode="keyboard"] .search:has(input:focus-visible) > .focus-ring, :root[data-focus-mode="keyboard"] .product-search:has(input:focus-visible) > .focus-ring { display: block; }
+.button[data-button-preview="focused"] > .focus-ring, :root[data-focus-mode="keyboard"] .button:focus-visible > .focus-ring, :root[data-focus-mode="keyboard"] .tab-button:focus-visible > .focus-ring, :root[data-focus-mode="keyboard"] .movement-filter button:focus-visible > .focus-ring, :root[data-focus-mode="keyboard"] .search:has(input:focus-visible) > .focus-ring, :root[data-focus-mode="keyboard"] .product-search:has(input:focus-visible) > .focus-ring { display: block; }
 .button { --button-border: var(--component-button-filled-secondary-border-default); --button-shadow: calc(var(--semantic-elevation-xs-offsetx) * 1px) calc(var(--semantic-elevation-xs-offsety) * 1px) calc(var(--semantic-elevation-xs-radius) * 1px) calc(var(--semantic-elevation-xs-spread) * 1px) var(--semantic-elevation-xs-color); display: inline-flex; align-items: center; justify-content: center; gap: calc(var(--semantic-spacing-gap-md) * 1px); font: inherit; font-size: calc(var(--semantic-typography-label-md-default-fontsize) * 1px); line-height: calc(var(--semantic-typography-label-md-default-lineheight) * 1px); font-weight: var(--semantic-typography-label-md-default-weight); white-space: nowrap; cursor: pointer; color: var(--component-button-filled-secondary-text-icon-default); background: var(--component-button-filled-secondary-background-default); border: 0; border-radius: calc(var(--component-radius) * 1px); box-shadow: inset 0 0 0 1px var(--button-border), var(--button-shadow); }
-.button:hover { background: var(--component-button-filled-secondary-background-hover); }
-.button:active { background: var(--component-button-filled-secondary-background-pressed); }
+.button:is(:hover, [data-button-preview="hover"]) { background: var(--component-button-filled-secondary-background-hover); }
+.button:is(:active, [data-button-preview="pressed"]) { background: var(--component-button-filled-secondary-background-pressed); }
 :root[data-focus-mode="keyboard"] .button:focus-visible { --button-border: var(--component-button-filled-secondary-border-focused); }
 .button:disabled { color: var(--component-button-filled-secondary-text-icon-disabled); background: var(--component-button-filled-secondary-background-disable); --button-border: var(--component-button-filled-secondary-border-disabled); cursor: not-allowed; }
 .button--primary { color: var(--component-button-filled-primary-text-icon-default); background: var(--component-button-filled-primary-background-default); --button-border: transparent; }
 :root[data-focus-mode="keyboard"] .button--primary:focus-visible { --button-border: transparent; }
-.button--primary:hover { background: var(--component-button-filled-primary-background-hover); }
-.button--primary:active { background: var(--component-button-filled-primary-background-pressed); }
+.button--primary:is(:hover, [data-button-preview="hover"]) { background: var(--component-button-filled-primary-background-hover); }
+.button--primary:is(:active, [data-button-preview="pressed"]) { background: var(--component-button-filled-primary-background-pressed); }
 .button--primary:disabled { color: var(--component-button-filled-primary-text-icon-disabled); background: var(--component-button-filled-primary-background-disable); --button-border: var(--component-button-filled-primary-border-disabled); }
 .button--ghost { --button-shadow: 0 0 0 0 transparent; color: var(--component-button-borderless-secondary-text-icon-default); background: transparent; --button-border: transparent; }
 :root[data-focus-mode="keyboard"] .button--ghost:focus-visible { --button-border: transparent; }
-.button--ghost:hover { background: var(--component-button-borderless-secondary-background-hover); }
-.button--ghost:active { background: var(--component-button-borderless-secondary-background-pressed); }
+.button--ghost:is(:hover, [data-button-preview="hover"]) { background: var(--component-button-borderless-secondary-background-hover); }
+.button--ghost:is(:active, [data-button-preview="pressed"]) { background: var(--component-button-borderless-secondary-background-pressed); }
 .button--ghost:disabled { color: var(--component-button-borderless-secondary-text-icon-disabled); background: transparent; --button-border: transparent; }
 .button--primary.button--ghost { color: var(--component-button-borderless-primary-text-icon-default); background: transparent; }
-.button--primary.button--ghost:hover { background: var(--component-button-borderless-primary-background-hover); }
-.button--primary.button--ghost:active { background: var(--component-button-borderless-primary-background-pressed); }
+.button--primary.button--ghost:is(:hover, [data-button-preview="hover"]) { background: var(--component-button-borderless-primary-background-hover); }
+.button--primary.button--ghost:is(:active, [data-button-preview="pressed"]) { background: var(--component-button-borderless-primary-background-pressed); }
 .button--primary.button--ghost:disabled { color: var(--component-button-borderless-primary-text-icon-disabled); background: transparent; }
 .button--small { min-height: 32px; padding: 0 calc(var(--semantic-spacing-padding-md) * 1px); }
 .button--medium { min-height: 40px; padding: 0 calc(var(--semantic-spacing-padding-md) * 1px); }

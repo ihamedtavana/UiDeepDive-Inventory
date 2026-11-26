@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/600.css'
+import { ButtonDocumentation } from './components/ButtonDocumentation'
 import { ColorFoundation } from './components/ColorFoundation'
 import { IconographyFoundation } from './components/IconographyFoundation'
 import { LayoutFoundation } from './components/LayoutFoundation'
@@ -20,11 +21,13 @@ import './components/RadiusFoundation.css'
 import './components/ShadowFoundation.css'
 import './components/LayoutFoundation.css'
 import './components/IconographyFoundation.css'
+import './components/ButtonDocumentation.css'
 
 const root = document.getElementById('root')
 if (!root) throw new Error('Root element not found')
 
-const foundations = new Map([
+const pages = new Map([
+  ['/designsystem/components/button', ButtonDocumentation],
   ['/designsystem/foundation/iconography', IconographyFoundation],
   ['/designsystem/foundation/layout', LayoutFoundation],
   ['/designsystem/foundation/radius', RadiusFoundation],
@@ -32,6 +35,6 @@ const foundations = new Map([
   ['/designsystem/foundation/spacing', SpacingFoundation],
   ['/designsystem/foundation/typography', TypographyFoundation],
 ])
-const Foundation = foundations.get(window.location.pathname.replace(/(?:\.html|\/)$/, '')) ?? ColorFoundation
+const Page = pages.get(window.location.pathname.replace(/(?:\.html|\/)$/, '')) ?? ColorFoundation
 
-createRoot(root).render(<StrictMode><Foundation /></StrictMode>)
+createRoot(root).render(<StrictMode><Page /></StrictMode>)
