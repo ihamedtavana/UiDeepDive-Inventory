@@ -29,8 +29,9 @@ const pagePaths: Readonly<Record<string, string | undefined>> = {
   Badge: '/designsystem/components/badge',
   Tab: '/designsystem/components/tab',
   Search: '/designsystem/components/search',
+  'Section Card': '/designsystem/components/section-card',
 }
-export type DesignSystemPage = 'Color' | 'Typography' | 'Spacing' | 'Radius' | 'Shadow' | 'Layout' | 'Iconography' | 'Button' | 'Badge' | 'Tab' | 'Search'
+export type DesignSystemPage = 'Color' | 'Typography' | 'Spacing' | 'Radius' | 'Shadow' | 'Layout' | 'Iconography' | 'Button' | 'Badge' | 'Tab' | 'Search' | 'Section Card'
 const menus = [
   { title: 'Getting Started', isCompact: true, items: [{ label: 'Introduction', icon: intro }, { label: 'Principles', icon: principles }, { label: 'How to Use', icon: howToUse }] },
   { title: 'Foundations', items: ['Color', 'Typography', 'Spacing', 'Radius', 'Shadow', 'Layout', 'Iconography'].map((label, index) => ({ label, detail: `F${index + 1}`, status: 'success' as const })) },
