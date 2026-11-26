@@ -11,6 +11,7 @@ import { LayoutFoundation } from './components/LayoutFoundation'
 import { RadiusFoundation } from './components/RadiusFoundation'
 import { ShadowFoundation } from './components/ShadowFoundation'
 import { SpacingFoundation } from './components/SpacingFoundation'
+import { TabDocumentation } from './components/TabDocumentation'
 import { TypographyFoundation } from './components/TypographyFoundation'
 import './tokens/tokens.css'
 import './components/App.css'
@@ -24,6 +25,7 @@ import './components/LayoutFoundation.css'
 import './components/IconographyFoundation.css'
 import './components/ButtonDocumentation.css'
 import './components/BadgeDocumentation.css'
+import './components/TabDocumentation.css'
 
 const root = document.getElementById('root')
 if (!root) throw new Error('Root element not found')
@@ -31,6 +33,7 @@ if (!root) throw new Error('Root element not found')
 const pages = new Map([
   ['/designsystem/components/badge', BadgeDocumentation],
   ['/designsystem/components/button', ButtonDocumentation],
+  ['/designsystem/components/tab', TabDocumentation],
   ['/designsystem/foundation/iconography', IconographyFoundation],
   ['/designsystem/foundation/layout', LayoutFoundation],
   ['/designsystem/foundation/radius', RadiusFoundation],

@@ -1,0 +1,205 @@
+.tab-docs-preview,
+.tab-docs-anatomy-stage {
+  background: var(--semantic-colors-background-surface-secondary-default);
+  border-radius: var(--docs-radius-large);
+}
+
+.tab-docs-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--docs-padding-large);
+  padding: calc(var(--semantic-spacing-padding-xl) * 1px);
+}
+
+.tab-documentation .docs-metrics > div { flex-direction: column; }
+.tab-documentation .docs-metrics dd { order: -1; }
+
+.tab-docs-anatomy {
+  display: grid;
+  grid-template-columns: minmax(0, 440px) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--docs-padding-large);
+}
+
+.tab-docs-anatomy-stage {
+  display: grid;
+  place-items: center;
+  min-height: 170px;
+}
+
+.tab-docs-anatomy-example {
+  position: relative;
+  translate: 0 calc(var(--global-spacing-2_5) * 0.5px);
+}
+
+.tab-docs-marker {
+  --marker-size: calc(var(--global-spacing-5) * 1px);
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: var(--marker-size);
+  height: var(--marker-size);
+  border-radius: calc(var(--semantic-radius-full) * 1px);
+  background: var(--semantic-colors-background-surface-inverse-default);
+  color: var(--semantic-colors-text-inverse-default);
+  font-weight: var(--semantic-typography-label-sm-default-weight);
+}
+
+.tab-docs-marker[data-part="1"] {
+  inset-block-start: 50%;
+  inset-inline-end: calc(100% + var(--docs-padding));
+  transform: translateY(-50%);
+}
+.tab-docs-marker:is([data-part="2"], [data-part="3"]) {
+  inset-block-end: calc(100% + var(--docs-padding));
+}
+.tab-docs-marker[data-part="2"] { inset-inline-start: 12.5%; }
+.tab-docs-marker[data-part="3"] { inset-inline-end: 11.5%; }
+.tab-docs-marker:is([data-part="4"], [data-part="5"]) {
+  inset-block-start: calc(100% + calc(var(--global-spacing-2_5) * 1px));
+}
+.tab-docs-marker[data-part="4"] { inset-inline-start: 32%; }
+.tab-docs-marker[data-part="5"] { inset-inline-start: 52%; }
+
+.tab-docs-variants .tab-button,
+.tab-docs-variant-cards .tab-button,
+.tab-docs-anatomy-example .tab-button {
+  cursor: inherit;
+  vertical-align: middle;
+}
+.tab-docs-preview .tab-button.is-selected,
+.tab-docs-anatomy-example .tab-button.is-selected,
+.tab-docs-variants .tab-button.is-selected,
+.tab-docs-variant-cards .tab-button.is-selected {
+  padding-inline: calc(var(--semantic-spacing-padding-sm) * 1px + 1px);
+}
+.tab-docs-variants td .tab-button:not(.is-selected),
+.tab-docs-variant-cards .tab-button:not(.is-selected) { background: var(--docs-tint); }
+.tab-docs-variant-cards { display: none; }
+.tab-docs-guidelines { column-gap: var(--docs-padding-large); }
+.tab-documentation .docs-table .badge { vertical-align: middle; }
+
+.tab-docs-properties td:is(:first-child, :nth-child(3), :last-child),
+.tab-docs-tokens td:last-child,
+.tab-docs-context td:last-child,
+.tab-docs-content-rules td:last-child { color: var(--docs-muted); }
+
+.tab-docs-parts col:first-child { width: 36px; }
+.tab-docs-parts col:nth-child(2) { width: 132px; }
+.tab-docs-properties col:first-child,
+.tab-docs-variants col:first-child { width: 12%; }
+.tab-docs-properties col:nth-child(2) { width: 12.9%; }
+.tab-docs-properties col:nth-child(3) { width: 11.1%; }
+.tab-docs-properties col:last-child { width: 11.4%; }
+.tab-docs-variants col:nth-child(2),
+.tab-docs-variants col:nth-child(3) { width: 28.9%; }
+.tab-docs-tokens col:first-child { width: 17.4%; }
+.tab-docs-tokens col:last-child { width: 15.9%; }
+.tab-docs-context col:first-child { width: 24.7%; }
+.tab-docs-context col:last-child,
+.tab-docs-content-rules col:last-child { width: 24.0%; }
+.tab-docs-content-rules col:first-child { width: 22.9%; }
+.tab-docs-accessibility col:first-child { width: 18.3%; }
+.tab-docs-accessibility col:last-child { width: 14.2%; }
+.tab-docs-audit col:first-child { width: 15.6%; }
+.tab-docs-audit col:nth-child(2) { width: 22.9%; }
+.tab-docs-audit col:last-child { width: 13.3%; }
+
+@media (width < 1280px) {
+  .tab-docs-anatomy { grid-template-columns: minmax(0, 1fr); }
+  .tab-docs-parts { --docs-table-cols: 24px minmax(0, 120px) minmax(0, 1fr); }
+  .tab-docs-variant-table { display: none; }
+  .tab-docs-variant-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--docs-padding);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tab-docs-variant-cards > li {
+    display: grid;
+    align-content: start;
+    gap: var(--docs-padding);
+    padding: var(--docs-padding);
+    border: 1px solid var(--docs-border);
+    border-radius: var(--docs-radius);
+  }
+  .tab-docs-variant-cards :is(h3, dl, dd) { margin: 0; }
+  .tab-docs-variant-cards h3 {
+    color: var(--docs-text);
+    font: inherit;
+    font-weight: var(--semantic-typography-label-sm-default-weight);
+  }
+  .tab-docs-variant-cards dl {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--docs-padding);
+  }
+  .tab-docs-variant-cards dl > div:last-child { grid-column: 1 / -1; }
+  .tab-docs-variant-cards dt { margin-bottom: var(--docs-gap-small); }
+  .tab-docs-variant-cards dd { color: var(--docs-muted); }
+}
+
+@media (768px <= width < 1280px) {
+  .tab-docs-properties { --docs-table-cols: minmax(0, 140px) minmax(0, 90px) minmax(0, 104px) minmax(0, 1fr); }
+  .tab-docs-tokens { --docs-table-cols: minmax(0, 182px) minmax(0, 1fr); }
+  .tab-docs-context { --docs-table-cols: minmax(0, 260px) minmax(0, 1fr); }
+  .tab-docs-content-rules { --docs-table-cols: minmax(0, 210px) minmax(0, 1fr); }
+  .tab-docs-accessibility { --docs-table-cols: minmax(0, 175px) minmax(0, 1fr) max-content; }
+
+  .tab-docs-properties thead th:is(:first-child, :nth-child(3), :last-child),
+  .tab-docs-tokens thead th:last-child,
+  .tab-docs-context thead th:nth-child(2),
+  .tab-docs-content-rules thead th:last-child {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .tab-docs-properties tr > :nth-child(2) { grid-column: 1 / 4; grid-row: 1; }
+  .tab-docs-properties tbody tr > :first-child { grid-column: 1; grid-row: 2; }
+  .tab-docs-properties tbody tr > :nth-child(3) { grid-column: 2; grid-row: 2; }
+  .tab-docs-properties tbody tr > :last-child { grid-column: 3; grid-row: 2; }
+  .tab-docs-properties tr > :nth-child(4) { grid-column: 4; grid-row: 1 / 3; }
+
+  :is(.tab-docs-tokens, .tab-docs-content-rules) tbody tr > :nth-child(2),
+  .tab-docs-context tbody tr > :last-child { grid-column: 2; grid-row: 1 / 3; }
+  :is(.tab-docs-tokens, .tab-docs-content-rules) tbody tr > :last-child,
+  .tab-docs-context tbody tr > :nth-child(2) { grid-column: 1; grid-row: 2; }
+}
+
+@media (width < 768px) {
+  .tab-docs-preview { padding-inline: var(--docs-gap); }
+  .tab-docs-preview .tab {
+    max-width: 100%;
+    height: auto;
+    min-height: calc(var(--global-spacing-8) * 1px);
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-block: calc(var(--semantic-spacing-padding-xs) * 1px);
+  }
+  .tab-docs-marker[data-part="1"] { inset-inline-end: calc(100% + var(--docs-gap-small)); }
+  .tab-docs-variant-cards { grid-template-columns: minmax(0, 1fr); }
+
+  .tab-docs-parts { --docs-table-cols: 24px minmax(0, 1fr); }
+  .tab-docs-parts tbody tr > :first-child { grid-row: 1 / 3; }
+  .tab-docs-parts tbody tr > :last-child { grid-column: 2; }
+
+  .tab-docs-properties { --docs-table-cols: repeat(3, minmax(0, max-content)); }
+  .tab-docs-properties tbody tr > :nth-child(2) { grid-column: 1 / -1; grid-row: 1; }
+  .tab-docs-properties tbody tr > :first-child { grid-column: 1; grid-row: 2; }
+  .tab-docs-properties tbody tr > :nth-child(3) { grid-column: 2; grid-row: 2; }
+  .tab-docs-properties tbody tr > :last-child { grid-column: 3; grid-row: 2; }
+  .tab-docs-properties tbody tr > :nth-child(4) { grid-column: 1 / -1; grid-row: 3; }
+
+  :is(.tab-docs-tokens, .tab-docs-context, .tab-docs-content-rules) { --docs-table-cols: minmax(0, 1fr); }
+  :is(.tab-docs-tokens, .tab-docs-content-rules) tbody tr > :nth-child(2) { grid-row: 3; }
+
+  .tab-docs-accessibility { --docs-table-cols: minmax(0, 1fr) max-content; }
+  .tab-docs-accessibility tbody tr > :nth-child(2) { grid-column: 1 / -1; grid-row: 2; }
+  .tab-docs-accessibility tbody tr > :last-child { grid-column: 2; grid-row: 1; }
+}
