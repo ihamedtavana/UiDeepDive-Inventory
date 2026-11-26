@@ -135,7 +135,7 @@ body {
 .breadcrumbs, .top-actions, .top-icons, .overview-heading, .overview-controls, .date-controls, .date-range { display: flex; align-items: center; }
 .breadcrumbs { gap: calc(var(--semantic-spacing-gap-md) * 1px); color: var(--semantic-colors-text-tertiary-default); font-size: 12px; line-height: 16px; }
 .top-actions { gap: calc(var(--semantic-spacing-gap-lg) * 1px); }
-.movement-button, .export-button { display: inline-flex; align-items: center; justify-content: center; gap: calc(var(--semantic-spacing-gap-md) * 1px); padding: 0 calc(var(--semantic-spacing-padding-md) * 1px); font-size: 14px; font-weight: 500; white-space: nowrap; }
+.export-button { display: inline-flex; align-items: center; justify-content: center; gap: calc(var(--semantic-spacing-gap-md) * 1px); padding: 0 calc(var(--semantic-spacing-padding-md) * 1px); font-size: 14px; font-weight: 500; white-space: nowrap; }
 .vertical-divider { width: 1px; height: 24px; background: var(--semantic-colors-border-primary-default); flex: none; }
 .top-icons { gap: calc(var(--semantic-spacing-gap-md) * 1px); }
 .avatar { width: 32px; height: 32px; object-fit: cover; border-radius: calc(var(--semantic-radius-full) * 1px); }

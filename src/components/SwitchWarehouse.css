@@ -12,11 +12,13 @@ html:has(.warehouse-switch-shell) { scrollbar-gutter:auto; }
 .warehouse-search { padding:0 calc(var(--semantic-spacing-padding-lg)*1px); }
 .warehouse-search .divider { margin-top:calc(var(--semantic-spacing-gap-xl)*1px); }
 .warehouse-list-caption { display:flex; justify-content:space-between; align-items:center; padding:calc(var(--semantic-spacing-padding-lg)*1px); }
-.warehouse-list { flex:1; overflow:auto; min-height:0; display:flex; flex-direction:column; gap:calc(var(--semantic-spacing-gap-lg)*1px); padding:0 calc(var(--semantic-spacing-padding-lg)*1px) calc(var(--semantic-spacing-padding-lg)*1px); scrollbar-width:none; overflow-anchor:none; }
-.warehouse-list-card { flex:none; width:100%; display:flex; flex-direction:column; gap:calc(var(--semantic-spacing-gap-lg)*1px); padding:calc(var(--semantic-spacing-padding-md)*1px); border:1px solid var(--semantic-colors-border-primary-default); border-radius:calc(var(--semantic-radius-l)*1px); background:var(--semantic-colors-background-surface-primary-default); color:var(--semantic-colors-text-primary-default); text-align:left; cursor:pointer; font:inherit; transition:background 160ms,border-color 160ms; }
-.warehouse-list-card:hover:not(:disabled),.warehouse-list-card--hover { background:var(--semantic-colors-background-surface-secondary-hover); }
+.warehouse-list { position:relative; flex:1; overflow:auto; min-height:0; display:flex; flex-direction:column; gap:calc(var(--semantic-spacing-gap-lg)*1px); padding:0 calc(var(--semantic-spacing-padding-lg)*1px) calc(var(--semantic-spacing-padding-lg)*1px); scrollbar-width:none; overflow-anchor:none; }
+.warehouse-list-card { flex:none; width:100%; display:flex; flex-direction:column; gap:calc(var(--semantic-spacing-gap-lg)*1px); padding:calc(var(--semantic-spacing-padding-md)*1px - 1px); border:1px solid var(--semantic-colors-border-primary-default); border-radius:calc(var(--semantic-radius-l)*1px); background:var(--semantic-colors-background-surface-primary-default); color:var(--semantic-colors-text-primary-default); text-align:left; cursor:pointer; font:inherit; transition:none; }
+.warehouse-list-card:hover:not(:disabled),.warehouse-list-card--hover { background:var(--semantic-colors-background-surface-primary-hover); }
 .warehouse-list-card--selected { border-color:var(--semantic-colors-border-accent-default); }
-.warehouse-list-card:disabled { opacity:.5; cursor:not-allowed; }
+.warehouse-list-card:disabled { cursor:not-allowed; }
+.warehouse-list-card:disabled .warehouse-list-photo { opacity:.5; }
+.warehouse-list-card:disabled strong { color:var(--semantic-colors-text-tertiary-default); }
 .warehouse-list-photo { width:100%; height:64px; object-fit:cover; border-radius:calc(var(--semantic-radius-md)*1px); }
 .warehouse-list-heading { display:flex; align-items:center; justify-content:space-between; gap:calc(var(--semantic-spacing-gap-lg)*1px); width:100%; }
 .warehouse-list-heading>span { min-width:0; display:flex; flex-direction:column; gap:calc(var(--semantic-spacing-gap-sm)*1px); }
@@ -42,7 +44,7 @@ html:has(.warehouse-switch-shell) { scrollbar-gutter:auto; }
 .warehouse-map-marker.is-selected text { font-weight:var(--semantic-typography-caption-sm-strong-weight); fill:var(--semantic-colors-text-primary-default); }
 .warehouse-marker-focus { fill:transparent; stroke:transparent; }
 .warehouse-marker-current { fill:none; stroke:var(--semantic-colors-border-accent-default); }
-.warehouse-map-marker:hover .warehouse-marker-focus { fill:var(--semantic-colors-background-brand-tertiary-default); }
+
 :root[data-focus-mode="keyboard"] .warehouse-map-marker:focus-visible .warehouse-marker-focus { stroke:var(--component-focus-ring-color); stroke-width:var(--focus-ring-width); }
 .warehouse-map-popover { position:absolute; z-index:1; pointer-events:none; width:248px; display:flex; flex-direction:column; gap:calc(var(--semantic-spacing-gap-md)*1px); padding:calc(var(--semantic-spacing-padding-md)*1px); background:var(--semantic-colors-background-primary); border:1px solid var(--semantic-colors-border-primary-default); border-radius:calc(var(--semantic-radius-l)*1px); }
 
@@ -66,7 +68,7 @@ html:has(.warehouse-switch-shell) { scrollbar-gutter:auto; }
 .warehouse-switch-heading { flex:none; }
 .warehouse-search { flex:none; }
 .warehouse-list-caption { flex:none; }
-.warehouse-list-card--selected { background:var(--semantic-colors-background-surface-primary-default); }
+.warehouse-list-card--selected { box-shadow:calc(var(--semantic-elevation-xs-offsetx)*1px) calc(var(--semantic-elevation-xs-offsety)*1px) calc(var(--semantic-elevation-xs-radius)*1px) calc(var(--semantic-elevation-xs-spread)*1px) var(--semantic-elevation-xs-color); }
 .warehouse-map-popover { box-shadow:calc(var(--semantic-elevation-xs-offsetx)*1px) calc(var(--semantic-elevation-xs-offsety)*1px) calc(var(--semantic-elevation-xs-radius)*1px) calc(var(--semantic-elevation-xs-spread)*1px) var(--semantic-elevation-xs-color); }
 
 /* Keep navigation and its workspace in the same spatial transition. */
@@ -83,3 +85,19 @@ html:has(.warehouse-switch-shell) { scrollbar-gutter:auto; }
 
 .warehouse-map-popover--below .warehouse-map-pointer { top:0; transform:translate(-50%,-100%) rotate(180deg); }
 .warehouse-map-popover--left .warehouse-map-pointer { left:100%; top:var(--popover-pointer-y); transform:translateY(-50%) rotate(-90deg); }
+
+.warehouse-marker-base,.warehouse-marker-hover,.warehouse-marker-keyboard { pointer-events:none; transition:opacity 160ms ease; }
+.warehouse-marker-hover,.warehouse-marker-keyboard { opacity:0; }
+.warehouse-map-marker:not(.is-selected):hover .warehouse-marker-base { opacity:0; }
+.warehouse-map-marker:not(.is-selected):hover .warehouse-marker-hover { opacity:1; }
+:root[data-focus-mode="keyboard"] .warehouse-map-marker:focus-visible .warehouse-marker-base,
+:root[data-focus-mode="keyboard"] .warehouse-map-marker:focus-visible .warehouse-marker-hover { opacity:0; }
+:root[data-focus-mode="keyboard"] .warehouse-map-marker:focus-visible .warehouse-marker-keyboard { opacity:1; }
+:root[data-focus-mode="keyboard"] .warehouse-map-marker.is-selected:focus-visible .warehouse-marker-base { opacity:1; }
+.warehouse-map-marker { outline:none; }
+.warehouse-map-marker[aria-disabled="true"] { cursor:default; }
+.warehouse-map-route { transition:opacity 240ms ease; }
+
+.warehouse-list-card--selected:hover:not(:disabled) { background:var(--semantic-colors-background-surface-primary-default); }
+
+

@@ -2,7 +2,6 @@ import { Avatar } from './Avatar'
 import { Badge } from './Badge'
 import { Button } from './Button'
 import avatar from '../assets/top0_imgAvatar.png'
-import plus from '../assets/top0_imgLeadingIcon.svg'
 import messages from '../assets/iconMessage.svg'
 import notifications from '../assets/iconBell.svg'
 import settings from '../assets/iconTopSettings.svg'
@@ -11,7 +10,7 @@ export function TopNavigation({ warehouse = 'New York Central' }: { warehouse?: 
   return <header className="top-navigation">
     <nav className="breadcrumbs" aria-label="Breadcrumb"><span>{warehouse}</span><span aria-hidden="true">/</span><Badge>Inventory</Badge></nav>
     <div className="top-actions">
-      <Button hierarchy="primary" className="movement-button"><img className="icon" src={plus} alt="" />New Movement</Button>
+      <Button hierarchy="primary" size="small"><span className="icon button-add-icon" aria-hidden="true" />New Movement</Button>
       <span className="vertical-divider" />
       <div className="top-icons">
         <Button isIconOnly hasBadge aria-label="Messages"><img className="icon" src={messages} alt="" /></Button>

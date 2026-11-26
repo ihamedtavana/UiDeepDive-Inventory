@@ -1,6 +1,8 @@
 import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import { afterEach, expect, it, vi } from 'vitest'
 import { AppRouter } from './AppRouter'
+import defaultCurrentMarker from '../assets/warehouse-switch/marker-default-current.svg'
+import selectedOtherMarker from '../assets/warehouse-switch/marker-selected-other.svg'
 
 afterEach(() => { cleanup(); vi.useRealTimers(); window.history.replaceState(null,'','/'); vi.unstubAllGlobals() })
 const open = (path='/warehouses/nyc/switch') => { window.history.replaceState(null,'',path); render(<AppRouter />) }
@@ -56,4 +58,34 @@ it('copies every scenario email and includes labels when copying all demo detail
   fireEvent.click(within(guide).getByRole('button',{name:'Copy all details'}))
   await act(async()=>{})
   expect(writeText.mock.calls.at(-1)?.[0]).toContain('Sign in email: dave@coretech.demo')
+})
+
+it('centres every list choice and preserves the camera when selecting on the map', () => {
+  vi.stubGlobal('matchMedia', (query: string) => ({ matches: query.includes('prefers-reduced-motion'), addEventListener: vi.fn(), removeEventListener: vi.fn() }))
+  open()
+  const map = screen.getByLabelText('Interactive warehouse map')
+  const cameraTransform = () => map.querySelector('g')?.getAttribute('transform')
+  const overview = cameraTransform()
+  fireEvent.click(screen.getByRole('radio', { name: /Tokyo Distribution Center/ }))
+  const tokyoCamera = cameraTransform()
+  expect(tokyoCamera).not.toBe(overview)
+  fireEvent.click(screen.getByRole('button', { name: 'Select Riyadh Warehouse on map' }))
+  expect(cameraTransform()).toBe(tokyoCamera)
+  fireEvent.click(screen.getByRole('radio', { name: /New York Central/ }))
+  expect(cameraTransform()).not.toBe(overview)
+  expect(cameraTransform()).not.toBe(tokyoCamera)
+  fireEvent.click(screen.getByRole('button', { name: 'Show all warehouses' }))
+  expect(cameraTransform()).toBe(overview)
+})
+it('keeps current marker identity separate from the candidate selection', () => {
+  open()
+  const current = screen.getByRole('button', { name: /Select New York Central on map/ })
+  const candidate = screen.getByRole('button', { name: 'Select Frankfurt Hub on map' })
+  fireEvent.click(candidate)
+  expect(current.getAttribute('data-current')).toBe('true')
+  expect(current.getAttribute('data-state')).toBe('Default')
+  expect(candidate.getAttribute('data-current')).toBe('false')
+  expect(candidate.getAttribute('data-state')).toBe('Selected')
+  expect(current.querySelector('.warehouse-marker-base')?.getAttribute('href')).toBe(defaultCurrentMarker)
+  expect(candidate.querySelector('.warehouse-marker-base')?.getAttribute('href')).toBe(selectedOtherMarker)
 })

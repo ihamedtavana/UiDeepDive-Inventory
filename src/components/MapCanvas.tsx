@@ -4,26 +4,29 @@ import { MapMarker } from './MapMarker'
 import { MapPopover } from './MapPopover'
 import { MapGoodsDot, type GoodsRoute } from './MapGoodsDot'
 import { warehouseCatalog, type WarehouseRecord } from './warehouseCatalog'
-import map from '../assets/warehouse-switch/map-overview.svg'
+import map from '../assets/warehouse-switch/map-full.svg'
 import globe from '../assets/warehouse-switch/imgLeadingIcon1.svg'
 import zoomIn from '../assets/warehouse-switch/imgZoomIn.svg'
 import zoomOut from '../assets/warehouse-switch/imgZoomOut.svg'
 import dot from '../assets/warehouse-switch/imgMapGoodsDot.svg'
 
+const MAP_WIDTH = 1133
+const MAP_HEIGHT = 884
 const initial = { k: 1, x: 0, y: 0 }
 type Camera = typeof initial
-const constrain = (v: Camera): Camera => ({ k:v.k, x:Math.max(-992*(v.k-1),Math.min(0,v.x)), y:Math.max(-884*(v.k-1),Math.min(0,v.y)) })
+const constrain = (v: Camera): Camera => ({ k:v.k, x:Math.max(MAP_WIDTH/2-MAP_WIDTH*v.k,Math.min(MAP_WIDTH/2,v.x)), y:Math.max(MAP_HEIGHT/2-MAP_HEIGHT*v.k,Math.min(MAP_HEIGHT/2,v.y)) })
 
-export function MapCanvas({ current, selected, source, onSelect }: { current: WarehouseRecord; selected: WarehouseRecord; source: 'initial' | 'list' | 'map'; onSelect: (warehouse: WarehouseRecord) => void }) {
+export function MapCanvas({ current, selected, source, isDisabled = false, onSelect }: { current: WarehouseRecord; selected: WarehouseRecord; source: 'initial' | 'list' | 'map'; isDisabled?: boolean; onSelect: (warehouse: WarehouseRecord) => void }) {
   const [view, setView] = useState(initial)
-  const [size, setSize] = useState({ width:992, height:884 })
+  const [size, setSize] = useState({ width:MAP_WIDTH, height:MAP_HEIGHT })
+  const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [isDragging, setIsDragging] = useState(false)
   const camera = useRef(initial)
   const animation = useRef(0)
   const drag = useRef<{ x:number; y:number; view:Camera } | null>(null)
   const container = useRef<HTMLElement>(null)
-  const fit = Math.min(size.width/992,size.height/884)
-  const offsetX = (size.width-992*fit)/2, offsetY = (size.height-884*fit)/2
+  const fit = Math.min(size.width/MAP_WIDTH,size.height/MAP_HEIGHT)
+  const offsetX = (size.width-MAP_WIDTH*fit)/2, offsetY = (size.height-MAP_HEIGHT*fit)/2
   useEffect(() => {
     if (!container.current || typeof ResizeObserver === 'undefined') return
     const observer = new ResizeObserver(([entry]) => { if(entry.contentRect.width && entry.contentRect.height) setSize({width:entry.contentRect.width,height:entry.contentRect.height}) })
@@ -37,7 +40,7 @@ export function MapCanvas({ current, selected, source, onSelect }: { current: Wa
     if(isImmediate || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) { commit(target); return }
     const start=performance.now()
     const frame=(now:number) => {
-      const t=Math.min(1,(now-start)/700), eased=t*t*(3-2*t)
+      const t=Math.min(1,(now-start)/700), eased=t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2
       commit({k:from.k+(target.k-from.k)*eased,x:from.x+(target.x-from.x)*eased,y:from.y+(target.y-from.y)*eased})
       if(t<1) animation.current=requestAnimationFrame(frame)
     }
@@ -45,10 +48,10 @@ export function MapCanvas({ current, selected, source, onSelect }: { current: Wa
   }, [])
   useEffect(() => () => cancelAnimationFrame(animation.current), [])
   useEffect(() => {
-    if(source==='initial') return
-    // Figma's Tokyo focus is the only selection that changes map scale.
-    const k=selected.id==='tyo'?1.65:1
-    move(k===1?initial:{k,x:496-selected.point[0]*k,y:442-selected.point[1]*k})
+    // Map clicks preserve exploration; list choices animate from the current camera.
+    if(source !== 'list') { cancelAnimationFrame(animation.current); return }
+    const k=2
+    move({k,x:MAP_WIDTH/2-selected.point[0]*k,y:MAP_HEIGHT/2-selected.point[1]*k})
   }, [selected,source,move])
   const routes = useMemo<GoodsRoute[]>(() => [
     ['nyc','lon',.2],['nyc','fra',.07],['nyc','ruh',-.12],['nyc','tyo',.24],
@@ -62,8 +65,8 @@ export function MapCanvas({ current, selected, source, onSelect }: { current: Wa
     return {from,to,control,fromId:String(fromId),toId:String(toId),d:`M${from.join(',')} Q${control.join(',')} ${to.join(',')}`}
   }), [])
   const zoom=(factor:number) => {
-    const v=camera.current,k=Math.max(1,Math.min(4,v.k*factor))
-    move({k,x:496-(496-v.x)*k/v.k,y:442-(442-v.y)*k/v.k})
+    const v=camera.current,k=Math.max(1,Math.min(8,v.k*factor))
+    move({k,x:MAP_WIDTH/2-(MAP_WIDTH/2-v.x)*k/v.k,y:MAP_HEIGHT/2-(MAP_HEIGHT/2-v.y)*k/v.k})
   }
   const project=(p:[number,number]):[number,number] => [offsetX+(p[0]*view.k+view.x)*fit,offsetY+(p[1]*view.k+view.y)*fit]
   const [x,y]=project(selected.point)
@@ -76,16 +79,17 @@ export function MapCanvas({ current, selected, source, onSelect }: { current: Wa
       onPointerMove={event=>{const d=drag.current;if(d)move({k:d.view.k,x:d.view.x+(event.clientX-d.x)/fit,y:d.view.y+(event.clientY-d.y)/fit},true)}}
       onPointerUp={endDrag} onPointerCancel={endDrag} onLostPointerCapture={endDrag}>
       <g transform={`translate(${offsetX+view.x*fit} ${offsetY+view.y*fit}) scale(${view.k*fit})`}>
-        <image href={map} width="992" height="884" />
-        <g aria-hidden="true">{routes.filter(r=>r.fromId===selected.id||r.toId===selected.id).map(r=><path key={`${r.fromId}-${r.toId}`} d={r.d} className="warehouse-map-route" vectorEffect="non-scaling-stroke" />)}
+        <image href={map} width={MAP_WIDTH} height={MAP_HEIGHT} />
+        <g aria-hidden="true">{routes.filter(r=>r.fromId===selected.id||r.toId===selected.id||r.fromId===hoveredId||r.toId===hoveredId).map(r=><path key={`${r.fromId}-${r.toId}`} d={r.d} className={`warehouse-map-route${r.fromId===hoveredId||r.toId===hoveredId ? ' is-emphasized' : ''}`} vectorEffect="non-scaling-stroke" />)}
           <MapGoodsDot routes={routes} slot={0} selectedId={selected.id} scale={view.k*fit} isPaused={isDragging}/>
           <MapGoodsDot routes={routes} slot={1} selectedId={selected.id} scale={view.k*fit} isPaused={isDragging}/>
         </g>
       </g>
-      {warehouseCatalog.map(w=><MapMarker key={w.id} warehouse={{...w,point:project(w.point)}} state={w.id===selected.id?'Selected':'Default'} isCurrent={w.id===current.id} scale={1} onSelect={()=>onSelect(w)}/>)}
+      {warehouseCatalog.map(w=><MapMarker key={w.id} warehouse={{...w,point:project(w.point)}} state={w.id===selected.id?'Selected':'Default'} isCurrent={w.id===current.id} scale={1} isDisabled={isDisabled || w.isDisabled} onHover={isHovered=>setHoveredId(isHovered?w.id:null)} onSelect={()=>onSelect(w)}/>)}
     </svg>
     {isVisible&&<MapPopover warehouse={selected} status={selected.id===current.id?'Current':'Selected'} placement={isRight?'Right':'Above'} x={x} y={y} viewport={size}/>}
-    <div className="warehouse-map-controls"><Button onClick={()=>move(initial)}><img src={globe} alt=""/>Show all warehouses</Button><div><Button isIconOnly className="warehouse-map-zoom" aria-label="Zoom in" disabled={view.k>=4} onClick={()=>zoom(1.6)}><img src={zoomIn} alt=""/></Button><Button isIconOnly className="warehouse-map-zoom" aria-label="Zoom out" disabled={view.k<=1} onClick={()=>zoom(1/1.6)}><img src={zoomOut} alt=""/></Button></div></div>
+    <div className="warehouse-map-controls"><Button onClick={()=>move(initial)}><img src={globe} alt=""/>Show all warehouses</Button><div><Button isIconOnly className="warehouse-map-zoom" aria-label="Zoom in" disabled={view.k>=8} onClick={()=>zoom(1.6)}><img src={zoomIn} alt=""/></Button><Button isIconOnly className="warehouse-map-zoom" aria-label="Zoom out" disabled={view.k<=1} onClick={()=>zoom(1/1.6)}><img src={zoomOut} alt=""/></Button></div></div>
     <div className="warehouse-map-legend"><span><i className="warehouse-legend-marker"/>Warehouse</span><span><i className="warehouse-legend-route"/>Transfer route</span><span><img src={dot} alt=""/>Goods in transit</span></div>
   </section>
 }
+
