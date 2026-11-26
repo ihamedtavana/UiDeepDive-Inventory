@@ -62,7 +62,7 @@ export function Sidebar({ selectedWarehouse, deliveries, onOpenWarehouse, isSwit
       <button type="button" className="warehouse-switch" onClick={onOpenWarehouse}><img className="icon" src={switchIcon} alt="" /><span>Switch Warehouse</span><Badge>{warehouses.length - 1}</Badge></button>
     </section></div>}
     <div className="search-section"><div className="divider" /><Search isCollapsed={isCollapsed} onExpand={expandSearch} inputRef={searchRef} /><div className="divider" /></div>
-    <nav aria-label="Main menu" className="menu-section">{!isCollapsed && <div className="section-label">Main Menu</div>}<div className="menu-list">{menu.map((item, index) => <SidebarMenuButton key={item.label} icon={item.icon} detail={item.detail} isCollapsed={isCollapsed} isSelected={index === 0}>{item.label}</SidebarMenuButton>)}</div></nav>
+    <nav aria-label="Main menu" className="menu-section">{!isCollapsed && <div className="section-label">Main Menu</div>}<div className="menu-list">{menu.map((item, index) => <SidebarMenuButton key={item.label} icon={item.icon} detail={item.detail} isCollapsed={isCollapsed} isSelected={index === (isSwitching ? 1 : 0)}>{item.label}</SidebarMenuButton>)}</div></nav>
     <div className="divider" />
     {<><section className="menu-section" aria-label="Shelves">{!isCollapsed && <div className="section-label">Shelves</div>}<div className="menu-list">{shelves.map(([label, detail]) => { const stock = inventorySummary(deliveries, selectedWarehouse, detail); return <SidebarMenuButton key={label} detail={detail} status={stock.out ? 'error' : stock.low ? 'warning' : 'success'} isCollapsed={isCollapsed}>{label}</SidebarMenuButton> })}</div></section>
     <div className="divider" />

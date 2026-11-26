@@ -4,7 +4,7 @@ export type GoodsRoute = { from: [number,number]; to: [number,number]; control: 
 
 // Animation reference: ZIP goodsMovement.ts. Two staggered slots, 5.6s travel,
 // fade at either end, pause between journeys, alternate direction.
-export function MapGoodsDot({ routes, slot, selectedId, isPaused }: { routes: GoodsRoute[]; slot: number; selectedId: string; isPaused: boolean }) {
+export function MapGoodsDot({ routes, slot, selectedId, isPaused, scale = 1 }: { routes: GoodsRoute[]; slot: number; selectedId: string; isPaused: boolean; scale?: number }) {
   const ref = useRef<SVGGElement>(null)
   const [hasReducedMotion, setHasReducedMotion] = useState(() => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false)
   useEffect(() => {
@@ -45,5 +45,5 @@ export function MapGoodsDot({ routes, slot, selectedId, isPaused }: { routes: Go
     raf = requestAnimationFrame(frame)
     return () => cancelAnimationFrame(raf)
   }, [routes, selectedId, slot, isPaused, hasReducedMotion])
-  return <g ref={ref} opacity="0" aria-hidden="true"><image href={dot} x="-5" y="-5" width="10" height="10" /></g>
+  return <g ref={ref} opacity="0" aria-hidden="true"><g transform={`scale(${1 / scale})`}><image href={dot} x="-5" y="-5" width="10" height="10" /></g></g>
 }

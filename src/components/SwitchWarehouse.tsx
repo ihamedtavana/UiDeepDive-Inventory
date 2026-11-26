@@ -19,7 +19,7 @@ export function SwitchWarehouse({ selected, onSelect, onClose }: { selected: str
   const cards = useRef<Record<string,HTMLButtonElement|null>>({})
   const heading = useRef<HTMLHeadingElement>(null)
   const matches = warehouses.filter(item => `${item.name} ${item.location}`.toLowerCase().includes(query.trim().toLowerCase()))
-  useEffect(()=>{heading.current?.focus();return()=>clearTimeout(timer.current)},[])
+  useEffect(()=>{heading.current?.focus();cards.current[current.id]?.scrollIntoView?.({block:'nearest'});return()=>clearTimeout(timer.current)},[current.id])
   useEffect(()=>{const close=(event:KeyboardEvent)=>{if(event.key==='Escape'&&!isBusy)onClose()};document.addEventListener('keydown',close);return()=>document.removeEventListener('keydown',close)},[isBusy,onClose])
   const choose=(w:WarehouseRecord,nextSource:'list'|'map')=>{if(isBusy||w.isDisabled)return;setCandidate(w);setSource(nextSource);if(nextSource==='map'){setQuery('');requestAnimationFrame(()=>cards.current[w.id]?.scrollIntoView?.({block:'nearest',behavior:window.matchMedia?.('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'}))}}
   const confirm=()=>{if(isBusy||candidate.id===current.id)return;setIsBusy(true);timer.current=setTimeout(()=>onSelect(candidate.name),450)}
