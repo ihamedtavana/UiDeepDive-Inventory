@@ -14,6 +14,7 @@ import { SectionCardDocumentation } from './components/SectionCardDocumentation'
 import { ShadowFoundation } from './components/ShadowFoundation'
 import { SpacingFoundation } from './components/SpacingFoundation'
 import { TabDocumentation } from './components/TabDocumentation'
+import { TableDocumentation } from './components/TableDocumentation'
 import { TypographyFoundation } from './components/TypographyFoundation'
 import './tokens/tokens.css'
 import './components/App.css'
@@ -30,6 +31,7 @@ import './components/BadgeDocumentation.css'
 import './components/TabDocumentation.css'
 import './components/SearchDocumentation.css'
 import './components/SectionCardDocumentation.css'
+import './components/TableDocumentation.css'
 
 const root = document.getElementById('root')
 if (!root) throw new Error('Root element not found')
@@ -40,6 +42,7 @@ const pages = new Map([
   ['/designsystem/components/search', SearchDocumentation],
   ['/designsystem/components/section-card', SectionCardDocumentation],
   ['/designsystem/components/tab', TabDocumentation],
+  ['/designsystem/components/table', TableDocumentation],
   ['/designsystem/foundation/iconography', IconographyFoundation],
   ['/designsystem/foundation/layout', LayoutFoundation],
   ['/designsystem/foundation/radius', RadiusFoundation],
