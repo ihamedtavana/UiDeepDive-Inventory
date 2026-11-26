@@ -1,0 +1,48 @@
+@property --auth-light-angle { syntax: '<angle>'; inherits: false; initial-value: -45deg; }
+
+.auth-brand-panel {
+  width: 519px;
+  flex: none;
+  align-self: stretch;
+  display: flex;
+  padding: calc(var(--semantic-spacing-padding-sm) * 1px);
+  border-left: 1px solid var(--semantic-colors-border-primary-default);
+  overflow: clip;
+}
+.auth-brand-canvas {
+  position: relative;
+  width: 100%;
+  min-height: 742px;
+  overflow: clip;
+  isolation: isolate;
+  border-radius: calc(var(--semantic-radius-md) * 1px);
+  background: var(--semantic-colors-background-brand-tertiary-hover);
+}
+.auth-brand-field { position: absolute; transform-origin: 50% 50%; }
+.auth-brand-field img { position: absolute; max-width: none; }
+/* Source geometry includes each SVG's full Gaussian blur bounds. */
+.auth-brand-field-0 { inset: 53.91% 8.37% -23.99% -31.87%; }
+.auth-brand-field-0 img { left: -160px; top: -160px; }
+.auth-brand-field-1 { inset: -22.91% 36.25% 58.22% -43.82%; }
+.auth-brand-field-1 img { left: -160px; top: -160px; }
+.auth-brand-field-2 { inset: -9.43% -25.5% 58.22% 49.8%; scale: 1.15; }
+.auth-brand-field-2 img { left: -140px; top: -140px; }
+.auth-brand-field-3 { inset: 29.65% 18.33% 29.92% 17.93%; }
+.auth-brand-field-3 img { left: -120px; top: -120px; }
+.auth-brand-field-4 { inset: 75.47% -5.58% -5.12% 61.75%; }
+.auth-brand-field-4 img { left: -110px; top: -110px; }
+.auth-brand-field-5 { inset: 67.39% 52.19% -2.43% -11.95%; opacity: .7; }
+.auth-brand-field-5 img { left: -120px; top: -120px; }
+.auth-brand-mark { position: absolute; width: 251px; height: 249px; left: calc(50% + .5px); top: calc(50% + .5px); transform: translate(-50%, -50%); }
+.auth-brand-glass { position: absolute; backdrop-filter: blur(2px); }
+.auth-brand-c { width: 160px; height: 180px; left: 0; bottom: -.1px; clip-path: path('M0 90C0 65.8975 6.6569 43.2469 21.5449 26.3408C36.7352 9.0917 58.5967 2.51632e-05 84.3242 0H160V40H84.3242C68.4305 40 58.1299 45.3199 51.5635 52.7764C44.6947 60.5762 40 72.9261 40 90C40 107.074 44.6947 119.424 51.5635 127.224C58.1299 134.68 68.4305 140 84.3242 140H160V180H84.3242C58.5967 180 36.7352 170.908 21.5449 153.659C6.6569 136.753 0 114.103 0 90Z'); }
+.auth-brand-notch { width: 100px; height: 100px; right: .1px; top: 0; clip-path: path('M0 0H100V100H57.1429V42.8571H0V0Z'); }
+.auth-brand-glass img { display: block; }
+.auth-brand-glass svg { position: absolute; inset: 0; fill: none; stroke: var(--semantic-colors-background-primary); stroke-width: 1; opacity: .8; }
+.auth-brand-glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(var(--auth-light-angle), transparent 25%, var(--semantic-colors-background-primary) 50%, transparent 75%);
+  opacity: .14;
+}

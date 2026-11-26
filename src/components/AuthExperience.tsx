@@ -15,7 +15,7 @@ import { AuthVerifiedDetails } from './AuthVerifiedDetails'
 import { AuthProfilePhoto } from './AuthProfilePhoto'
 import { AuthIdBadge } from './AuthIdBadge'
 import { AuthDemoGuide } from './AuthDemoGuide'
-import { AuthFeatureCarousel } from './AuthFeatureCarousel'
+import { AuthBrandPanel } from './AuthBrandPanel'
 import { AUTH_DEMO, passwordChecks } from './authDemo'
 import type { AuthIdentity } from './authDemo'
 import logo from '../assets/imgFrame2147235759.svg'
@@ -37,7 +37,7 @@ export function AuthExperience({ path, onNavigate }: { path: string; onNavigate:
   const [error, setError] = useState('')
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
   const [isBusy, setIsBusy] = useState(false)
-  const [hasFeatures, setHasFeatures] = useState(true)
+  const [hasBrandPanel, setHasBrandPanel] = useState(true)
   const [hasVerifiedEmail, setHasVerifiedEmail] = useState(false)
   const [hasChallenge, setHasChallenge] = useState(false)
   const [hasAuthenticated, setHasAuthenticated] = useState(false)
@@ -156,7 +156,7 @@ export function AuthExperience({ path, onNavigate }: { path: string; onNavigate:
   const maskedEmail = email ? `${email[0]}•••@${email.split('@')[1]}` : ''
   const description = isLookup ? 'We’re looking for your details in the company directory.' : isLookupError ? 'We couldn’t find an account with that email address.' : isWelcome ? (isRegister ? 'Your CoreTech account is ready.' : 'You’re signed in to CoreTech.') : isUpdated ? 'You can now sign in with your new password.' : isProfile ? (role ? 'We found your details. Check them and set a password.' : 'Add your name, an optional photo and a password.') : isReset ? 'Choose a strong password to keep your account secure.' : isOtp ? (isRecovery ? `If an account exists for ${maskedEmail}, we sent it a 6-digit code.` : `Enter the 6-digit code we sent to ${maskedEmail}.`) : isRegister ? 'Start with your work email. We’ll confirm it with a code.' : isRecovery ? 'Enter your work email and we’ll send you a code.' : 'Sign in with your work email and password.'
   const iconState = isLookup ? 'Profile Search' : isLookupError ? 'Error' : isWelcome || isUpdated ? 'Confirmed' : error ? 'Error' : isBusy ? isProfile ? 'Creating' : isOtp ? 'Verifying' : 'Processing' : isProfile ? 'Profile' : isReset || isRecovery ? 'Lock' : isOtp ? 'Email' : isRegister ? 'User Add' : 'Key'
-  return <div className="auth-page"><AuthDemoGuide /><main className={`auth-surface ${hasFeatures && !isWelcome ? 'has-features' : ''} ${isWelcome ? 'is-welcome' : ''}`}><section className="auth-panel"><header className="auth-brand-header"><div className="brand"><img src={logo} alt="" /><strong>CoreTech</strong></div>{!isWelcome && <Button appearance="ghost" isIconOnly aria-label={hasFeatures ? 'Hide feature panel' : 'Show feature panel'} aria-expanded={hasFeatures} onClick={() => setHasFeatures(!hasFeatures)}><img className="icon" src={panel} alt="" /></Button>}</header><div className="auth-body"><div key={path} className={`auth-card ${isWelcome ? 'auth-welcome' : ''}`}>
+  return <div className="auth-page"><AuthDemoGuide /><main className={`auth-surface ${hasBrandPanel && !isWelcome ? 'has-brand-panel' : ''} ${isWelcome ? 'is-welcome' : ''}`}><section className="auth-panel"><header className="auth-brand-header"><div className="brand"><img src={logo} alt="" /><strong>CoreTech</strong></div>{!isWelcome && <Button appearance="ghost" isIconOnly aria-label={hasBrandPanel ? 'Hide brand panel' : 'Show brand panel'} aria-expanded={hasBrandPanel} aria-controls="auth-brand-panel" onClick={() => setHasBrandPanel(!hasBrandPanel)}><img className="icon" src={panel} alt="" /></Button>}</header><div className="auth-body"><div key={path} className={`auth-card ${isWelcome ? 'auth-welcome' : ''}`}>
     {!isWelcome && <div className="auth-tabs"><Tab label="Account access"><TabButton isSelected={!isRegister} onClick={() => start('/login')}>Sign In</TabButton><TabButton isSelected={isRegister} onClick={() => start('/register')}>Sign Up</TabButton></Tab></div>}
     <div className="auth-step-header"><AuthStepIcon state={iconState} /><div><h1 ref={heading} tabIndex={-1}>{title}</h1><p>{description}</p></div></div>
     {isWelcome ? <div className="auth-welcome-content"><AuthIdBadge identity={identity} /><Button hierarchy="primary" size="medium" onClick={() => go('/dashboard')}>Continue to dashboard<img className="icon" src={arrowRight} alt="" /></Button><div className="auth-redirect"><p role="timer" aria-live="off">{isRedirectPaused ? 'Automatic redirect paused' : `Opening your dashboard in ${welcomeSeconds}s`}</p><Button appearance="ghost" aria-pressed={isRedirectPaused} onClick={() => setIsRedirectPaused(value => !value)}>{isRedirectPaused ? 'Resume countdown' : 'Pause countdown'}</Button></div></div> : <form ref={form} className="auth-form" noValidate onSubmit={submit} aria-busy={isBusy}>
@@ -169,5 +169,5 @@ export function AuthExperience({ path, onNavigate }: { path: string; onNavigate:
       </>}
       {notice && <StockCallout tone="success" title="New code sent">{notice}</StockCallout>}
     </form>}
-    </div></div></section>{hasFeatures && !isWelcome && <AuthFeatureCarousel />}</main></div>
+    </div></div></section>{hasBrandPanel && !isWelcome && <AuthBrandPanel />}</main></div>
 }

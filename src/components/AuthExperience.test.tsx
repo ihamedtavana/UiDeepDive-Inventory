@@ -9,6 +9,20 @@ const tick = async (ms = 1500) => { await act(async () => { vi.advanceTimersByTi
 const fill = (label: string, value: string) => fireEvent.change(screen.getByLabelText(label), { target: { value } })
 const login = async () => { fill('Work email', AUTH_DEMO.email); fill('Password', AUTH_DEMO.password); fireEvent.click(screen.getByRole('button', { name: 'Sign in' })); await tick() }
 
+it('keeps the brand panel mounted across auth steps and preserves its visibility choice', async () => {
+  render(<AppRouter />)
+  const panel = screen.getByRole('complementary', { name: 'CoreTech brand panel' })
+  await login()
+  expect(screen.getByRole('complementary', { name: 'CoreTech brand panel' })).toBe(panel)
+  fireEvent.click(screen.getByRole('button', { name: 'Hide brand panel' }))
+  expect(screen.queryByRole('complementary', { name: 'CoreTech brand panel' })).toBeNull()
+  act(() => { window.history.pushState(null, '', '/register'); window.dispatchEvent(new PopStateEvent('popstate')) })
+  expect(screen.queryByRole('complementary', { name: 'CoreTech brand panel' })).toBeNull()
+  fireEvent.click(screen.getByRole('button', { name: 'Show brand panel' }))
+  expect(screen.getByRole('complementary', { name: 'CoreTech brand panel' })).toBeTruthy()
+  expect(screen.queryByRole('button', { name: 'Next slide' })).toBeNull()
+})
+
 it('completes sign in, rejects a wrong code, and reaches the existing dashboard', async () => {
   render(<AppRouter />); await login(); expect(window.location.pathname).toBe('/login/verify')
   fill('Verification code', '000000'); await tick(); expect(screen.getByText('That code isn’t right.')).toBeTruthy()
