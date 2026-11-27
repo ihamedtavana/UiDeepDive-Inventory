@@ -1,0 +1,189 @@
+.progress-bar-documentation {
+  --progress-sm-width: 208px;
+  --progress-md-width: 336px;
+  --progress-stage-padding: calc(var(--semantic-spacing-padding-xl) * 1px);
+  --progress-marker-size: calc(var(--global-spacing-5) * 1px);
+}
+
+.progress-docs-stage {
+  border-radius: var(--docs-radius-large);
+  background: var(--semantic-colors-background-surface-secondary-default);
+}
+
+.progress-docs-overview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--docs-padding-large);
+  padding: var(--progress-stage-padding);
+}
+
+.progress-docs-overview .summary-capacity {
+  width: min(100%, var(--progress-sm-width));
+}
+.progress-docs-overview .summary-capacity strong {
+  font-weight: var(--semantic-typography-display-lg-weight);
+}
+.progress-docs-overview .shelf-card {
+  width: min(100%, calc(var(--progress-md-width) + 2 * var(--docs-padding)));
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--docs-border);
+  gap: var(--docs-padding);
+}
+.progress-docs-overview .card-title-label {
+  margin: 0;
+  color: var(--docs-text);
+  font: inherit;
+}
+.progress-docs-overview .shelf-identity { margin-block-end: var(--docs-gap-small); }
+.progress-docs-overview .shelf-stats {
+  margin-block: calc(var(--global-spacing-5) * 1px) var(--docs-gap-small);
+}
+.progress-docs-overview .shelf-stats > div { min-width: calc(var(--global-spacing-12) * 1px + var(--docs-gap-small)); }
+.progress-docs-overview :is(.shelf-identity, .shelf-stats) strong {
+  font-weight: var(--semantic-typography-title-sm-default-weight);
+}
+
+.progress-docs-anatomy {
+  display: grid;
+  grid-template-columns: minmax(0, 460px) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--docs-padding-large);
+}
+.progress-docs-anatomy-stage {
+  display: grid;
+  place-items: center;
+  min-height: 170px;
+  padding-inline: var(--docs-padding);
+}
+.progress-docs-diagram {
+  position: relative;
+  width: min(100%, calc(var(--progress-md-width) + 2 * (var(--progress-marker-size) + var(--docs-padding))));
+  padding-inline: calc(var(--progress-marker-size) + var(--docs-padding));
+  translate: 0 calc(-1 * var(--docs-gap-small) / 4);
+}
+.progress-docs-marker {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: var(--progress-marker-size);
+  aspect-ratio: 1;
+  border-radius: calc(var(--semantic-radius-full) * 1px);
+  background: var(--semantic-colors-background-surface-inverse-default);
+  color: var(--semantic-colors-text-inverse-default);
+  font-weight: var(--semantic-typography-label-sm-default-weight);
+}
+.progress-docs-marker--1 { inset: calc(-1 * var(--docs-gap-small) / 2) auto auto 0; }
+.progress-docs-marker--2 { inset: auto auto calc(100% + var(--docs-padding)) 10.5%; }
+.progress-docs-marker--3 { inset: auto 23% calc(100% + var(--docs-padding)) auto; }
+.progress-docs-marker--4 { inset: auto auto calc(-1 * var(--docs-gap-small) / 2) 0; }
+.progress-docs-marker--5 { inset: auto var(--docs-gap-small) calc(-1 * var(--docs-gap-small) / 2) auto; }
+
+.progress-docs-parts tbody td:first-child {
+  color: var(--docs-text);
+  font-weight: var(--semantic-typography-label-sm-default-weight);
+}
+.progress-docs-properties tbody td:not(:nth-child(4)),
+.progress-docs-context td:nth-child(3),
+:is(.progress-docs-tokens, .progress-docs-content) td:last-child { color: var(--docs-muted); }
+.progress-docs-variants .percentage[data-size="small"] { max-width: var(--progress-sm-width); }
+.progress-docs-variants .percentage[data-size="medium"] { max-width: var(--progress-md-width); }
+.progress-bar-documentation .docs-metrics > div { justify-content: flex-end; }
+.progress-bar-documentation .docs-guidelines { column-gap: var(--docs-padding-large); }
+
+@media (min-width: 1280px) {
+  .progress-docs-parts col:nth-child(1) { width: 36px; }
+  .progress-docs-parts col:nth-child(2) { width: 142px; }
+  .progress-docs-properties col:nth-child(1) { width: 182px; }
+  .progress-docs-properties col:nth-child(2) { width: 132px; }
+  .progress-docs-properties col:nth-child(3), .progress-docs-properties col:nth-child(5) { width: 112px; }
+  .progress-docs-variants col:first-child { width: 122px; }
+  .progress-docs-variants col:nth-child(2) { width: 43.83%; }
+  .progress-docs-tokens col:first-child { width: 212px; }
+  .progress-docs-tokens col:last-child { width: 172px; }
+  .progress-docs-context col:nth-child(1) { width: 272px; }
+  .progress-docs-context col:nth-child(2) { width: 92px; }
+  .progress-docs-context col:nth-child(3) { width: 132px; }
+  .progress-docs-context col:nth-child(5) { width: 152px; }
+  .progress-docs-context thead th:last-child { font-size: 0; }
+  .progress-docs-content col:first-child { width: 252px; }
+  .progress-docs-content col:last-child { width: 292px; }
+  .progress-docs-accessibility col:first-child { width: 202px; }
+  .progress-docs-accessibility col:last-child { width: 142px; }
+  .progress-docs-audit col:first-child { width: 172px; }
+  .progress-docs-audit col:nth-child(2) { width: 252px; }
+}
+
+@media (width < 1280px) {
+  .progress-docs-anatomy { grid-template-columns: minmax(0, 1fr); }
+  .progress-docs-properties tbody td:last-child .docs-stacked-label {
+    display: inline;
+    position: static;
+    width: auto;
+    height: auto;
+    clip-path: none;
+  }
+}
+
+@media (768px <= width < 1280px) {
+  .progress-docs-parts { --docs-table-cols: 24px minmax(0, 142px) minmax(0, 1fr); }
+  .progress-docs-properties { --docs-table-cols: minmax(0, 34%) minmax(0, 1fr); }
+  .progress-docs-properties thead th:nth-child(2) { grid-area: 1 / 1; }
+  .progress-docs-properties thead th:nth-child(4) { grid-area: 1 / 2; }
+  .progress-docs-properties tbody :nth-child(2) { grid-area: 1 / 1; }
+  .progress-docs-properties tbody :nth-child(4) { grid-area: 1 / 2 / span 3; }
+  .progress-docs-properties tbody :is(:first-child, :nth-child(3), :last-child) { grid-column: 1; }
+
+  .progress-docs-variants { --docs-table-cols: minmax(0, 90px) minmax(0, var(--progress-sm-width)) minmax(0, 1fr); }
+  .progress-docs-tokens { --docs-table-cols: minmax(0, 28%) minmax(0, 1fr); }
+  .progress-docs-tokens tbody th { grid-row: 1 / span 2; }
+  .progress-docs-tokens tbody td { grid-column: 2; }
+
+  .progress-docs-context { --docs-table-cols: minmax(0, 43%) minmax(0, 1fr) max-content; }
+  .progress-docs-context thead th:nth-child(4) { grid-area: 1 / 2; }
+  .progress-docs-context thead th:last-child { grid-area: 1 / 3; }
+  .progress-docs-context tbody :is(:nth-child(2), :nth-child(3)) { grid-column: 1; }
+  .progress-docs-context tbody :nth-child(4) { grid-area: 1 / 2 / span 3; }
+  .progress-docs-context tbody :last-child { grid-area: 1 / 3 / span 3; }
+
+  .progress-docs-content { --docs-table-cols: minmax(0, 32%) minmax(0, 1fr); }
+  .progress-docs-content tbody th { grid-row: 1 / span 2; }
+  .progress-docs-content tbody td { grid-column: 2; }
+  .progress-docs-accessibility { --docs-table-cols: minmax(0, 180px) minmax(0, 1fr) max-content; }
+
+  .progress-docs-properties thead :is(:first-child, :nth-child(3), :last-child),
+  .progress-docs-context thead :is(:nth-child(2), :nth-child(3)),
+  :is(.progress-docs-tokens, .progress-docs-content) thead th:last-child {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+@media (width < 768px) {
+  .progress-docs-overview {
+    flex-direction: column;
+    padding: var(--docs-padding);
+  }
+  .progress-docs-anatomy-stage { padding-inline: var(--docs-gap); }
+  .progress-docs-parts { --docs-table-cols: max-content minmax(0, 1fr); }
+  .progress-docs-parts tbody td:first-child { grid-row: 1 / span 2; }
+  .progress-docs-parts tbody td:last-child { grid-column: 2; }
+
+  .progress-docs-variants .percentage { margin-block-start: var(--docs-gap-small); }
+  .progress-docs-variants .docs-stacked-label {
+    position: static;
+    width: auto;
+    height: auto;
+    clip-path: none;
+    color: var(--docs-body);
+  }
+  :is(.progress-docs-context, .progress-docs-accessibility) {
+    --docs-table-cols: minmax(0, 1fr) max-content;
+  }
+  :is(.progress-docs-context, .progress-docs-accessibility) tbody :last-child { grid-area: 1 / 2; }
+  :is(.progress-docs-context, .progress-docs-accessibility) tbody :is(td:not(:last-child)) { grid-column: 1 / -1; }
+}
