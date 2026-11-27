@@ -29,6 +29,7 @@ export default defineConfig({
         fileURLToPath(new URL('./designsystem/components/callout.html', import.meta.url)),
         fileURLToPath(new URL('./designsystem/components/bin-picker.html', import.meta.url)),
         fileURLToPath(new URL('./designsystem/components/stock-box.html', import.meta.url)),
+        fileURLToPath(new URL('./designsystem/components/shelf-bin-card.html', import.meta.url)),
       ],
     },
   },

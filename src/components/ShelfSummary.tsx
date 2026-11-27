@@ -3,7 +3,7 @@ import type { inventorySummary } from './stockInventory'
 
 type Summary = ReturnType<typeof inventorySummary>
 
-export function ShelfSummary({ summary }: { summary: Summary }) {
+export function ShelfSummary({ summary, meterPercentage = summary.percentage }: { summary: Omit<Summary, 'bins'>; meterPercentage?: number }) {
   const counts = [
     { label: 'In stock', value: summary.inStock, tone: 'success' },
     { label: 'Low stock', value: summary.low, tone: 'warning' },
@@ -14,7 +14,7 @@ export function ShelfSummary({ summary }: { summary: Summary }) {
     <div className="shelf-summary-metrics">
       <div className="shelf-units"><strong key={summary.used}>{summary.used.toLocaleString('en-US')}</strong><span>/{summary.capacity}</span></div>
       <div className="shelf-capacity"><strong key={summary.percentage}>{summary.percentage}%</strong><span>Capacity Used</span></div>
-      <div className="shelf-capacity-meter"><PercentageContainer percentage={summary.percentage} /></div>
+      <div className="shelf-capacity-meter"><PercentageContainer percentage={meterPercentage} /></div>
     </div>
     <div className="shelf-bin-counts">{counts.map(item => <div key={item.label}><strong key={item.value}>{item.value}</strong>
       <span><i className={`status status--${item.tone}`} aria-hidden="true" />{item.label}</span></div>)}</div>
