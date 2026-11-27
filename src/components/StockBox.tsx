@@ -17,6 +17,7 @@ import { BIN_CAPACITY as CAPACITY } from './stockInventory';
 import s from "./StockBox.module.css";
 
 export type StockBoxState = "empty" | "filling" | "full" | "over" | "saving" | "success" | "error";
+export type StockBoxPose = 'half-open' | 'units-above' | 'hop';
 type SlotKind = "free" | "have" | "add" | "ok";
 
 const W = 216;
@@ -51,6 +52,13 @@ const slotXY = (i: number) => {
 /* Units that fall in, and the extra units that bounce on the rim. */
 const PARCEL_X = [108, 74, 142, 91, 125];
 const PARCEL_R = [14, -18, 20, -10, -16];
+const AIRBORNE_PARCELS = [
+  { x: 74, y: 15, angle: 18 },
+  { x: 91, y: 4, angle: 10 },
+  { x: 108, y: 8, angle: -14 },
+  { x: 125, y: 18, angle: 16 },
+  { x: 142, y: 11, angle: -20 },
+];
 const PILE = [
   { x: 85.7, y: 62.6, r: 10 },
   { x: 108, y: 58.3, r: -6 },
@@ -114,25 +122,35 @@ export type StockBoxProps = {
   width?: number;
   className?: string;
   isCompact?: boolean;
+  isAnimated?: boolean;
+  hasMinimum?: boolean;
+  minLabel?: string;
+  pose?: StockBoxPose;
+  ariaLabel?: string;
 };
 
-export function StockBox({ state, onHand = 0, adding, width = W, className, isCompact = false }: StockBoxProps) {
+export function StockBox({
+  state, onHand = 0, adding, width = W, className, isCompact = false,
+  isAnimated = true, hasMinimum = false, minLabel = 'Min 6', pose, ariaLabel,
+}: StockBoxProps) {
   const reduce = usePrefersReducedMotion();
+  const skipMotion = reduce || !isAnimated;
   const clipId = `sb-face-${useId().replace(/:/g, "")}`;
   const filled = Math.min(CAPACITY, onHand + adding);
   const [isFullSealed, setIsFullSealed] = useState(false);
   useEffect(() => {
     if (state !== 'full') { setIsFullSealed(false); return; }
-    if (reduce) { setIsFullSealed(true); return; }
+    if (skipMotion) { setIsFullSealed(true); return; }
     const timer = window.setTimeout(() => setIsFullSealed(true), 660);
     return () => window.clearTimeout(timer);
-  }, [state, reduce]);
+  }, [state, skipMotion]);
 
-  const closed = isCompact || state === 'saving' || state === 'success' || (state === 'full' && isFullSealed);
-  const initialFlap = reduce && !closed ? 1 : 0;
-  const leftT = useTween(closed ? 0 : 1, closed ? 320 : 420, closed ? ease.inOut : ease.back, closed ? 60 : 0, reduce, initialFlap);
-  const rightT = useTween(closed ? 0 : 1, closed ? 320 : 420, closed ? ease.inOut : ease.back, closed ? 130 : 70, reduce, initialFlap);
-  const backT = useTween(closed ? 0 : 1, closed ? 200 : 360, closed ? ease.inOut : ease.back, closed ? 0 : 40, reduce, initialFlap);
+  const closed = isCompact || state === 'saving' || state === 'success' || (state === 'full' && (skipMotion || isFullSealed));
+  const flapTarget = closed ? 0 : pose === 'half-open' ? 0.47 : 1;
+  const initialFlap = skipMotion ? flapTarget : 0;
+  const leftT = useTween(flapTarget, closed ? 320 : 420, closed ? ease.inOut : ease.back, closed ? 60 : 0, skipMotion, initialFlap);
+  const rightT = useTween(flapTarget, closed ? 320 : 420, closed ? ease.inOut : ease.back, closed ? 130 : 70, skipMotion, initialFlap);
+  const backT = useTween(flapTarget, closed ? 200 : 360, closed ? ease.inOut : ease.back, closed ? 0 : 40, skipMotion, initialFlap);
   const flaps = flapPoints(Math.max(0, leftT), Math.max(0, rightT));
 
   const kinds: SlotKind[] = Array.from({ length: CAPACITY }, (_, i) =>
@@ -146,16 +164,16 @@ export function StockBox({ state, onHand = 0, adding, width = W, className, isCo
     previousFill.current = { filled, onHand };
     const before = isCompact || previous.onHand === onHand ? previous.filled : filled;
     setFillMotion(motion => ({ before, sequence: motion.sequence + 1 }));
-  }, [filled, onHand, reduce, state, isCompact]);
+  }, [filled, onHand, skipMotion, state, isCompact]);
 
   const isEditing = state !== 'saving' && state !== 'success' && state !== 'error';
-  const change = isEditing && !reduce ? filled - fillMotion.before : 0;
+  const change = isEditing && !skipMotion ? filled - fillMotion.before : 0;
   const drops = Array.from({ length: Math.min(5, Math.max(0, change)) }, (_, index) => index);
   const move = state === 'success' ? 'hop' : state === 'error' ? 'shake' : state === 'over' ? 'overShake' : '';
 
-  const height = Math.round((width * H) / W);
+  const height = (width * H) / W;
 
-  if (isCompact) return <svg className={[s.box, className].filter(Boolean).join(' ')} width={112} height={76} viewBox="0 0 112 76" role="img" aria-label={`Bin: ${filled} of ${CAPACITY} slots used`} data-state={state}>
+  if (isCompact) return <svg className={[s.box, className].filter(Boolean).join(' ')} width={112} height={76} viewBox="0 0 112 76" role="img" aria-label={ariaLabel ?? `Bin: ${filled} of ${CAPACITY} slots used`} data-state={state}>
     <ellipse className={s.shadow} cx={56} cy={73} rx={49} ry={3} />
     <path className={s.face} d="M10 15H102V64Q102 72 94 72H18Q10 72 10 64Z" />
     {kinds.map((kind, index) => {
@@ -173,11 +191,13 @@ export function StockBox({ state, onHand = 0, adding, width = W, className, isCo
     <svg
       className={[s.box, className].filter(Boolean).join(" ")}
       width={width}
-      height={height}
+      height={isAnimated ? Math.round(height) : height}
       viewBox={`0 0 ${W} ${H}`}
       role="img"
-      aria-label={`Bin: ${filled} of ${CAPACITY} slots used${state === "over" ? ", over capacity" : ""}`}
+        aria-label={ariaLabel ?? `Bin: ${filled} of ${CAPACITY} slots used${state === "over" ? ", over capacity" : ""}`}
       data-state={state}
+      data-pose={pose}
+      data-is-static={!isAnimated || undefined}
     >
       <defs>
         <clipPath id={clipId}>
@@ -185,9 +205,9 @@ export function StockBox({ state, onHand = 0, adding, width = W, className, isCo
         </clipPath>
       </defs>
 
-      <ellipse className={[s.shadow, move === "hop" && s.shadowHop].filter(Boolean).join(" ")} cx={108} cy={147.5} rx={63.5} ry={4.5} />
+      <ellipse className={[s.shadow, move === "hop" && s.shadowHop].filter(Boolean).join(" ")} cx={108} cy={147.5} rx={pose === 'hop' ? 55 : 63.5} ry={4.5} />
 
-      <g className={[s.rig, move && s[move]].filter(Boolean).join(" ")}>
+      <g className={[s.rig, move && s[move]].filter(Boolean).join(" ")} transform={pose === 'hop' ? 'translate(0 -6)' : undefined}>
       <g className={drops.length ? (fillMotion.sequence % 2 === 0 ? s.dipAlternate : s.dip) : undefined}>
         {/* back flap + opening */}
         <polygon className={s.flapBack} points={backPoints(Math.max(0.08, backT))} style={{ opacity: backT < 0.08 ? 0 : 1 }} />
@@ -205,6 +225,10 @@ export function StockBox({ state, onHand = 0, adding, width = W, className, isCo
             rx={3}
             style={{ ["--x" as string]: `${PARCEL_X[index]}px`, ["--r" as string]: `${PARCEL_R[index]}deg`, animationDelay: `${index * 70}ms` }}
           />
+        ))}
+        {pose === 'units-above' && AIRBORNE_PARCELS.map(({ x, y, angle }) => (
+          <rect key={x} className={s.posedParcel} x={-7.5} y={-5.5} width={15} height={11}
+            transform={`translate(${x} ${y}) rotate(${angle})`} />
         ))}
 
         {/* extra units that do not fit */}
@@ -245,6 +269,10 @@ export function StockBox({ state, onHand = 0, adding, width = W, className, isCo
           {state === "saving" && <polygon className={s.shimmer} points="23.4,72 45.7,72 22.3,144 0,144" />}
         </g>
         <path className={s.faceStroke} d={FACE_PATH} />
+        {hasMinimum && <g aria-hidden="true" className={s.minimum}>
+          <path d="M49 120.5H167" />
+          <text x="172" y="124">{minLabel}</text>
+        </g>}
 
         {/* front flaps */}
         <polygon className={s.flap} points={flaps.left} />

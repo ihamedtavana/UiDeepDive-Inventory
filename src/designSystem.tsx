@@ -19,6 +19,7 @@ import { SearchDocumentation } from './components/SearchDocumentation'
 import { SectionCardDocumentation } from './components/SectionCardDocumentation'
 import { ShadowFoundation } from './components/ShadowFoundation'
 import { SpacingFoundation } from './components/SpacingFoundation'
+import { StockBoxDocumentation } from './components/StockBoxDocumentation'
 import { TabDocumentation } from './components/TabDocumentation'
 import { TableDocumentation } from './components/TableDocumentation'
 import { TypographyFoundation } from './components/TypographyFoundation'
@@ -44,6 +45,7 @@ import './components/InputFieldDocumentation.css'
 import './components/QuantityStepperDocumentation.css'
 import './components/CalloutDocumentation.css'
 import './components/BinPickerDocumentation.css'
+import './components/StockBoxDocumentation.css'
 
 const root = document.getElementById('root')
 if (!root) throw new Error('Root element not found')
@@ -59,6 +61,7 @@ const pages = new Map([
   ['/designsystem/components/quantity-stepper', QuantityStepperDocumentation],
   ['/designsystem/components/search', SearchDocumentation],
   ['/designsystem/components/section-card', SectionCardDocumentation],
+  ['/designsystem/components/stock-box', StockBoxDocumentation],
   ['/designsystem/components/tab', TabDocumentation],
   ['/designsystem/components/table', TableDocumentation],
   ['/designsystem/foundation/iconography', IconographyFoundation],
