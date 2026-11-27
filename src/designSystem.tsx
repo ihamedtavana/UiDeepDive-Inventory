@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/600.css'
+import { AuthDocumentation } from './components/AuthDocumentation'
 import { BadgeDocumentation } from './components/BadgeDocumentation'
 import { BinPickerDocumentation } from './components/BinPickerDocumentation'
 import { ButtonDocumentation } from './components/ButtonDocumentation'
@@ -56,6 +57,7 @@ const root = document.getElementById('root')
 if (!root) throw new Error('Root element not found')
 
 const pages = new Map([
+  ['/designsystem/components/auth', AuthDocumentation],
   ['/designsystem/components/badge', BadgeDocumentation],
   ['/designsystem/components/bin-picker', BinPickerDocumentation],
   ['/designsystem/components/button', ButtonDocumentation],
