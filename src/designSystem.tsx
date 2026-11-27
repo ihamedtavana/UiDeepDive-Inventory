@@ -22,6 +22,7 @@ import { SearchDocumentation } from './components/SearchDocumentation'
 import { SectionCardDocumentation } from './components/SectionCardDocumentation'
 import { ShadowFoundation } from './components/ShadowFoundation'
 import { ShelfBinCardDocumentation } from './components/ShelfBinCardDocumentation'
+import { SidebarDocumentation } from './components/SidebarDocumentation'
 import { SpacingFoundation } from './components/SpacingFoundation'
 import { StockBoxDocumentation } from './components/StockBoxDocumentation'
 import { TabDocumentation } from './components/TabDocumentation'
@@ -71,6 +72,7 @@ const pages = new Map([
   ['/designsystem/components/search', SearchDocumentation],
   ['/designsystem/components/section-card', SectionCardDocumentation],
   ['/designsystem/components/shelf-bin-card', ShelfBinCardDocumentation],
+  ['/designsystem/components/sidebar', SidebarDocumentation],
   ['/designsystem/components/stock-box', StockBoxDocumentation],
   ['/designsystem/components/tab', TabDocumentation],
   ['/designsystem/components/table', TableDocumentation],

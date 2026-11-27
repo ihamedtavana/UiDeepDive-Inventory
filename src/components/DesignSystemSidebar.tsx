@@ -43,12 +43,13 @@ const pagePaths: Readonly<Record<string, string | undefined>> = {
   'Warehouse List Card': '/designsystem/components/warehouse-list-card',
   Map: '/designsystem/components/map',
   Auth: '/designsystem/components/auth',
+  Sidebar: '/designsystem/components/sidebar',
 }
-export type DesignSystemPage = 'Color' | 'Typography' | 'Spacing' | 'Radius' | 'Shadow' | 'Layout' | 'Iconography' | 'Button' | 'Badge' | 'Tab' | 'Search' | 'Section Card' | 'Table' | 'Pagination' | 'Progress Bar' | 'Input Field' | 'Quantity Stepper' | 'Callout' | 'Bin Picker' | 'Stock Box' | 'Shelf & Bin Card' | 'Dropdown' | 'Warehouse List Card' | 'Map' | 'Auth'
+export type DesignSystemPage = 'Color' | 'Typography' | 'Spacing' | 'Radius' | 'Shadow' | 'Layout' | 'Iconography' | 'Button' | 'Badge' | 'Tab' | 'Search' | 'Section Card' | 'Table' | 'Pagination' | 'Progress Bar' | 'Input Field' | 'Quantity Stepper' | 'Callout' | 'Bin Picker' | 'Stock Box' | 'Shelf & Bin Card' | 'Dropdown' | 'Warehouse List Card' | 'Map' | 'Auth' | 'Sidebar'
 const menus = [
   { title: 'Getting Started', isCompact: true, items: [{ label: 'Introduction', icon: intro }, { label: 'Principles', icon: principles }, { label: 'How to Use', icon: howToUse }] },
   { title: 'Foundations', items: ['Color', 'Typography', 'Spacing', 'Radius', 'Shadow', 'Layout', 'Iconography'].map((label, index) => ({ label, detail: `F${index + 1}`, status: 'success' as const })) },
-  { title: 'Components', items: ['Button', 'Badge', 'Tab', 'Search', 'Section Card', 'Table', 'Pagination', 'Progress Bar'].map((label, index) => ({ label, detail: `C${index + 1}`, status: (index === 7 ? 'warning' : 'success') as 'warning' | 'success' })) },
+  { title: 'Components', items: ['Button', 'Badge', 'Tab', 'Search', 'Section Card', 'Table', 'Pagination', 'Progress Bar', 'Sidebar', 'Top Navigation', 'Shipment Card', 'Chart', 'Date Range', 'Warehouse Switcher', 'Shelf Card', 'Overview Tabs'].map((label, index) => ({ label, detail: `C${index + 1}`, status: index < 7 ? 'success' as const : 'warning' as const })) },
   { title: 'Feature Components', items: ['Input Field', 'Quantity Stepper', 'Callout', 'Bin Picker', 'Stock Box', 'Shelf & Bin Card', 'Dropdown', 'Warehouse List Card', 'Map', 'Auth'].map((label, index) => ({ label, detail: `N${index + 1}`, status: 'warning' as const })) },
   { title: 'Patterns', isCompact: true, items: [{ label: 'Dashboard Layout', icon: dashboardLayout }, { label: 'Data Tables', icon: dataTables }, { label: 'Empty & Loading', icon: emptyLoading }] },
 ]

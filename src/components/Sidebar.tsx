@@ -35,11 +35,12 @@ const shelves = [
   ['RAM', 'B1', 'warning'], ['Storage', 'B2', 'warning'], ['Power Supplies', 'B3', 'success'],
   ['Cases', 'C1', 'success'], ['Cooling Systems', 'C2', 'error'],
 ] as const
-export function Sidebar({ selectedWarehouse, deliveries, onSelectWarehouse, isPreview = false }: {
+export function Sidebar({ selectedWarehouse, deliveries, onSelectWarehouse, isPreview = false, previewPart }: {
   selectedWarehouse: string
   deliveries: StockDelivery[]
   onSelectWarehouse: (name: string) => void
   isPreview?: boolean
+  previewPart?: 'Collapsed' | 'Warehouse Card' | 'Main Menu' | 'Shelves'
 }) {
   const summary = isPreview
     ? { low: 2, out: 1, percentage: 75 }
@@ -50,7 +51,7 @@ export function Sidebar({ selectedWarehouse, deliveries, onSelectWarehouse, isPr
   useEffect(() => { if (!isWarehouseOpen) return; const onKeyDown = (event: KeyboardEvent) => { if (event.key === 'Escape') { setIsWarehouseOpen(false); switchRef.current?.querySelector<HTMLButtonElement>('.warehouse-switch')?.focus() } }; document.addEventListener('keydown', onKeyDown); return () => document.removeEventListener('keydown', onKeyDown) }, [isWarehouseOpen])
   const closeWarehouse = () => { setIsWarehouseOpen(false); switchRef.current?.querySelector<HTMLButtonElement>('.warehouse-switch')?.focus() }
   const [isCollapsed, setIsCollapsed] = useState(() =>
-    !isPreview && typeof window.matchMedia === 'function' && window.matchMedia('(min-width: 1024px) and (width < 1200px)').matches,
+    isPreview ? previewPart === 'Collapsed' : typeof window.matchMedia === 'function' && window.matchMedia('(min-width: 1024px) and (width < 1200px)').matches,
   )
   useEffect(() => {
     if (isPreview || typeof window.matchMedia !== 'function') return
@@ -64,26 +65,34 @@ export function Sidebar({ selectedWarehouse, deliveries, onSelectWarehouse, isPr
     setIsCollapsed(false)
     requestAnimationFrame(() => searchRef.current?.focus())
   }
-  return <aside className={`sidebar${isCollapsed ? ' is-collapsed' : ''}`} aria-label="Sidebar">
-    <div className="sidebar-logo"><div className="brand"><img src={logo} alt="" />{!isCollapsed && <h1>CoreTech</h1>}</div><Button appearance="ghost" className="sidebar-toggle" aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'} aria-expanded={!isCollapsed} onClick={() => setIsCollapsed(!isCollapsed)}><img className="icon" src={layout} alt="" /></Button></div>
-    {!isCollapsed && <div className="warehouse-switch-anchor" ref={switchRef}><section className="warehouse-card" aria-label="Current warehouse">
+  const warehouseCard = <div className="warehouse-switch-anchor" ref={switchRef}><section className="warehouse-card" aria-label="Current warehouse">
       <div className="warehouse-card-content"><img className="warehouse-image" src={warehouse} alt="" />
         <div><div className="muted">Warehouse</div><strong>{selectedWarehouse}</strong></div>
         <div className="badges"><Badge>{isPreview ? warehouses[0].shelves : selectedWarehouse === 'New York Central' ? SHELF_CATALOG.length : warehouses.find(item => item.name === selectedWarehouse)?.shelves} Shelves</Badge>{selectedWarehouse === 'New York Central' && <><Badge tone="warning">{summary.low} Low</Badge><Badge tone="error">{summary.out} Out</Badge></>}</div>
       </div>
       <button type="button" className="warehouse-switch" aria-expanded={isWarehouseOpen} aria-haspopup="dialog" onClick={() => setIsWarehouseOpen(open => !open)}><img className="icon" src={switchIcon} alt="" /><span>Switch Warehouse</span><Badge>4</Badge></button>
-    </section>{isWarehouseOpen && <SwitchWarehouse selected={selectedWarehouse} onClose={closeWarehouse} onSelect={name => { onSelectWarehouse(name); closeWarehouse() }} />}</div>}
-    <div className="search-section"><div className="divider" /><Search isCollapsed={isCollapsed} onExpand={expandSearch} inputRef={searchRef} /><div className="divider" /></div>
-    <nav aria-label="Main menu" className="menu-section">{!isCollapsed && <div className="section-label">Main Menu</div>}<div className="menu-list">{menu.map((item, index) => <SidebarMenuButton key={item.label} icon={item.icon} detail={item.detail} isCollapsed={isCollapsed} isSelected={index === 0}>{item.label}</SidebarMenuButton>)}</div></nav>
-    <div className="divider" />
-    {selectedWarehouse === 'New York Central' && <><section className="menu-section" aria-label="Shelves">{!isCollapsed && <div className="section-label">Shelves</div>}<div className="menu-list">{shelves.map(([label, detail, previewStatus]) => {
+    </section>{isWarehouseOpen && <SwitchWarehouse selected={selectedWarehouse} onClose={closeWarehouse} onSelect={name => { onSelectWarehouse(name); closeWarehouse() }} />}</div>
+  const mainMenu = <nav aria-label="Main menu" className="menu-section">{!isCollapsed && <div className="section-label">Main Menu</div>}<div className="menu-list">{menu.map((item, index) => <SidebarMenuButton key={item.label} icon={item.icon} detail={item.detail} isCollapsed={isCollapsed} isSelected={index === 0}>{item.label}</SidebarMenuButton>)}</div></nav>
+  const shelfMenu = selectedWarehouse === 'New York Central' && <section className="menu-section" aria-label="Shelves">{!isCollapsed && <div className="section-label">Shelves</div>}<div className="menu-list">{shelves.map(([label, detail, previewStatus]) => {
       const stock = isPreview ? undefined : inventorySummary(deliveries, selectedWarehouse, detail)
       const status = stock ? stock.out ? 'error' : stock.low ? 'warning' : 'success' : previewStatus
       return <SidebarMenuButton key={label} detail={detail} status={status} isCollapsed={isCollapsed}>{label}</SidebarMenuButton>
     })}</div></section>
+
+  if (isPreview && previewPart === 'Warehouse Card') return warehouseCard
+  if (isPreview && previewPart === 'Main Menu') return mainMenu
+  if (isPreview && previewPart === 'Shelves') return shelfMenu
+
+  return <aside className={`sidebar${isCollapsed ? ' is-collapsed' : ''}`} aria-label="Sidebar">
+    <div className="sidebar-logo"><div className="brand"><img src={logo} alt="" />{!isCollapsed && <h1>CoreTech</h1>}</div><Button appearance="ghost" className="sidebar-toggle" aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'} aria-expanded={!isCollapsed} onClick={() => setIsCollapsed(!isCollapsed)}><img className="icon" src={layout} alt="" /></Button></div>
+    {!isCollapsed && warehouseCard}
+    <div className="search-section"><div className="divider" /><Search isCollapsed={isCollapsed} onExpand={expandSearch} inputRef={searchRef} /><div className="divider" /></div>
+    {mainMenu}
+    <div className="divider" />
+    {selectedWarehouse === 'New York Central' && <>{shelfMenu}
     <div className="divider" />
     {!isCollapsed && <><SectionCard className="storage-card" aria-label="Warehouse storage">
-      <div className="storage-title"><img className="icon" src={packageSearch} alt="" />Warehouse Storage</div>
+      <div className="storage-title"><img className="icon" src={packageSearch} alt="" /><span>Warehouse Storage</span></div>
       <div className="storage-reading"><strong>{summary.percentage}%</strong><span className="muted">Capacity Used</span></div>
       <PercentageContainer percentage={summary.percentage} />
       <Button className="restock-button">{isPreview ? 11 : summary.low + summary.out} SKUs need restock<img className="icon" src={chevron} alt="" /></Button>
