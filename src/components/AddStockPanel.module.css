@@ -99,6 +99,49 @@
 .stepperValue input:focus { outline: none; }
 .stepper :global(.button) { border: none; }
 .stepper :global(.button > span:first-child) { font-size: calc(var(--global-type-size-lg) * 1px); }
+
+.stepperDocumentation {
+  --gap-xs: calc(var(--semantic-spacing-gap-xs) * 1px);
+  --gap-sm: calc(var(--semantic-spacing-gap-sm) * 1px);
+  --gap-md: calc(var(--semantic-spacing-gap-md) * 1px);
+  --subtle: var(--semantic-colors-background-surface-secondary-default);
+  --border: var(--semantic-colors-border-primary-default);
+  --foreground: var(--semantic-colors-text-primary-default);
+  --muted: var(--semantic-colors-text-tertiary-default);
+  --error: var(--semantic-colors-feedback-error-primary-text);
+  --radius: calc(var(--semantic-radius-md) * 1px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+}
+.stepperDocumentation .stepper {
+  min-height: calc(var(--global-spacing-14) * 1px);
+  background: var(--semantic-colors-background-surface-primary-default);
+}
+.stepperDocumentation .stepper:has(input:disabled) { background: var(--subtle); }
+.stepperDocumentation .stepperValue input {
+  field-sizing: content;
+  min-width: 1ch;
+  max-width: 3ch;
+  line-height: calc(var(--semantic-typography-display-lg-lineheight) * 1px);
+  font-weight: var(--semantic-typography-display-lg-weight);
+}
+.stepperDocumentation .stepperValue input::placeholder { color: var(--muted); opacity: 1; }
+.stepperDecrease, .stepperIncrease {
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  mask-repeat: no-repeat;
+  mask-position: center;
+}
+.stepperDecrease { mask-image: url('../assets/design-system/quantity-decrease.svg'); }
+.stepperIncrease { mask-image: url('../assets/design-system/quantity-increase.svg'); }
+:global([data-stepper-preview="Pressed"]) .stepper { border-color: var(--semantic-colors-border-accent-default); }
+:global([data-stepper-preview="Focused"]) .stepper {
+  outline: var(--focus-ring-width) solid var(--component-focus-ring-color);
+  outline-offset: var(--gap-xs);
+  clip-path: inset(0 0 calc(-1 * (var(--gap-xs) + var(--focus-ring-width))));
+}
 .presets { display: flex; gap: var(--gap-md); flex-wrap: wrap; }
 .stats { border-top: 1px solid var(--border); padding-top: var(--gap-lg); display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-md); }
 .stats div { display: flex; flex-direction: column-reverse; gap: var(--gap-xs); }

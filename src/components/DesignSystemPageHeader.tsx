@@ -8,7 +8,7 @@ type Props = {
   headingId: string
   description: string
   section?: 'Foundations' | 'Components'
-  status?: 'Ready' | 'In progress'
+  status?: 'Ready' | 'In progress' | 'In review'
   sections: readonly (readonly [label: string, id: string])[]
   onExport: () => void
 }
@@ -16,7 +16,7 @@ type Props = {
 export function DesignSystemPageHeader({ title, headingId, description, section = 'Foundations', status = 'Ready', sections, onExport }: Props) {
   return <header className="docs-page-header">
     <div className="overview-tabs">
-      <div className="overview-heading"><h1 id={headingId}>{title}</h1><Badge tone={status === 'Ready' ? 'success' : 'neutral'}>{section} · {status}</Badge></div>
+      <div className="overview-heading"><h1 id={headingId}>{title}</h1><Badge tone={status === 'Ready' ? 'success' : status === 'In review' ? 'warning' : 'neutral'}>{section} · {status}</Badge></div>
       <DesignSystemSectionLinks sections={sections} label={`${title} sections`} />
       <Button className="docs-export" size="medium" onClick={onExport}><img src={exportIcon} alt="" />Export</Button>
     </div>

@@ -11,6 +11,7 @@ import { InputFieldDocumentation } from './components/InputFieldDocumentation'
 import { LayoutFoundation } from './components/LayoutFoundation'
 import { PaginationDocumentation } from './components/PaginationDocumentation'
 import { ProgressBarDocumentation } from './components/ProgressBarDocumentation'
+import { QuantityStepperDocumentation } from './components/QuantityStepperDocumentation'
 import { RadiusFoundation } from './components/RadiusFoundation'
 import { SearchDocumentation } from './components/SearchDocumentation'
 import { SectionCardDocumentation } from './components/SectionCardDocumentation'
@@ -38,6 +39,7 @@ import './components/TableDocumentation.css'
 import './components/PaginationDocumentation.css'
 import './components/ProgressBarDocumentation.css'
 import './components/InputFieldDocumentation.css'
+import './components/QuantityStepperDocumentation.css'
 
 const root = document.getElementById('root')
 if (!root) throw new Error('Root element not found')
@@ -48,6 +50,7 @@ const pages = new Map([
   ['/designsystem/components/pagination', PaginationDocumentation],
   ['/designsystem/components/progress-bar', ProgressBarDocumentation],
   ['/designsystem/components/input-field', InputFieldDocumentation],
+  ['/designsystem/components/quantity-stepper', QuantityStepperDocumentation],
   ['/designsystem/components/search', SearchDocumentation],
   ['/designsystem/components/section-card', SectionCardDocumentation],
   ['/designsystem/components/tab', TabDocumentation],
