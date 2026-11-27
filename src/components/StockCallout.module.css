@@ -1,0 +1,78 @@
+.callout {
+  --callout-background: var(--semantic-colors-feedback-info-primary-background);
+  --callout-border: var(--semantic-colors-feedback-info-primary-border);
+  --callout-text: var(--semantic-colors-feedback-info-primary-text);
+  --callout-icon: var(--semantic-colors-feedback-info-primary-icon);
+  display: flex;
+  align-items: flex-start;
+  gap: calc(var(--semantic-spacing-gap-md) * 1px);
+  padding: calc(var(--semantic-spacing-padding-md) * 1px);
+  border-radius: calc(var(--semantic-radius-md) * 1px);
+  background: var(--callout-background);
+  box-shadow: inset 0 0 0 1px var(--callout-border);
+  color: var(--callout-text);
+}
+
+.callout[data-tone="success"] {
+  --callout-background: var(--semantic-colors-feedback-success-primary-background);
+  --callout-border: var(--semantic-colors-feedback-success-primary-border);
+  --callout-text: var(--semantic-colors-feedback-success-primary-text);
+  --callout-icon: var(--semantic-colors-feedback-success-primary-icon);
+}
+
+.callout[data-tone="warning"] {
+  --callout-background: var(--semantic-colors-feedback-warning-primary-background);
+  --callout-border: var(--semantic-colors-feedback-warning-primary-border);
+  --callout-text: var(--semantic-colors-feedback-warning-primary-text);
+  --callout-icon: var(--semantic-colors-feedback-warning-primary-icon);
+}
+
+.callout[data-tone="error"] {
+  --callout-background: var(--semantic-colors-feedback-error-primary-background);
+  --callout-border: var(--semantic-colors-feedback-error-primary-border);
+  --callout-text: var(--semantic-colors-feedback-error-primary-text);
+  --callout-icon: var(--semantic-colors-feedback-error-primary-icon);
+}
+
+.callout > div {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  gap: calc(var(--semantic-spacing-gap-md) * 1px);
+}
+
+.icon {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-block-start: calc(var(--semantic-spacing-gap-xs) * 1px);
+  background: var(--callout-icon);
+  mask-position: center;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+}
+
+.callout > div strong {
+  display: block;
+  color: inherit;
+  font-size: calc(var(--semantic-typography-label-md-default-fontsize) * 1px);
+  line-height: calc(var(--semantic-typography-label-md-default-lineheight) * 1px);
+  font-weight: var(--semantic-typography-label-md-default-weight);
+}
+
+.callout > div p {
+  margin: calc(var(--semantic-spacing-gap-sm) * 1px) 0 0;
+  font-size: calc(var(--semantic-typography-label-sm-regular-fontsize) * 1px);
+  line-height: calc(var(--semantic-typography-label-sm-regular-lineheight) * 1px);
+  font-weight: var(--semantic-typography-label-sm-regular-weight);
+}
+
+.callout > :global(.button) { position: relative; flex: none; }
+
+@media (pointer: coarse) {
+  .callout > :global(.button)::after {
+    content: '';
+    position: absolute;
+    inset: calc(-1 * var(--global-spacing-1_5) * 1px) 0;
+  }
+}
