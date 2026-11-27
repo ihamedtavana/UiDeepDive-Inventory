@@ -1,9 +1,8 @@
 import './Dropdown.css'
 import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react'
-import { Button } from './Button'
 import { DropdownMenuBase } from './DropdownMenuBase'
 import { DropdownOption } from './DropdownOption'
-import chevron from '../assets/iconChevronDown.svg'
+import { DropdownTrigger } from './DropdownTrigger'
 
 export type DropdownItem = { value: string; label: string; isDisabled?: boolean }
 type DropdownProps = {
@@ -71,11 +70,11 @@ export function Dropdown({ label, value, options, isDisabled = false, onChange }
   }
 
   return <div className="dropdown" ref={root} onKeyDown={onKeyDown}>
-    <Button id={`${id}-trigger`} ref={trigger} disabled={isDisabled} aria-label={`${label}: ${selected?.label ?? 'Select option'}`}
-      aria-haspopup="listbox" aria-expanded={isOpen} aria-controls={`${id}-menu`} className="dropdown-trigger"
+    <DropdownTrigger id={`${id}-trigger`} ref={trigger} disabled={isDisabled} aria-label={`${label}: ${selected?.label ?? 'Select option'}`}
+      aria-haspopup="listbox" aria-expanded={isOpen} aria-controls={`${id}-menu`} state={isOpen ? 'Open' : 'Default'}
       onClick={() => isOpen ? close() : open()}>
-      {selected?.label ?? 'Select option'}<img className={`icon dropdown-chevron${isOpen ? ' is-open' : ''}`} src={chevron} alt="" />
-    </Button>
+      {selected?.label ?? 'Select option'}
+    </DropdownTrigger>
     <div className={`dropdown-popup${isOpen ? ' is-open' : ''}`} aria-hidden={!isOpen || undefined} inert={!isOpen}>
       <DropdownMenuBase id={`${id}-menu`} labelId={`${id}-trigger`}>
         {options.map((option, index) => <DropdownOption key={option.value} id={`${id}-option-${index}`} label={option.label}

@@ -8,6 +8,7 @@ import { BinPickerDocumentation } from './components/BinPickerDocumentation'
 import { ButtonDocumentation } from './components/ButtonDocumentation'
 import { CalloutDocumentation } from './components/CalloutDocumentation'
 import { ColorFoundation } from './components/ColorFoundation'
+import { DropdownDocumentation } from './components/DropdownDocumentation'
 import { IconographyFoundation } from './components/IconographyFoundation'
 import { InputFieldDocumentation } from './components/InputFieldDocumentation'
 import { LayoutFoundation } from './components/LayoutFoundation'
@@ -57,6 +58,7 @@ const pages = new Map([
   ['/designsystem/components/bin-picker', BinPickerDocumentation],
   ['/designsystem/components/button', ButtonDocumentation],
   ['/designsystem/components/callout', CalloutDocumentation],
+  ['/designsystem/components/dropdown', DropdownDocumentation],
   ['/designsystem/components/pagination', PaginationDocumentation],
   ['/designsystem/components/progress-bar', ProgressBarDocumentation],
   ['/designsystem/components/input-field', InputFieldDocumentation],

@@ -9,5 +9,6 @@
 .dropdown-option:hover, .dropdown-option[data-state="Hover"] { background: var(--semantic-colors-background-surface-primary-hover); }
 .dropdown-option:active, .dropdown-option[data-state="Pressed"] { background: var(--semantic-colors-background-surface-primary-pressed); }
 .dropdown-option:disabled { opacity: .4; cursor: default; }
+.dropdown-option-label { display: flex; align-items: center; gap: calc(var(--semantic-spacing-gap-md) * 1px); }
 :root[data-focus-mode="keyboard"] .dropdown-option:focus-visible > .focus-ring, .dropdown-option[data-state="Focused"] > .focus-ring { display: block; }
 @media (prefers-reduced-motion: reduce) { .dropdown-popup, .dropdown-chevron { transition: none; } }
