@@ -22,8 +22,8 @@ export function TopNavigation(props: Props) {
       <Button hierarchy="primary" className="movement-button"><img className="icon" src={plus} alt="" />New Movement</Button>
       <span className="vertical-divider" />
       <div className="top-icons">
-        <Button isIconOnly hasBadge aria-label="Messages"><img className="icon" src={messages} alt="" /></Button>
-        <Button isIconOnly hasBadge aria-label="Notifications"><img className="icon" src={notifications} alt="" /></Button>
+        <Button isIconOnly hasBadge aria-label="Messages" aria-description="Unread messages"><img className="icon" src={messages} alt="" /></Button>
+        <Button isIconOnly hasBadge aria-label="Notifications" aria-description="Unread notifications"><img className="icon" src={notifications} alt="" /></Button>
         <Button isIconOnly aria-label="Settings"><img className="icon" src={settings} alt="" /></Button>
         <Avatar src={avatar} alt="Account avatar" />
       </div>

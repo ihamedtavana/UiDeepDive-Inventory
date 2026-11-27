@@ -27,6 +27,7 @@ import { SpacingFoundation } from './components/SpacingFoundation'
 import { StockBoxDocumentation } from './components/StockBoxDocumentation'
 import { TabDocumentation } from './components/TabDocumentation'
 import { TableDocumentation } from './components/TableDocumentation'
+import { TopNavigationDocumentation } from './components/TopNavigationDocumentation'
 import { TypographyFoundation } from './components/TypographyFoundation'
 import { WarehouseListCardDocumentation } from './components/WarehouseListCardDocumentation'
 import './tokens/tokens.css'
@@ -76,6 +77,7 @@ const pages = new Map([
   ['/designsystem/components/stock-box', StockBoxDocumentation],
   ['/designsystem/components/tab', TabDocumentation],
   ['/designsystem/components/table', TableDocumentation],
+  ['/designsystem/components/top-navigation', TopNavigationDocumentation],
   ['/designsystem/components/warehouse-list-card', WarehouseListCardDocumentation],
   ['/designsystem/foundation/iconography', IconographyFoundation],
   ['/designsystem/foundation/layout', LayoutFoundation],

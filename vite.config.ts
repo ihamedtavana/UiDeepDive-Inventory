@@ -34,6 +34,7 @@ export default defineConfig({
         fileURLToPath(new URL('./designsystem/components/map.html', import.meta.url)),
         fileURLToPath(new URL('./designsystem/components/auth.html', import.meta.url)),
         fileURLToPath(new URL('./designsystem/components/sidebar.html', import.meta.url)),
+        fileURLToPath(new URL('./designsystem/components/top-navigation.html', import.meta.url)),
         fileURLToPath(new URL('./designsystem/components/dropdown.html', import.meta.url)),
       ],
     },

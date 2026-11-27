@@ -44,8 +44,9 @@ const pagePaths: Readonly<Record<string, string | undefined>> = {
   Map: '/designsystem/components/map',
   Auth: '/designsystem/components/auth',
   Sidebar: '/designsystem/components/sidebar',
+  'Top Navigation': '/designsystem/components/top-navigation',
 }
-export type DesignSystemPage = 'Color' | 'Typography' | 'Spacing' | 'Radius' | 'Shadow' | 'Layout' | 'Iconography' | 'Button' | 'Badge' | 'Tab' | 'Search' | 'Section Card' | 'Table' | 'Pagination' | 'Progress Bar' | 'Input Field' | 'Quantity Stepper' | 'Callout' | 'Bin Picker' | 'Stock Box' | 'Shelf & Bin Card' | 'Dropdown' | 'Warehouse List Card' | 'Map' | 'Auth' | 'Sidebar'
+export type DesignSystemPage = 'Color' | 'Typography' | 'Spacing' | 'Radius' | 'Shadow' | 'Layout' | 'Iconography' | 'Button' | 'Badge' | 'Tab' | 'Search' | 'Section Card' | 'Table' | 'Pagination' | 'Progress Bar' | 'Input Field' | 'Quantity Stepper' | 'Callout' | 'Bin Picker' | 'Stock Box' | 'Shelf & Bin Card' | 'Dropdown' | 'Warehouse List Card' | 'Map' | 'Auth' | 'Sidebar' | 'Top Navigation'
 const menus = [
   { title: 'Getting Started', isCompact: true, items: [{ label: 'Introduction', icon: intro }, { label: 'Principles', icon: principles }, { label: 'How to Use', icon: howToUse }] },
   { title: 'Foundations', items: ['Color', 'Typography', 'Spacing', 'Radius', 'Shadow', 'Layout', 'Iconography'].map((label, index) => ({ label, detail: `F${index + 1}`, status: 'success' as const })) },
