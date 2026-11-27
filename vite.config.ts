@@ -24,6 +24,7 @@ export default defineConfig({
         fileURLToPath(new URL('./designsystem/components/table.html', import.meta.url)),
         fileURLToPath(new URL('./designsystem/components/pagination.html', import.meta.url)),
         fileURLToPath(new URL('./designsystem/components/progress-bar.html', import.meta.url)),
+        fileURLToPath(new URL('./designsystem/components/input-field.html', import.meta.url)),
       ],
     },
   },

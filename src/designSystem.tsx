@@ -7,6 +7,7 @@ import { BadgeDocumentation } from './components/BadgeDocumentation'
 import { ButtonDocumentation } from './components/ButtonDocumentation'
 import { ColorFoundation } from './components/ColorFoundation'
 import { IconographyFoundation } from './components/IconographyFoundation'
+import { InputFieldDocumentation } from './components/InputFieldDocumentation'
 import { LayoutFoundation } from './components/LayoutFoundation'
 import { PaginationDocumentation } from './components/PaginationDocumentation'
 import { ProgressBarDocumentation } from './components/ProgressBarDocumentation'
@@ -36,6 +37,7 @@ import './components/SectionCardDocumentation.css'
 import './components/TableDocumentation.css'
 import './components/PaginationDocumentation.css'
 import './components/ProgressBarDocumentation.css'
+import './components/InputFieldDocumentation.css'
 
 const root = document.getElementById('root')
 if (!root) throw new Error('Root element not found')
@@ -45,6 +47,7 @@ const pages = new Map([
   ['/designsystem/components/button', ButtonDocumentation],
   ['/designsystem/components/pagination', PaginationDocumentation],
   ['/designsystem/components/progress-bar', ProgressBarDocumentation],
+  ['/designsystem/components/input-field', InputFieldDocumentation],
   ['/designsystem/components/search', SearchDocumentation],
   ['/designsystem/components/section-card', SectionCardDocumentation],
   ['/designsystem/components/tab', TabDocumentation],
