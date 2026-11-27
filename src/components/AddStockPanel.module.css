@@ -178,6 +178,55 @@
 .binRow :global(button:disabled) { background: var(--semantic-colors-background-surface-tertiary-default); }
 .binRow :global(button[aria-pressed='true']) { border-color: var(--semantic-colors-border-accent-default); background: var(--semantic-colors-background-brand-tertiary-default); }
 
+.binPickerDocumentation {
+  padding: calc(var(--semantic-spacing-padding-md) * 1px);
+  gap: calc(var(--semantic-spacing-gap-md) * 1px);
+  border: 1px solid var(--semantic-colors-border-primary-default);
+  border-radius: calc(var(--semantic-radius-md) * 1px);
+  background: var(--semantic-colors-background-surface-secondary-default);
+  font-size: calc(var(--semantic-typography-label-sm-regular-fontsize) * 1px);
+  line-height: calc(var(--semantic-typography-label-sm-regular-lineheight) * 1px);
+}
+.binPickerDocumentation[data-invalid] { border-color: var(--semantic-colors-data-visualization-negative); }
+.binPickerDocumentation .binHeading { gap: calc(var(--semantic-spacing-gap-md) * 1px); }
+.binPickerDocumentation .binHeading > strong { flex-shrink: 0; }
+.binPickerDocumentation .binHeading > span { color: var(--semantic-colors-text-secondary-default); text-align: end; }
+.binPickerDocumentation .binHeading > .invalid { color: var(--semantic-colors-feedback-error-primary-text); }
+.binPickerDocumentation .binRow { gap: calc(var(--semantic-spacing-gap-md) * 1px); }
+.binPickerDocumentation .binRow > span { color: var(--semantic-colors-text-tertiary-default); }
+.binPickerDocumentation .binRow :global(button) { padding-inline: calc(var(--semantic-spacing-gap-xs) * 1px); }
+.binPickerDocumentation .binRow :global(button:disabled) {
+  --button-shadow: 0 0 0 0 transparent;
+  background: var(--component-button-filled-secondary-background-disable);
+}
+.binPickerDocumentation[data-compact] .binRow :global(button) {
+  --button-shadow: 0 0 0 0 transparent;
+  min-height: calc(var(--global-spacing-6) * 1px);
+  border-radius: calc(var(--semantic-radius-sm) * 1px);
+  font-size: calc(var(--semantic-typography-label-sm-regular-fontsize) * 1px);
+  line-height: calc(var(--semantic-typography-label-sm-regular-lineheight) * 1px);
+  font-weight: var(--semantic-typography-label-sm-regular-weight);
+}
+.binPickerDocumentation[data-compact] .binRow :global(button:enabled:not(:hover, :active)) { color: var(--semantic-colors-text-secondary-default); }
+.binPickerDocumentation[data-compact] .binRow :global(button:disabled) { background: var(--semantic-colors-background-surface-tertiary-default); }
+.binPickerDocumentation .binRow :global(button[data-selected]) {
+  --button-border: var(--semantic-colors-border-accent-default);
+  background: var(--semantic-colors-background-brand-tertiary-default);
+}
+
+@media (width < 768px) {
+  .binPickerDocumentation .binHeading {
+    display: grid;
+    gap: calc(var(--semantic-spacing-gap-xs) * 1px);
+  }
+  .binPickerDocumentation .binHeading > span { text-align: start; }
+  .binPickerDocumentation .binRow { column-gap: calc(var(--semantic-spacing-gap-sm) * 1px); }
+  .binPickerDocumentation .binRow :global(button),
+  .binPickerDocumentation[data-compact] .binRow :global(button) {
+    min-height: calc(var(--global-spacing-11) * 1px);
+  }
+}
+
 .callout { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--gap-xl); border: 1px solid var(--semantic-colors-feedback-error-primary-border); border-radius: var(--radius); background: var(--semantic-colors-feedback-error-primary-background); color: var(--error); padding: var(--gap-lg); animation: appear 160ms ease-out both; }
 .callout > div { display: flex; gap: var(--gap-md); }
 .callout strong { display: block; margin-bottom: var(--gap-xs); font-size: calc(var(--semantic-typography-label-md-regular-fontsize) * 1px); line-height: calc(var(--semantic-typography-label-md-regular-lineheight) * 1px); font-weight: 500; }

@@ -4,6 +4,7 @@ import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/600.css'
 import { BadgeDocumentation } from './components/BadgeDocumentation'
+import { BinPickerDocumentation } from './components/BinPickerDocumentation'
 import { ButtonDocumentation } from './components/ButtonDocumentation'
 import { CalloutDocumentation } from './components/CalloutDocumentation'
 import { ColorFoundation } from './components/ColorFoundation'
@@ -42,12 +43,14 @@ import './components/ProgressBarDocumentation.css'
 import './components/InputFieldDocumentation.css'
 import './components/QuantityStepperDocumentation.css'
 import './components/CalloutDocumentation.css'
+import './components/BinPickerDocumentation.css'
 
 const root = document.getElementById('root')
 if (!root) throw new Error('Root element not found')
 
 const pages = new Map([
   ['/designsystem/components/badge', BadgeDocumentation],
+  ['/designsystem/components/bin-picker', BinPickerDocumentation],
   ['/designsystem/components/button', ButtonDocumentation],
   ['/designsystem/components/callout', CalloutDocumentation],
   ['/designsystem/components/pagination', PaginationDocumentation],
