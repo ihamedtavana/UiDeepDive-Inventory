@@ -1,0 +1,95 @@
+.map-docs-preview {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  padding: calc(var(--semantic-spacing-padding-xl) * 1px);
+  border-radius: var(--docs-radius-large);
+  background: var(--semantic-colors-background-surface-secondary-default);
+}
+
+.map-docs-preview--overview { gap: calc(var(--semantic-spacing-layout-section-gap) * 1px); }
+.map-docs-preview--states { gap: calc(var(--global-spacing-7) * 1px); }
+
+.map-docs-preview figure {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  gap: var(--docs-gap);
+  margin: 0;
+}
+
+.map-docs-route { inline-size: 360px; }
+.map-docs-preview figure:has(.map-popover) { overflow: clip; }
+
+.map-documentation .docs-guidelines { column-gap: var(--docs-padding-large); }
+.map-docs-context td:last-child { color: var(--docs-muted); }
+.map-docs-audit .badge,
+.map-docs-accessibility .badge { vertical-align: middle; }
+.docs-table.map-docs-audit tbody td:nth-child(2) { color: var(--docs-body); }
+
+@media (min-width: 1280px) {
+  .map-docs-anatomy col:first-child,
+  .map-docs-states col:first-child,
+  .map-docs-accessibility col:first-child { width: 212px; }
+  .map-docs-anatomy col:nth-child(2),
+  .map-docs-properties col:nth-child(3) { width: 132px; }
+  .map-docs-properties col:first-child { width: 192px; }
+  .map-docs-properties col:nth-child(2) { width: 152px; }
+  .map-docs-properties col:nth-child(4) { width: 35.57%; }
+  .map-docs-states col:nth-child(2),
+  .map-docs-context col:first-child { width: 28.31%; }
+  .map-docs-tokens col:first-child { width: 232px; }
+  .map-docs-tokens col:nth-child(2) { width: 48.28%; }
+  .map-docs-context col:last-child { width: 84px; }
+  .map-docs-accessibility col:last-child { width: 146px; }
+  .docs-table.map-docs-audit col:nth-child(-n+2) { width: 182px; }
+  .docs-table.map-docs-audit col:last-child { width: 116px; }
+}
+
+@media (width < 1280px) {
+  .map-docs-anatomy { --docs-table-cols: minmax(0, 164px) minmax(0, 1fr); }
+  .map-docs-properties { --docs-table-cols: minmax(0, 138px) minmax(0, 148px) minmax(0, 1fr); }
+  .map-docs-states,
+  .map-docs-tokens { --docs-table-cols: minmax(0, 150px) minmax(0, 1fr); }
+  .map-docs-context { --docs-table-cols: minmax(0, 184px) minmax(0, 1fr) max-content; }
+  .map-docs-accessibility { --docs-table-cols: minmax(0, 150px) minmax(0, 1fr) max-content; }
+}
+
+@media (768px <= width < 1280px) {
+  .map-docs-anatomy thead th:nth-child(2),
+  .map-docs-properties thead th:is(:nth-child(3), :last-child),
+  :is(.map-docs-states, .map-docs-tokens) thead th:last-child {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .map-docs-anatomy tbody tr > :nth-child(2) { grid-column: 1; }
+  .map-docs-anatomy tbody tr > :last-child { grid-column: 2; grid-row: 1 / 3; }
+  .map-docs-properties tbody tr > :first-child { grid-row: 1 / 4; }
+  .map-docs-properties tbody tr > :is(:nth-child(2), :nth-child(3), :last-child) { grid-column: 2; }
+  .map-docs-properties tbody tr > :nth-child(4) { grid-column: 3; grid-row: 1 / 4; }
+  :is(.map-docs-states, .map-docs-tokens) tbody tr > :first-child { grid-row: 1 / 3; }
+  :is(.map-docs-states, .map-docs-tokens) tbody tr > :last-child { grid-column: 2; }
+}
+
+@media (width < 768px) {
+  .map-documentation #overview { scroll-margin-top: var(--docs-toolbar-height); }
+  .map-docs-preview { gap: var(--docs-padding-large); padding: var(--docs-padding-large); }
+  :is(.map-docs-anatomy, .map-docs-states, .map-docs-tokens, .map-docs-context) {
+    --docs-table-cols: minmax(0, 1fr);
+  }
+  .map-docs-properties { --docs-table-cols: minmax(0, 1fr) minmax(0, 1fr); }
+  .map-docs-properties tbody tr > :is(:nth-child(-n+2), :nth-child(4)) { grid-column: 1 / -1; }
+  .map-docs-properties tbody tr > :nth-child(4) { grid-row: 4; }
+  .map-docs-properties tbody tr > :last-child { grid-column: 2; grid-row: 3; }
+  .map-docs-context tbody tr > :last-child { grid-row: 2; }
+  .map-docs-accessibility { --docs-table-cols: minmax(0, 1fr) max-content; }
+  .map-docs-accessibility tbody tr > :nth-child(2) { grid-column: 1 / -1; grid-row: 2; }
+  .map-docs-accessibility tbody tr > :last-child { grid-column: 2; grid-row: 1; }
+}

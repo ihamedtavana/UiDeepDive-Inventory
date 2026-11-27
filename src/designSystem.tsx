@@ -12,6 +12,7 @@ import { DropdownDocumentation } from './components/DropdownDocumentation'
 import { IconographyFoundation } from './components/IconographyFoundation'
 import { InputFieldDocumentation } from './components/InputFieldDocumentation'
 import { LayoutFoundation } from './components/LayoutFoundation'
+import { MapDocumentation } from './components/MapDocumentation'
 import { PaginationDocumentation } from './components/PaginationDocumentation'
 import { ProgressBarDocumentation } from './components/ProgressBarDocumentation'
 import { QuantityStepperDocumentation } from './components/QuantityStepperDocumentation'
@@ -60,6 +61,7 @@ const pages = new Map([
   ['/designsystem/components/button', ButtonDocumentation],
   ['/designsystem/components/callout', CalloutDocumentation],
   ['/designsystem/components/dropdown', DropdownDocumentation],
+  ['/designsystem/components/map', MapDocumentation],
   ['/designsystem/components/pagination', PaginationDocumentation],
   ['/designsystem/components/progress-bar', ProgressBarDocumentation],
   ['/designsystem/components/input-field', InputFieldDocumentation],

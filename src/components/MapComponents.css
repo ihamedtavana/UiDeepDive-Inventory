@@ -1,0 +1,174 @@
+.map-marker,
+.map-goods-dot,
+.map-popover-pointer img,
+.map-route-image {
+  display: block;
+}
+
+.map-marker-control,
+.map-route-control {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.map-marker-control {
+  position: relative;
+  border-radius: calc(var(--semantic-radius-full) * 1px);
+}
+
+.map-marker-resting { display: block; }
+.map-marker-hover { display: none; }
+
+@media (hover: hover) {
+  .map-marker-control[data-state="Default"]:hover .map-marker-resting { display: none; }
+  .map-marker-control[data-state="Default"]:hover .map-marker-hover { display: block; }
+}
+
+:root[data-focus-mode="keyboard"] .map-marker-control:focus-visible { outline: none; }
+:root[data-focus-mode="keyboard"] .map-marker-control:focus-visible .map-marker-resting { display: block; }
+:root[data-focus-mode="keyboard"] .map-marker-control:focus-visible .map-marker-hover { display: none; }
+:root[data-focus-mode="keyboard"] .map-marker-control:focus-visible::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  inline-size: 20px;
+  block-size: 20px;
+  margin: auto;
+  border-radius: inherit;
+  outline: var(--focus-ring-width) solid var(--component-focus-ring-color);
+  pointer-events: none;
+}
+
+.map-popover {
+  position: relative;
+  display: grid;
+  gap: calc(var(--semantic-spacing-gap-md) * 1px);
+  inline-size: 248px;
+  max-inline-size: 100%;
+  padding: calc(var(--semantic-spacing-padding-md) * 1px);
+  border: 1px solid var(--semantic-colors-border-primary-default);
+  border-radius: calc(var(--semantic-radius-l) * 1px);
+  background: var(--semantic-colors-background-surface-primary-default);
+  filter: drop-shadow(
+    calc(var(--semantic-elevation-xs-offsetx) * 1px)
+    calc(var(--semantic-elevation-xs-offsety) * 1px)
+    calc(var(--semantic-elevation-xs-radius) * 0.5px)
+    var(--semantic-elevation-xs-color)
+  );
+}
+
+.map-popover-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: calc(var(--semantic-spacing-gap-md) * 1px);
+}
+
+.map-popover-identity {
+  display: grid;
+  min-inline-size: 0;
+  gap: calc(var(--semantic-spacing-gap-sm) * 1px);
+  overflow-wrap: anywhere;
+}
+
+.map-popover .map-popover-name {
+  color: var(--semantic-colors-text-primary-default);
+  font-size: calc(var(--semantic-typography-title-sm-default-fontsize) * 1px);
+  line-height: calc(var(--semantic-typography-title-sm-default-lineheight) * 1px);
+  font-weight: var(--semantic-typography-title-sm-default-weight);
+}
+
+.map-popover-location {
+  color: var(--semantic-colors-text-tertiary-default);
+  font-size: calc(var(--semantic-typography-caption-sm-regular-fontsize) * 1px);
+  line-height: calc(var(--semantic-typography-caption-sm-regular-lineheight) * 1px);
+  font-weight: var(--semantic-typography-caption-sm-regular-weight);
+}
+
+.map-popover-stock {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--semantic-spacing-gap-md) * 1px);
+}
+
+.map-popover-pointer {
+  --map-pointer-offset: calc(-1px * var(--semantic-spacing-gap-md));
+  position: absolute;
+  display: grid;
+  place-content: center;
+  inline-size: 14px;
+  block-size: 8px;
+  inset-inline-start: 50%;
+  inset-block-end: var(--map-pointer-offset);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.map-popover[data-placement="Below"] .map-popover-pointer {
+  inset-block: var(--map-pointer-offset) auto;
+  transform: translateX(-50%) rotate(180deg);
+}
+
+.map-popover:is([data-placement="Left"], [data-placement="Right"]) .map-popover-pointer {
+  inline-size: 8px;
+  block-size: 14px;
+  inset-block: 50% auto;
+  transform: translateY(-50%);
+}
+
+.map-popover:is([data-status="Current"][data-placement="Right"], [data-status="Selected"][data-placement="Left"]) .map-popover-pointer {
+  inset-inline: auto var(--map-pointer-offset);
+}
+
+.map-popover:is([data-status="Current"][data-placement="Right"], [data-status="Selected"][data-placement="Left"]) .map-popover-pointer img {
+  transform: rotate(-90deg);
+}
+
+.map-popover:is([data-status="Current"][data-placement="Left"], [data-status="Selected"][data-placement="Right"]) .map-popover-pointer {
+  inset-inline: var(--map-pointer-offset) auto;
+}
+
+.map-popover:is([data-status="Current"][data-placement="Left"], [data-status="Selected"][data-placement="Right"]) .map-popover-pointer img {
+  transform: rotate(90deg);
+}
+
+.map-route-control {
+  position: relative;
+  max-inline-size: 100%;
+  border-radius: calc(var(--semantic-radius-md) * 1px);
+}
+
+.map-route-image { max-inline-size: 100%; }
+
+@property --map-route-progress {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+.map-route-moving-dot {
+  position: absolute;
+  /* The Figma curve spans (24, 96) to (336, 96), with the midpoint at (180, 52). */
+  inset-inline-start: calc((24 + 312 * var(--map-route-progress)) * 100% / 360);
+  inset-block-start: calc((96 - 176 * var(--map-route-progress) * (1 - var(--map-route-progress))) * 100% / 120);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: map-route-progress 8s ease-in-out infinite, map-route-opacity 8s linear infinite;
+}
+
+@keyframes map-route-progress {
+  0% { --map-route-progress: 0; }
+  70%, 100% { --map-route-progress: 1; }
+}
+
+@keyframes map-route-opacity {
+  0%, 70%, 100% { opacity: 0; }
+  8.4%, 61.6% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-route-moving-dot { display: none; animation: none; }
+}

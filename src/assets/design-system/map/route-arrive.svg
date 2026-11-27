@@ -1,0 +1,16 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="360" height="120" viewBox="0 0 360 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Route Motion Demo">
+<rect width="360" height="120" fill="#FAFAFA"/>
+<path id="Route (London &#226;&#134;&#146; Tokyo, related)" opacity="0.6" d="M24 96C128 37.3333 232 37.3333 336 96" stroke-width="1.5" stroke-linecap="round" stroke="#FA7324"/>
+<g id="Origin marker">
+<circle id="Dot" cx="24" cy="96" r="6.5" fill="#FA7324" stroke-width="2" stroke="white"/>
+</g>
+<g id="Destination marker">
+<circle id="Dot_2" cx="336" cy="96" r="6.5" fill="#FA7324" stroke-width="2" stroke="white"/>
+</g>
+<g id="Goods Dot" opacity="0">
+<circle id="Halo" opacity="0.55" cx="329.76" cy="92.5504" r="4.5" fill="#FDC3A1"/>
+<circle id="Dot_3" cx="329.76" cy="92.5504" r="2.25" fill="#FA7324"/>
+</g>
+</g>
+</svg>

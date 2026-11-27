@@ -41,8 +41,9 @@ const pagePaths: Readonly<Record<string, string | undefined>> = {
   'Shelf & Bin Card': '/designsystem/components/shelf-bin-card',
   Dropdown: '/designsystem/components/dropdown',
   'Warehouse List Card': '/designsystem/components/warehouse-list-card',
+  Map: '/designsystem/components/map',
 }
-export type DesignSystemPage = 'Color' | 'Typography' | 'Spacing' | 'Radius' | 'Shadow' | 'Layout' | 'Iconography' | 'Button' | 'Badge' | 'Tab' | 'Search' | 'Section Card' | 'Table' | 'Pagination' | 'Progress Bar' | 'Input Field' | 'Quantity Stepper' | 'Callout' | 'Bin Picker' | 'Stock Box' | 'Shelf & Bin Card' | 'Dropdown' | 'Warehouse List Card'
+export type DesignSystemPage = 'Color' | 'Typography' | 'Spacing' | 'Radius' | 'Shadow' | 'Layout' | 'Iconography' | 'Button' | 'Badge' | 'Tab' | 'Search' | 'Section Card' | 'Table' | 'Pagination' | 'Progress Bar' | 'Input Field' | 'Quantity Stepper' | 'Callout' | 'Bin Picker' | 'Stock Box' | 'Shelf & Bin Card' | 'Dropdown' | 'Warehouse List Card' | 'Map'
 const menus = [
   { title: 'Getting Started', isCompact: true, items: [{ label: 'Introduction', icon: intro }, { label: 'Principles', icon: principles }, { label: 'How to Use', icon: howToUse }] },
   { title: 'Foundations', items: ['Color', 'Typography', 'Spacing', 'Radius', 'Shadow', 'Layout', 'Iconography'].map((label, index) => ({ label, detail: `F${index + 1}`, status: 'success' as const })) },
